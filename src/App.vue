@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <el-container>
-        <HelloWorld />
+        <!-- <HelloWorld /> -->
+        <FamilyMap />
     </el-container>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import FamilyMap from './components/familymap.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
+    FamilyMap
   }
 }
 </script>
