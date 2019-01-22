@@ -131,7 +131,7 @@ body{
 .level2s{
     position: relative;
     z-index: 2;
-    background: #f2f2f2;
+    /* background: #f2f2f2; */
 }
 .divider{
     height: 20px;
@@ -141,7 +141,7 @@ body{
     border-right: 1px solid #a9a9a9;
     z-index: 2;
     position: relative;
-    background: #f2f2f2;
+    /* background: #f2f2f2; */
 }
 .level2s .level2{
     display: inline-block;
@@ -175,7 +175,7 @@ body{
     display: inline-block;
     border: none;
     padding: 0;
-    background: #f2f2f2;
+    /* background: #f2f2f2; */
 }
 /* .tree span{
     width: 250px;
@@ -305,7 +305,7 @@ body{
 .level2s {
     position: relative;
     z-index: 2;
-    background: #f2f2f2;
+    /* background: #f2f2f2; */
     margin: 0;
     margin-left: 0 !important;
     padding: 0;
