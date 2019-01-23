@@ -1,74 +1,40 @@
 {
-	"code":0,
-	"msg":"操作成功",
-	"data":{
-		"id":26,
-		"name":"顶级部门",
+	"code": 0,
+	"msg": "操作成功",
+	"data": {
+		"id": 26,
+		"name": "向程文",
 		"parentId": null,
 		"children": [{
 			"id": 27,
-			"name": "办公室",
+			"name": "向凯悦",
+			"relation":"次女",
 			"parentId": 26,
-			"children": [{
-				"id": 28,
-				"name": "信息中心",
-				"parentId": 27,
-				"children": [{
-					"id": 29,
-					"name": "信息中心1",
-					"parentId": 28
-				}]
-			}]
+			"children": []
 		}, {
 			"id": 44,
-			"name": "部门1",
+			"name": "周玉琴",
 			"parentId": 26,
+			"relation":"妻子",
 			"children": [{
 				"id": 51,
-				"name": "部门1-2",
+				"name": "向帅",
 				"parentId": 44,
-				"children": [{
-					"id": 52,
-					"name": "部门1-2-1",
-					"parentId": 51
-				}]
+				"relation":"长子",
+				"children": []
 			}, {
 				"id": 53,
-				"name": "部门1-1",
+				"name": "向凯旋",
 				"parentId": 44,
-				"children": [{
-					"id": 54,
-					"name": "部门1-1-1",
-					"parentId": 53,
-					"children": [{
-						"id": 55,
-						"name": "部门1-1-1-1",
-						"parentId": 54,
-						"children": [{
-							"id": 56,
-							"name": "部门1-1-1-1-1",
-							"parentId": 55,
-							"children": [{
-								"id": 57,
-								"name": "部门1-1-1-1-1-1",
-								"parentId": 56
-							}]
-						}]
-					}]
-				}]
+				"relation":"长女",
+				"children": []
+			}, {
+				"id": 54,
+				"name": "向凯悦",
+				"relation":"次女",
+				"parentId": 44,
+				"children": []
 			}]
-		}, {
-			"id": 47,
-			"name": "部门4",
-			"parentId": 26
-		}, {
-			"id": 48,
-			"name": "部门5",
-			"parentId": 26
-		}, {
-			"id": 49,
-			"name": "部门5",
-			"parentId": 26
 		}]
 	},
 	"count": 20

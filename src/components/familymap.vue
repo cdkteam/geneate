@@ -1,7 +1,7 @@
 <template>
-    <!-- <div class="orgWrap">
-        123
-    </div> -->
+    <div>
+      <p>这是一段文字</p>
+    </div>
 </template>
 
 <script>

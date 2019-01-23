@@ -326,3 +326,15 @@ body{
 .level2s li:last-child{
     padding-right: 0 !important;
 }
+
+.relationship {
+    position: absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:0;
+    font-size:.3rem !important;
+    height:20px;
+    line-height:25px;
+    color:red;
+}

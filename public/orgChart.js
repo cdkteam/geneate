@@ -135,34 +135,34 @@ layui.define("jquery", function(exports) {
 					var addIcon = function($levels, flag, depth) {
 						var icon
 						if(flag) {
-							icon = '<i class="layui-icon glyphicon-plus-sign"></i>'
+							icon = '<i class="layui-icon el-icon-circle-plus"></i>'
 						} else {
-							icon = '<i class="layui-icon glyphicon-minus-sign"></i>'
+							icon = '<i class="layui-icon el-icon-remove"></i>'
 						}
 						var $icon = $(icon);
 						$levels.find('.content').append($icon);
 						// 加减按钮点击事件
 						//第一层区别事件
 						if(depth && depth == 1) {
-							$icon.on('click', function(e) {
+							$levels.on('click', function(e) {
 								var $level2s = this.find('.level2s')
 								if($level2s.is(":visible")) {
-									this.attr('id', 'noneLevel2');
-									$(this).attr('title', '展开').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');
+									$icon[0].attr('id', 'noneLevel2');
+									$icon.attr('title', '展开').addClass('el-icon-circle-plus').removeClass('el-icon-remove');
 								} else {
-									this.attr('id', '');
+									$icon[0].attr('id', '');
 									avoid();
-									$(this).attr('title', '收起').addClass('glyphicon-minus-sign').removeClass('glyphicon-plus-sign');
+									$icon.attr('title', '收起').addClass('el-icon-remove').removeClass('el-icon-circle-plus');
 								}
 							})
 						} else {
-							$icon.on('click', function(e) {
-								var children = $(this).closest('li.parent_li').find(' > ul > li');
+							$levels.on('click', function(e) {
+								var children = $icon.closest('li.parent_li').find(' > ul > li');
 								if(children.is(":visible")) {
 									children.hide('fast', function() {
 										avoid();
 									});
-									$(this).attr('title', '展开').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');
+									$icon.attr('title', '展开').addClass('el-icon-circle-plus').removeClass('el-icon-remove');
 								} else {
 									children.show('fast', function() {
 										avoid();
@@ -170,7 +170,7 @@ layui.define("jquery", function(exports) {
 									children.css({
 										overflow: 'visible'
 									})
-									$(this).attr('title', '收起').addClass('glyphicon-minus-sign').removeClass('glyphicon-plus-sign');
+									$icon.attr('title', '收起').addClass('el-icon-remove').removeClass('el-icon-circle-plus');
 								}
 
 								e.stopPropagation();

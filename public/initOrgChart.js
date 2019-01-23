@@ -15,8 +15,11 @@ layui.use(['orgChart', 'jquery'], function() {
                 var value = data;
                 if(value && Object.keys(value).length) {
                     var $name = $('<div class="name"></div>');
+                    var $relation = $('<p class="relationship"></p>');
                     !!(value.name) && $name.text(value.name);
-                    $dom.append($name)
+                    !!(value.relation) && $relation.text(value.relation);
+                    $name.append($relation);
+                    $dom.append($name);
                     $dom.addClass('organization')
                 }
             },

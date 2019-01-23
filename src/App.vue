@@ -2,7 +2,7 @@
   <div id="app">
     <el-container>
         <!-- <HelloWorld /> -->
-        <FamilyMap />
+        <!-- <FamilyMap /> -->
     </el-container>
   </div>
 </template>
