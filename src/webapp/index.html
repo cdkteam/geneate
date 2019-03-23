@@ -166,25 +166,25 @@
 
             <el-footer id="xz_footer">
                 <el-row :gutter="20">
-                    <el-col :span="6">
+                    <el-col :span="8">
                         <div :class="index_text_active" @click="icon_change(0)">
                             <img :src="icon_index[index_active]" alt="">
                             <p>首页</p>
                         </div>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="8">
                         <div :class="group_text_active" @click="icon_change(1)">
                             <img :src="group_index[group_active]" alt="">
                             <p>支系</p>
                         </div>
                     </el-col>
-                    <el-col :span="6">
-                        <div :class="graphic_text_active" @click="icon_change(2)">
-                            <img :src="graphic_index[graphic_active]" alt="">
-                            <p>统计</p>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
+                    <!--<el-col :span="6">-->
+                        <!--<div :class="graphic_text_active" @click="icon_change(2)">-->
+                            <!--<img :src="graphic_index[graphic_active]" alt="">-->
+                            <!--<p>统计</p>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <el-col :span="8">
                         <div :class="user_text_active" @click="icon_change(3)">
                             <img :src="user_index[user_active]" alt="">
                             <p>我的</p>
