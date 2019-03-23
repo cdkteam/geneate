@@ -1,0 +1,52 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logy.mapper.FamilyMapper">
+
+    <select id="queryAllFamily" parameterType="com.logy.form.FamilyForm" resultType="com.logy.mode.Family">
+        select
+        *
+        from familytab f
+        where 1 = 1
+        <if test="familyID != null">
+        and f.familyID = #{familyID}
+        </if>
+        order by f.familyID desc
+        <if test="page != null and limit != null">
+        limit #{page}, #{limit}
+        </if>
+    </select>
+
+    <select id="countFamily" parameterType="com.logy.form.FamilyForm" resultType="java.lang.Integer">
+        select
+        count(f.familyID)
+        from familytab f
+        where 1=1
+        <if test="familyID != null">
+            and f.familyID = #{familyID}
+        </if>
+    </select>
+
+    <insert id="insertFamily" parameterType="com.logy.form.FamilyForm" useGeneratedKeys="true" keyColumn="id">
+        insert into familytab
+        (familyName)
+        values (#{familyName})
+    </insert>
+
+    <delete id="delFamilyBatch" parameterType="java.util.List">
+        delete from familytab
+        where familyID in
+        <foreach collection="list" separator="," item="item" open="(" close=")">
+            #{item.familyID}
+        </foreach>
+    </delete>
+
+    <update id="updateFamilyNum" parameterType="com.logy.form.FamilyForm">
+        update familytab
+        <set>
+            familyNum = familyNum + 1
+        </set>
+        where familyID = #{familyID}
+    </update>
+</mapper>

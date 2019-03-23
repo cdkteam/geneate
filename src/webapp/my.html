@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>家谱系统</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="static/css/all.css">
+    <link rel="shortcut icon" href="static/imgs/icon/_favicon.ico">
+</head>
+<body>
+    <div id="app">
+        <el-container>
+            <el-header id="xz_header">
+                <el-row type="flex" class="row-bg">
+                    <el-col :span="24">
+                        <div class="xz_title_center">家谱系统</div>
+                    </el-col>
+                </el-row>
+            </el-header>
+
+            <el-main id="xz_main" class="my-choose">
+                <div>
+                    <el-card class="box-card">
+                        <div class="my-header-img">
+                            <img src="static/imgs/ml1.jpg" alt="" class="img-offset">
+                        </div>
+                        <div style="text-align: center;margin-top:10px;">
+                            邢增智
+                        </div>
+                    </el-card>
+                </div>
+                <!--我的选项-->
+                <div>
+                    <el-card class="box-card no-margin" v-for="item in mylinks" :key="item">
+                        <div class="news_text">
+                            {{ item }}
+                            <i class="el-icon-arrow-right iconFloatRight"></i>
+                        </div>
+                    </el-card>
+                </div>
+
+                <div style="text-align: center;margin-top:20px;">
+                    <el-button type="primary" @click="" style="width: 90%;background-color:#F56C6C;border-color:#F56C6C;">退出登录</el-button>
+                </div>
+            </el-main>
+
+            <el-footer id="xz_footer">
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <div :class="index_text_active " @click="icon_change(0)">
+                            <img :src="icon_index[index_active]" alt="">
+                            <p>首页</p>
+                        </div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div :class="group_text_active" @click="icon_change(1)">
+                            <img :src="group_index[group_active]" alt="">
+                            <p>成员</p>
+                        </div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div :class="graphic_text_active" @click="icon_change(2)">
+                            <img :src="graphic_index[graphic_active]" alt="">
+                            <p>图谱</p>
+                        </div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div :class="user_text_active" @click="icon_change(3)">
+                            <img :src="user_index[user_active]" alt="">
+                            <p>我的</p>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-footer>
+        </el-container>
+    </div>
+
+
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <script>
+        new Vue({
+            el:"#app",
+            data:function () {
+                return {
+                    mylinks:[
+                        "家族支系",
+                        "世系图",
+                        "家族相册",
+                        "家族家谱",
+                        "个人资料"
+                    ],
+                    myloves:[
+                        "static/imgs/ml1.jpg",
+                        "static/imgs/ml2.jpg",
+                        "static/imgs/ml3.jpg",
+                        "static/imgs/ml4.jpg"
+                    ],
+
+                    index_text_active:['grid-content', 'activeText'],
+                    graphic_text_active:['grid-content'],
+                    user_text_active:['grid-content'],
+                    group_text_active:['grid-content'],
+
+                    index_active:1,
+                    graphic_active:0,
+                    user_active:0,
+                    group_active:0,
+                    icon_index:[
+                        "static/imgs/icon/icon_index.png",
+                        "static/imgs/icon/icon_index_blue.png"
+                    ],
+                    graphic_index:[
+                        "static/imgs/icon/icon_graphic.png",
+                        "static/imgs/icon/icon_graphic_blue.png"
+                    ],
+                    group_index:[
+                        "static/imgs/icon/icon_group.png",
+                        "static/imgs/icon/icon_group_blue.png"
+                    ],
+                    user_index:[
+                        "static/imgs/icon/icon_user.png",
+                        "static/imgs/icon/icon_user_blue.png"
+                    ],
+                    icon_change:function (_index) {
+                        var iconArray = [1, 0, 0, 0];
+                        var textArray = [this.index_text_active, this.group_text_active, this.graphic_text_active, this.user_text_active];
+                        for(var i = 0;i < iconArray.length;i++) {
+                            iconArray[i] = 0;
+                            // 去掉未激活的字体样式
+                            if(textArray[i].toString().indexOf('activeText') != -1) {
+                                textArray[i].pop('activeText');
+                            }
+                            // 给字体添加活动样式
+                            if(_index == i) {
+                                iconArray[i] = 1;
+                                textArray[i].push('activeText');
+                            }
+                        }
+                        this.index_active = iconArray[0];
+                        this.group_active = iconArray[1];
+                        this.graphic_active = iconArray[2];
+                        this.user_active = iconArray[3];
+
+                        this.index_text_active = textArray[0];
+                        this.group_text_active = textArray[1];
+                        this.graphic_text_active = textArray[2];
+                        this.user_text_active = textArray[3];
+                    }
+                }
+            },
+            methods: {
+
+            }
+        });
+
+    </script>
+</body>
+</html>

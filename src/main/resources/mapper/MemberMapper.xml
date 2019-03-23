@@ -1,0 +1,226 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logy.mapper.MemberMapper">
+    <select id="queryMemberByPhoneAndPass" parameterType="com.logy.form.MemberForm" resultType="com.logy.mode.Member">
+        select
+        memberID,
+        IFNULL(me.memberName, '') as memberName,
+        IFNULL(me.memberSex, '') as memberSex,
+        IFNULL(me.memberBirthday, '') as memberBirthday,
+        IFNULL(me.memberIDNumber, '') as memberIDNumber,
+        IFNULL(me.memberAddress, '') as memberAddress,
+        IFNULL(me.memberFamilyID, '') as memberFamilyID,
+        IFNULL(me.fatherID, '') as fatherID,
+        IFNULL(me.sublineID, '') as sublineID,
+        IFNULL(me.memberGenealogy, '') as memberGenealogy,
+        IFNULL(me.memberHead, '') as memberHead,
+        IFNULL(me.memberPhone, '') as memberPhone,
+        IFNULL(me.memberNation, '') as memberNation,
+        IFNULL(me.memberGenealogy, '') as memberGenealogy,
+        IFNULL(me.memberRelation, '') as memberRelation
+        from membertab me
+        left join sublinetab sub on me.sublineID = sub.sublineID
+        where 1 = 1
+        and memberPhone = #{memberPhone}
+        and memberPass = MD5(#{memberPass})
+    </select>
+
+    <select id="queryAllMember" parameterType="com.logy.form.MemberForm" resultType="com.logy.mode.Member">
+        select
+        *
+        from membertab m
+        where 1 = 1
+        <if test="memberName != null and memberName != ''">
+            and m.memberName like concat('%', #{memberName}, '%')
+        </if>
+        <if test="memberPhone != null and memberPhone != ''">
+            and m.memberPhone like concat('%', #{memberPhone}, '%')
+        </if>
+        <if test="memberIDNumber != null and memberIDNumber != ''">
+            and m.memberIDNumber like concat('%', #{memberIDNumber}, '%')
+        </if>
+        <if test="memberFamilyID != null">
+            and m.memberFamilyID = #{memberFamilyID}
+        </if>
+        <if test="sublineID != null">
+            and m.sublineID = #{sublineID}
+        </if>
+        <if test="memberSex != null">
+            and m.memberSex = #{memberSex}
+        </if>
+        <if test="memberNation != null and memberNation != ''">
+            and m.memberNation = #{memberNation}
+        </if>
+        order by m.memberID desc
+        <if test="page != null and limit != null">
+        limit #{page}, #{limit}
+        </if>
+    </select>
+
+    <select id="countMember" parameterType="com.logy.form.MemberForm" resultType="java.lang.Integer">
+        select
+        count(m.memberID)
+        from membertab m
+        where 1=1
+        <if test="memberName != null and memberName != ''">
+            and m.memberName = #{memberName}
+        </if>
+        <if test="memberPhone != null and memberPhone != ''">
+            and m.memberPhone = #{memberPhone}
+        </if>
+        <if test="memberIDNumber != null and memberIDNumber != ''">
+            and m.memberIDNumber = #{memberIDNumber}
+        </if>
+        <if test="memberFamilyID != null">
+            and m.memberFamilyID = #{memberFamilyID}
+        </if>
+        <if test="sublineID != null">
+            and m.sublineID = #{sublineID}
+        </if>
+        <if test="memberSex != null">
+            and m.memberSex = #{memberSex}
+        </if>
+        <if test="memberNation != null and memberNation != ''">
+            and m.memberNation = #{memberNation}
+        </if>
+    </select>
+
+    <insert id="insertMember" parameterType="com.logy.mode.Member" useGeneratedKeys="true" keyColumn="memberID">
+        insert into membertab
+        (
+         memberName,
+         memberBirthday,
+         memberIDNumber,
+         memberFamilyID,
+         isFather,
+         fatherID,
+         sublineID,
+         memberPhone,
+         memberPass,
+         memberHead,
+         memberAddress,
+         memberNation,
+         memberSex,
+         memberGenealogy,
+         memberRelation,
+         memberCode,
+         memberCreateDate,
+         memberCreateUser
+        )
+        values (
+        #{memberName},
+        #{memberBirthday},
+        #{memberIDNumber},
+        #{memberFamilyID},
+        #{isFather},
+        #{fatherID},
+        #{sublineID},
+        #{memberPhone},
+        md5(#{memberPass}),
+        #{memberHead},
+        #{memberAddress},
+        #{memberNation},
+        #{memberSex},
+        #{memberGenealogy},
+        #{memberRelation},
+        #{memberCode},
+        #{memberCreateDate},
+        #{memberCreateUser}
+        )
+    </insert>
+
+    <delete id="delMemberBatch" parameterType="java.util.List">
+        delete from membertab
+        where memberID in
+        <foreach collection="list" separator="," item="item" open="(" close=")">
+            #{item.memberID}
+        </foreach>
+    </delete>
+
+    <update id="updateMember" parameterType="com.logy.form.MemberForm">
+        update membertab
+        <set>
+            <if test="memberName != ''">
+                memberName = #{memberName},
+            </if>
+            <if test="memberBirthday != null">
+                memberBirthday = #{memberBirthday},
+            </if>
+            <if test="memberIDNumber != null">
+                memberIDNumber = #{memberIDNumber},
+            </if>
+            <if test="memberFamilyID != null">
+                memberFamilyID = #{memberFamilyID},
+            </if>
+            <if test="fatherID != null">
+                fatherID = #{fatherID},
+            </if>
+            <if test="sublineID != null">
+                sublineID = #{sublineID},
+            </if>
+            <if test="memberPhone != ''">
+                memberPhone = #{memberPhone},
+            </if>
+            <if test="memberPass != '' and memberPass != null">
+                memberPass = md5(#{memberPass}),
+            </if>
+            <if test="memberHead != '' and memberHead != null">
+                memberHead = #{memberHead},
+            </if>
+            <if test="memberAddress != '' and memberAddress != null">
+                memberAddress = #{memberAddress},
+            </if>
+            <if test="memberNation != null">
+                memberNation = #{memberNation},
+            </if>
+            <if test="memberSex != null">
+                memberSex = #{memberSex},
+            </if>
+            <if test="memberGenealogy != null">
+                memberGenealogy = #{memberGenealogy},
+            </if>
+            <if test="memberRelation != '' and memberRelation != null">
+                memberRelation = #{memberRelation},
+            </if>
+            <if test="memberCode != null">
+                memberCode = #{memberCode},
+            </if>
+            <if test="memberCreateDate != null">
+                memberCreateDate = #{memberCreateDate},
+            </if>
+            <if test="memberCreateUser != null">
+                memberCreateUser = #{memberCreateUser}
+            </if>
+        </set>
+        where memberID = #{memberID}
+    </update>
+
+    <select id="queryMyMembers" parameterType="com.logy.form.MemberForm" resultType="com.logy.mode.Member">
+        select
+        IFNULL(me.memberName, '') as memberName,
+        (
+          case me.memberSex
+          when 1 then '男'
+          when 0 then '女'
+          else '-' end
+        ) as memberSex,
+        IFNULL(me.memberBirthday, '') as memberBirthday,
+        IFNULL(me.memberIDNumber, '') as memberIDNumber,
+        IFNULL(me.memberAddress, '') as memberAddress,
+        IFNULL(me.memberFamilyID, '') as memberFamilyID,
+        IFNULL(me.fatherID, '') as fatherID,
+        IFNULL(me.memberGenealogy, '') as memberGenealogy,
+        IFNULL(me.memberHead, '') as memberHead,
+        IFNULL(me.memberPhone, '') as memberPhone,
+        IFNULL(me.memberNation, '') as memberNation,
+        IFNULL(me.memberGenealogy, '') as memberGenealogy,
+        IFNULL(me.memberRelation, '') as memberRelation
+        from membertab me
+        left join sublinetab sub on me.sublineID = sub.sublineID
+        where 1 = 1
+        and me.memberFamilyID = #{memberID}
+    </select>
+
+</mapper>

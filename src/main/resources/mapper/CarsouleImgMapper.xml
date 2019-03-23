@@ -1,0 +1,27 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logy.mapper.CarsouleImgMapper">
+    <insert id="insertCarsouleImg" parameterType="com.logy.mode.CarsouleImg">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into imgtab
+        (imgurl, type)
+        values
+        (#{imgUrl}, #{type})
+    </insert>
+
+    <select id="queryFindAll" resultType="com.logy.mode.CarsouleImg">
+        select * from imgtab where type = 0 order by createDate desc limit 3
+    </select>
+    
+    <delete id="delCarousel" parameterType="java.util.List">
+        delete from imgtab where id in 
+        <foreach collection="list" item="item"
+                 index="index" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+    </delete>
+</mapper>

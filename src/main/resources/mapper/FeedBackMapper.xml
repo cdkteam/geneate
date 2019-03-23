@@ -1,0 +1,95 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logy.mapper.FeedBackMapper">
+    <select id="queryAllFeedback" parameterType="com.logy.form.FeedBackForm" resultType="com.logy.mode.FeedBack">
+        select
+        f.fb_ID as fbID,
+        f.fb_answer as fbAnswer,
+        f.fb_question as fbQuestion
+        from feedbacktab f
+        where 1 = 1
+        <if test="fbID != null">
+            and f.fb_ID = #{fbID}
+        </if>
+        <if test="fbmemberID != null">
+            and f.fb_memberID = #{fbmemberID}
+        </if>
+        <if test="fbQuestion != null and fbQuestion != ''">
+            and f.fb_question like concat('%', #{fbQuestion}, '%')
+        </if>
+        <if test="fbAnswer != null and fbAnswer != ''">
+            and f.fb_answer like concat('%', #{fbAnswer}, '%')
+        </if>
+        order by f.fb_createDate desc
+        <if test="page != null and limit != null">
+        limit #{page}, #{limit}
+        </if>
+    </select>
+
+    <select id="countFeedback" parameterType="com.logy.form.FeedBackForm" resultType="java.lang.Integer">
+        select
+        count(f.fb_ID)
+        from feedbacktab f
+        where 1=1
+        <if test="fbID != null">
+            and f.fb_ID = #{fbID}
+        </if>
+        <if test="fbmemberID != null">
+            and f.fb_memberID = #{fbmemberID}
+        </if>
+        <if test="fbQuestion != null and fbQuestion != ''">
+            and f.fb_question like concat('%', #{fbQuestion}, '%')
+        </if>
+        <if test="fbAnswer != null and fbAnswer != ''">
+            and f.fb_answer like concat('%', #{fbAnswer}, '%')
+        </if>
+    </select>
+
+    <insert id="insertFeedback" parameterType="com.logy.mode.FeedBack" useGeneratedKeys="true" keyColumn="memberID">
+        insert into feedbacktab
+        (
+         fb_memberID,
+         fb_question,
+         fb_answer
+        )
+        values (
+        #{fbmemberID},
+        #{fbQuestion},
+        #{fbAnswer}
+        )
+    </insert>
+
+    <delete id="delFeedbackBatch" parameterType="java.util.List">
+        delete from feedbacktab
+        where fb_ID in
+        <foreach collection="list" separator="," item="item" open="(" close=")">
+            #{item.fbID}
+        </foreach>
+    </delete>
+
+    <update id="updateFeedback" parameterType="com.logy.form.FeedBackForm">
+        update feedbacktab
+        <set>
+            <if test="fbQuestion != ''">
+                fb_question = #{fbQuestion},
+            </if>
+            <if test="fbAnswer != null">
+                fb_answer = #{fbAnswer},
+            </if>
+        </set>
+        where fb_ID = #{fbID}
+    </update>
+
+    <select id="queryFeedback" parameterType="com.logy.form.FeedBackForm" resultType="com.logy.mode.FeedBack">
+        select
+        f.fb_ID as fbID
+        IFNULL(f.fb_question, '') as fbQuestion,
+        IFNULL(f.fb_answer, '') as fbAnswer
+        from feedbacktab f
+        where 1 = 1
+        and f.fbID = #{memberID}
+    </select>
+
+</mapper>

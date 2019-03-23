@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>登录</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="static/css/all.css">
+    <link rel="stylesheet" href="static/layui/css/layui.css">
+    <link rel="shortcut icon" href="static/imgs/icon/_favicon.ico">
+</head>
+<body>
+    <div id="app">
+        <el-container>
+            <el-header id="xz_header">
+                <el-row type="flex" class="row-bg">
+                    <el-col :span="24">
+                        <div class="xz_title_center">登录</div>
+                    </el-col>
+                    <el-button type="text" class="login-button" @click="goIndex">主页</el-button>
+                </el-row>
+            </el-header>
+
+            <el-main id="xz_main">
+                <el-form ref="form" :model="form" status-icon :rules="rules" :label-position="labelPosition" label-width="80px">
+                    <el-form-item label="手机号" prop="name">
+                        <el-input v-model="form.name" placeholder="请输入手机号"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="密码" prop="pwd">
+                        <el-input type="password" v-model="form.pwd" placeholder="请输入密码"></el-input>
+                    </el-form-item>
+                    <el-form-item style="text-align: right;">
+                        <el-switch
+                                v-model="value3"
+                                active-text="自动登录"
+                                inactive-color="#C0CCDA">
+                        </el-switch>
+                    </el-form-item>
+
+                    <el-button type="primary" @click="onSubmit('form')" v-loading.fullscreen.lock="fullscreenLoading" style="width: 100%;">登录</el-button>
+
+                    <el-form-item style="text-align: right;">
+                        <el-button type="text" @click="register">注册账号</el-button>
+                        <el-button type="text" @click="findpass">忘记密码</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-main>
+
+            <!--<el-footer id="xz_footer">-->
+
+            <!--</el-footer>-->
+        </el-container>
+    </div>
+
+
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/layui/layui.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:function () {
+                return {
+                    fullscreenLoading:false,
+                    visible:false,
+                    value3:true,
+                    labelPosition: 'top',
+                    form: {
+                        name: '',
+                        pwd: ''
+                    },
+                    rules:{
+                        name:[
+                            {required:true, message:"请输入手机号码", trigger: "blur"}
+                        ],
+                        pwd:[
+                            {required:true, message:"请输入密码", trigger: "blur"},
+                            { min: 6, max: 12, message: '长度至少6位', trigger: 'change' }
+                        ]
+                    }
+                }
+            },
+            methods: {
+                // 登录
+                onSubmit:function(formName) {
+                    var phone = this.form.name,
+                        pwd = this.form.pwd,
+                        isAutologin = this.value3,
+                        _this = this;
+
+                    this.$refs[formName].validate(function (valid) {
+                        if (valid) {
+                            _this.fullscreenLoading = true;
+                            $.ajax({
+                                type:"POST",
+                                url:"/member/me_l",
+                                data:{
+                                    memberPhone:phone,
+                                    memberPass:pwd
+                                },
+                                success:function(r) {
+                                    layui.use(['layer'], function () {
+                                        var layer = layui.layer;
+                                        if(r.code == 200) {
+                                            // console.log(r);
+                                            localStorage.clear();
+                                            sessionStorage.clear();
+                                            if(isAutologin) {
+                                                // layer.msg('记住登录');
+                                                localStorage.memberID = r.data.memberID;
+                                                localStorage.sublineID = r.data.sublineID;
+                                                localStorage.memberName = r.data.memberName;
+                                                localStorage.memberSex = r.data.memberSex;
+                                                localStorage.memberAddress = r.data.memberAddress;
+                                                localStorage.memberBirthday = r.data.memberBirthday;
+                                                localStorage.memberCode = r.data.memberCode;
+                                                localStorage.memberFamilyID = r.data.memberFamilyID;
+                                                // localStorage.memberHead = r.data.memberHead;
+                                                localStorage.memberIDNumber = r.data.memberIDNumber;
+                                                localStorage.memberNation = r.data.memberNation;
+                                                localStorage.memberPhone = r.data.memberPhone;
+                                                localStorage.memberRelation = r.data.memberRelation;
+                                                localStorage.memberGenealogy = r.data.memberGenealogy;
+
+                                                if(r.data.memberSex == 1) {
+                                                    localStorage.memberHead = r.data.memberHead || "/static/imgs/man.png";
+                                                } else {
+                                                    localStorage.memberHead = r.data.memberHead || "/static/imgs/women.png";
+                                                }
+                                            } else {
+                                                // layer.msg('不记住登录');
+                                                sessionStorage.memberID = r.data.memberID;
+                                                sessionStorage.sublineID = r.data.sublineID;
+                                                sessionStorage.memberName = r.data.memberName;
+                                                sessionStorage.memberSex = r.data.memberSex;
+                                                sessionStorage.memberAddress = r.data.memberAddress;
+                                                sessionStorage.memberBirthday = r.data.memberBirthday;
+                                                sessionStorage.memberCode = r.data.memberCode;
+                                                sessionStorage.memberFamilyID = r.data.memberFamilyID;
+                                                // sessionStorage.memberHead = r.data.memberHead;
+                                                sessionStorage.memberIDNumber = r.data.memberIDNumber;
+                                                sessionStorage.memberNation = r.data.memberNation;
+                                                sessionStorage.memberPhone = r.data.memberPhone;
+                                                sessionStorage.memberRelation = r.data.memberRelation;
+                                                sessionStorage.memberGenealogy = r.data.memberGenealogy;
+
+                                                if(r.data.memberSex == 1) {
+                                                    sessionStorage.memberHead = r.data.memberHead || "/static/imgs/man.png";
+                                                } else {
+                                                    sessionStorage.memberHead = r.data.memberHead || "/static/imgs/women.png";
+                                                }
+                                            }
+
+                                            setTimeout(function () {
+                                                _this.fullscreenLoading = false;
+                                                location.href = "index.html";
+                                            }, 2000);
+                                        } else {
+                                            _this.fullscreenLoading = false;
+                                            _this.$message.error('请检查用户名和密码');
+                                        }
+                                    });
+
+                                },
+                                error:function() {
+
+                                }
+                            });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    })
+                },
+                register:function() {
+                    location.href = "register.html";
+
+                },
+                findpass:function () {
+                    location.href = "findpass.html";
+                },
+                goIndex:function () {
+                    location.href = "index.html";
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

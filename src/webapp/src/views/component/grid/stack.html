@@ -1,0 +1,97 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>公告轮播管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="/static/layuiadmin/style/admin.css" media="all">
+  <style>
+    .carsoule_img{
+      display: block;
+      width: 500px;
+      height:200px;
+    }
+  </style>
+</head>
+<body>
+
+  <style>
+  /* 这段样式只是用于演示 */
+  #LAY-component-grid-stack .layui-card-body{display: flex; justify-content: center; flex-direction: column; text-align: center; height: 200px;}
+  </style>
+
+  <div class="layui-fluid" id="LAY-component-grid-stack">
+    <div class="layui-row layui-col-space10">
+
+      <div class="layui-col-md12">
+        <!-- 功能操作 -->
+        <div class="layui-card">
+          <div class="layui-card-header">
+            <p>
+              <span style="color:#393D49;">功能</span>
+            </p>
+          </div>
+          <div class="layui-card-body">
+
+            <div class="layui-carousel layadmin-carousel layadmin-shortcut">
+              <div carousel-item>
+                <ul class="layui-row layui-col-space10">
+
+                  <li class="layui-col-xs3" style="cursor: pointer;" id="carsoule_add">
+                      <i class="layui-icon layui-icon-add-1"></i>
+                      <span>新增</span>
+                  </li>
+
+                  <li class="layui-col-xs3" style="cursor: pointer;" id="carsoule_del">
+                    <i class="layui-icon layui-icon-delete"></i>
+                    <span>删除</span>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="layui-row layui-col-space10" id="carousel" v-show="carouselMaps.length > 0">
+
+      <div class="layui-col-md4" v-for="c in carouselMaps">
+        <!-- 填充内容 -->
+        <div class="layui-card">
+          <div class="layui-card-header">
+              <i class="layui-icon layui-icon-log" style="width:16px;left:15px;margin-top:-8px;color:#5FB878;"></i>
+              <span style="margin-left:22px;color:#c2c2c2;">
+                发布时间 {{c.createDate}}
+              </span>
+              <div class="layui-form" style="float:right;margin-top:3px;" lay-filter="component-form-element" @click="checkboxClick(c.id, $event)">
+                <input type="checkbox" name="carsoule_box" lay-skin="primary">
+              </div>
+          </div>
+          <div class="layui-card-body">
+            <img :src="c.imgUrl" alt="" class="carsoule_img">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/static/layuiadmin/layui/layui.js"></script>
+  <!-- 生产环境版本 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="/static/js/stack.js"></script>
+
+  <script>
+
+  </script>
+</body>

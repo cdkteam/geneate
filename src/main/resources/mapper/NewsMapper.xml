@@ -1,0 +1,76 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logy.mapper.NewsMapper">
+
+    <select id="queryAllNews" parameterType="com.logy.form.NewsForm" resultType="com.logy.mode.News">
+        select
+        n.newsID,
+        n.newsTitle,
+        n.newsContent,
+        n.newsTime,
+        f.familyName,
+        ad.adminName as createUser,
+        newsType
+        from newstab n
+        left join admintab ad on ad.adminID = n.newsFamilyID
+        left join familytab f on n.newsFamilyID = f.familyID
+        where 1 = 1
+        <if test="newsID != null">
+            and newsID = #{newsID}
+        </if>
+        <if test="newsTitle != '' and newsTitle != null">
+        and newsTitle like concat('%', #{newsTitle}, '%')
+        </if>
+        <if test="newsType != '' and newsType != null">
+        and newsType = #{newsType}
+        </if>
+        order by newsID desc
+        <if test="page != null and limit != null">
+        limit #{page}, #{limit}
+        </if>
+    </select>
+
+    <select id="countNews" parameterType="com.logy.form.NewsForm" resultType="java.lang.Integer">
+        select count(newsID) from newstab
+        where 1=1
+        <if test="newsTitle != '' and newsTitle != null">
+            and newsTitle like concat('%', #{newsTitle}, '%')
+        </if>
+        <if test="newsType != '' and newsType != null">
+            and newsType = #{newsType}
+        </if>
+    </select>
+
+    <insert id="insertNews" parameterType="com.logy.mode.User" useGeneratedKeys="true" keyColumn="id">
+        insert into newstab
+        (newsTitle, newsContent, newsTime, newsFamilyID, newsType)
+        values (#{newsTitle}, #{newsContent}, #{newsTime}, #{newsFamilyID}, #{newsType})
+    </insert>
+
+    <delete id="delNewsBatch" parameterType="java.util.List">
+        delete from newstab
+        where newsID in
+        <foreach collection="list" separator="," item="item" open="(" close=")">
+            #{item.newsID}
+        </foreach>
+    </delete>
+
+    <update id="updateNews" parameterType="com.logy.mode.News">
+        update newstab
+        <set>
+            <if test="newsTitle != '' and newsTitle != null">
+               newsTitle = #{newsTitle},
+            </if>
+            <if test="newsContent != '' and newsContent != null">
+               newsContent = #{newsContent},
+            </if>
+            <if test="newsType != '' and newsType != null">
+               newsType = #{newsType}
+            </if>
+        </set>
+        where 1=1
+        and newsID = #{newsID}
+    </update>
+</mapper>

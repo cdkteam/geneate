@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>实名认证</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="static/css/all.css">
+    <link rel="shortcut icon" href="static/imgs/icon/_favicon.ico">
+</head>
+<body>
+    <div id="app">
+        <el-container>
+            <el-header id="xz_header">
+                <el-row type="flex" class="row-bg">
+                    <el-col :span="24">
+                        <div class="xz_title_center">实名认证</div>
+                    </el-col>
+                    <el-button type="text" class="login-button" @click="returnindex">主页</el-button>
+                </el-row>
+            </el-header>
+
+            <el-main id="xz_main">
+                <el-form ref="form" :model="form" status-icon :rules="rules" :label-position="labelPosition" label-width="80px">
+                    <el-form-item label="图片">
+                        <el-upload
+                                class="avatar-uploader"
+                                action="/upload/carsoule_upload"
+                                :data="headImg"
+                                name="carsouleImageFile"
+                                :show-file-list="false"
+                                :on-success="handleAvatarSuccess"
+                                :before-upload="beforeAvatarUpload">
+                            <img v-if="form.memberHead" :src="form.memberHead" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过200KB</div>
+                        </el-upload>
+                    </el-form-item>
+
+                    <el-form-item label="姓名" prop="memberName">
+                        <el-input type="text" v-model="form.memberName" placeholder="请输入真实姓名"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="性别" prop="memberSex">
+                        <el-radio-group v-model="form.memberSex">
+                            <el-radio label="1">男</el-radio>
+                            <el-radio label="0">女</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+
+                    <el-form-item label="民族" prop="memberNation">
+                        <el-select v-model="form.memberNation" filterable placeholder="请选择">
+                            <el-option
+                                    v-for="item in nations"
+                                    :key="item.nationID"
+                                    :label="item.nationName"
+                                    :value="item.nationName">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item label="出生年月" prop="memberBirthday">
+                        <el-date-picker type="date"
+                                        placeholder="选择日期"
+                                        v-model="form.memberBirthday"
+                                        format="yyyy 年 MM 月 dd 日"
+                                        value-format="yyyy-MM-dd"
+                                        style="width: 100%;"></el-date-picker>
+                    </el-form-item>
+
+                    <el-form-item label="是否户主" prop="isFather">
+                        <el-radio-group v-model="form.isFather">
+                            <el-radio label="1">是</el-radio>
+                            <el-radio label="0">否</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+
+                    <el-form-item label="与户主的关系" prop="memberRelation">
+                        <el-input type="text" v-model="form.memberRelation" placeholder="请输入关系名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份证号" prop="memberIDNumber">
+                        <el-input type="text" v-model="form.memberIDNumber"></el-input>
+                    </el-form-item>
+
+                    <el-button type="primary" @click="onSubmit('form')" style="width: 100%;">提交</el-button>
+
+                    <el-form-item style="text-align: right;">
+                        <el-button type="text" @click="returnlogin">登录</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-main>
+
+            <!--<el-footer id="xz_footer">-->
+
+            <!--</el-footer>-->
+        </el-container>
+    </div>
+
+
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script>
+        $(function () {
+            var app_vue = new Vue({
+                el:"#app",
+                data:function () {
+                    return {
+                        headImg:{
+                            type:1
+                        },
+                        nations:[],
+                        // 上传参数
+                        imageUrl:"",
+                        visible:false,
+                        value3:true,
+                        labelPosition: 'top',
+                        form: {
+                            memberName: '',
+                            memberSex: '',
+                            memberHead: '',
+                            memberBirthday: '',
+                            memberIDNumber: '',
+                            memberNation: '',
+                            memberRelation: '',
+                            isFather: ''
+                        },
+                        rules:{
+                            memberName:[
+                                {required:true, message:"请输入真实姓名", trigger: "blur"}
+                            ],
+                            memberIDNumber:[
+                                {required:true, message:"请输入身份证号码", trigger: "blur"}
+                            ],
+                            memberNation:[
+                                {required:true, message:"请选择民族", trigger: "blur"}
+                            ]
+                        }
+                    }
+                },
+                methods: {
+                    // 上传函数
+                    handleAvatarSuccess:function(res, file) {
+                        // console.log(res);
+                        // console.log(file);
+                        this.form.memberHead = res.data;
+                        // this.imageUrl = URL.createObjectURL(file.raw);
+                    },
+                    beforeAvatarUpload:function(file) {
+                        // var isJPG = file.type.contains() ;
+                        var isJPG = ['image/jpeg', 'image/png'].toString().indexOf(file.type) > -1;
+                        var isLt2M = file.size / 1024 / 1024 / 1024 < 2;
+                        if (!isJPG) {
+                            this.$message.error('图片只能是JPG或PNG格式!');
+                        }
+                        if (!isLt2M) {
+                            this.$message.error('图片大小不能超过200KB!');
+                        }
+                        return isJPG && isLt2M;
+                    },
+                    onSubmit:function(formName) {
+                        var _this = this;
+                        this.$refs[formName].validate(function (valid) {
+                            if (valid) {
+                                sessionStorage.memberName = _this.form.memberName;
+                                sessionStorage.memberSex = _this.form.memberSex;
+                                sessionStorage.memberHead = _this.form.memberHead;
+                                sessionStorage.memberBirthday = _this.form.memberBirthday;
+                                sessionStorage.memberIDNumber = _this.form.memberIDNumber;
+                                sessionStorage.memberNation = _this.form.memberNation;
+                                sessionStorage.memberRelation = _this.form.memberRelation;
+                                sessionStorage.isFather = _this.form.isFather;
+                                // 跳转申请入户
+                                location.href = "enterhome.html";
+                            } else {
+                                console.log('error submit!!');
+                                return false;
+                            }
+                        })
+                    },
+                    returnindex:function () {
+                        location.href = "index.html";
+                    },
+                    returnlogin:function () {
+                        location.href = "login.html";
+                    }
+                }
+            });
+            // 获取民族数据
+            $.ajax({
+                type:"POST",
+                url:"/nation/user_list",
+                success:function (r) {
+                    // console.log(r);
+                    app_vue.nations = r.data;
+                },
+                error:function () {
+                    console.log('民族数据加载失败');
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>

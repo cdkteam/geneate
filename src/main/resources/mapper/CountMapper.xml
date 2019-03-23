@@ -1,0 +1,44 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logy.mapper.CountMapper">
+    <select id="countData" resultType="com.logy.mode.CountData">
+        select
+        *
+        from
+        (
+        select count(*) as familys from familytab where 1=1
+        ) as a join
+        (
+        select count(*) as members from membertab where 1=1
+        ) as b join
+        (
+        select count(*) as admins from admintab where 1=1
+        ) as c join
+        (
+        select count(*) as sublines from sublinetab where 1=1
+        ) as d
+    </select>
+
+    <select id="countSex" resultType="com.logy.mode.CountData">
+        select
+        boys, girls
+        from
+        (
+        select
+        count(memberID) as boys
+        from
+        membertab
+        where memberSex = 1
+        ) as a join
+        (
+        select
+        count(memberID) as girls
+        from
+        membertab
+        where memberSex = 0
+        ) as b
+    </select>
+
+</mapper>

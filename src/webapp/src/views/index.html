@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>家谱后台管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="/static/layuiadmin/style/admin.css" media="all">
+  <link rel="shortcut icon" href="/static/imgs/icon/_favicon.ico">
+  <script>
+    if(sessionStorage.length === 0 && localStorage.length === 0) {
+      location.href = "/bs_index?pageIndex=user_login";
+    }
+  </script>
+</head>
+<body class="layui-layout-body" layadmin-themealias="ocean-header">
+  
+  <div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+
+      <div class="layui-header">
+        <!-- 头部区域 -->
+        <ul class="layui-nav layui-layout-left">
+          <li class="layui-nav-item layadmin-flexible" lay-unselect>
+            <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+              <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+            </a>
+          </li>
+
+          <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <input type="text" placeholder="家族支系/帖子搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords=">
+          </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right" style="margin-right: 20px;">
+          
+          <!--<li class="layui-nav-item" lay-unselect>-->
+            <!--<a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">-->
+              <!--<i class="layui-icon layui-icon-notice"></i>  -->
+              <!---->
+              <!--&lt;!&ndash; 如果有新消息，则显示小圆点 &ndash;&gt;-->
+              <!--<span class="layui-badge-dot"></span>-->
+            <!--</a>-->
+          <!--</li>-->
+          <!--<li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+            <!--<a href="javascript:;" layadmin-event="theme">-->
+              <!--<i class="layui-icon layui-icon-theme"></i>-->
+            <!--</a>-->
+          <!--</li>-->
+          <!--<li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+            <!--<a href="javascript:;" layadmin-event="note">-->
+              <!--<i class="layui-icon layui-icon-note"></i>-->
+            <!--</a>-->
+          <!--</li>-->
+          <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" layadmin-event="fullscreen">
+              <i class="layui-icon layui-icon-screen-full"></i>
+            </a>
+          </li>
+          <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;">
+              <cite id="adminName">-</cite>
+            </a>
+            <dl class="layui-nav-child">
+              <dd><a lay-href="/bs_index?pageIndex=set_user_info">基本资料</a></dd>
+              <dd><a lay-href="/bs_index?pageIndex=set_user_password">修改密码</a></dd>
+              <hr>
+              <dd style="text-align: center;"><a id="logout">退出</a></dd>
+            </dl>
+          </li>
+          
+        </ul>
+      </div>
+      
+      <!-- 侧边菜单 -->
+      <div class="layui-side layui-side-menu">
+        <div class="layui-side-scroll">
+          <div class="layui-logo" lay-href="home/console.html">
+            <span>家谱系统管理系统</span>
+          </div>
+          
+          <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+
+            <li data-name="home" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="信息管理" lay-direction="2">
+                <i class="layui-icon layui-icon-home"></i>
+                <cite>首页</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd data-name="console">
+                  <a lay-href="home/console.html">首页</a>
+                </dd>
+                <dd data-name="console">
+                  <a lay-href="/bs_index?pageIndex=component_grid_stack">公告轮播管理</a>
+                </dd>
+                <dd data-name="console">
+                  <a lay-href="/bs_index?pageIndex=component_grid_stack">添丁滚动管理</a>
+                </dd>
+                <dd data-name="console">
+                  <a lay-href="/bs_index?pageIndex=user_user_article">帖子展示管理</a>
+                </dd>
+              </dl>
+            </li>
+
+            <li data-name="component" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="家族支系管理" lay-direction="2">
+                <i class="layui-icon layui-icon-component"></i>
+                <cite>家族支系管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd data-name="list"><a lay-href="/bs_index?pageIndex=component_grid_list">支系管理</a></dd>
+                <dd data-name="mobile"><a lay-href="/bs_index?pageIndex=component_grid_familylist">家族管理</a></dd>
+              </dl>
+            </li>
+
+            <!--<li data-name="template" class="layui-nav-item">-->
+              <!--<a href="javascript:;" lay-tips="统计管理" lay-direction="2">-->
+                <!--<i class="layui-icon layui-icon-template"></i>-->
+                <!--<cite>统计管理</cite>-->
+              <!--</a>-->
+              <!--<dl class="layui-nav-child">-->
+                <!--<dd><a lay-href="template/personalpage.html">男女比例</a></dd>-->
+                <!--<dd><a lay-href="template/addresslist.html">地域分布</a></dd>-->
+                <!--<dd><a lay-href="template/goodslist.html">年龄分布</a></dd>-->
+                <!--<dd><a lay-href="template/msgboard.html">老龄化走向</a></dd>-->
+                <!--<dd><a lay-href="template/msgboard.html">家族支系统计</a></dd>-->
+              <!--</dl>-->
+            <!--</li>-->
+
+            <li data-name="app" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="家族成员管理" lay-direction="2">
+                <i class="layui-icon layui-icon-app"></i>
+                <cite>家族成员管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd><a lay-href="/bs_index?pageIndex=user_user_list">家族成员管理</a></dd>
+              </dl>
+            </li>
+
+            <li data-name="set" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="系统设置" lay-direction="2">
+                <i class="layui-icon layui-icon-set"></i>
+                <cite>系统设置</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd class="layui-nav-itemed">
+                  <a href="javascript:;">我的设置</a>
+                  <dl class="layui-nav-child">
+                    <dd><a lay-href="/bs_index?pageIndex=set_user_info">基本资料</a></dd>
+                    <dd><a lay-href="/bs_index?pageIndex=set_user_password">修改密码</a></dd>
+                  </dl>
+                </dd>
+                <dd class="layui-nav-itemed">
+                  <a href="javascript:;">用户设置</a>
+                  <dl class="layui-nav-child">
+                    <dd><a lay-href="/bs_index?pageIndex=user_administrators_list">管理员设置</a></dd>
+                  </dl>
+                </dd>
+
+                <dd><a lay-href="/bs_index?pageIndex=user_user_feedback">反馈管理</a></dd>
+              </dl>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+      <!-- 页面标签 -->
+      <div class="layadmin-pagetabs" id="LAY_app_tabs">
+        <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+        <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+        <div class="layui-icon layadmin-tabs-control layui-icon-down">
+          <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+            <li class="layui-nav-item" lay-unselect>
+              <a href="javascript:;"></a>
+              <dl class="layui-nav-child layui-anim-fadein">
+                <dd layadmin-event="closeThisTabs"><a href="javascript:;">关闭当前标签页</a></dd>
+                <dd layadmin-event="closeOtherTabs"><a href="javascript:;">关闭其它标签页</a></dd>
+                <dd layadmin-event="closeAllTabs"><a href="javascript:;">关闭全部标签页</a></dd>
+              </dl>
+            </li>
+          </ul>
+        </div>
+        <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+          <ul class="layui-tab-title" id="LAY_app_tabsheader">
+            <li lay-id="home/console.html" lay-attr="home/console.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+          </ul>
+        </div>
+      </div>
+      
+      
+      <!-- 主体内容 -->
+      <div class="layui-body" id="LAY_app_body">
+        <div class="layadmin-tabsbody-item layui-show">
+          <iframe src="/bs_index?pageIndex=home_console" frameborder="0" class="layadmin-iframe"></iframe>
+        </div>
+      </div>
+      
+      <!-- 辅助元素，一般用于移动设备下遮罩 -->
+      <div class="layadmin-body-shade" layadmin-event="shade"></div>
+    </div>
+  </div>
+
+  <script src="/static/layuiadmin/layui/layui.js"></script>
+  <script>
+  layui.config({
+    base: '/static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'layer'], function () {
+    var adminName = document.getElementById("adminName");
+    var logout = document.getElementById("logout");
+    adminName.innerText = sessionStorage.adminName || localStorage.adminName;
+
+    logout.onclick = function () {
+      sessionStorage.clear();
+      localStorage.clear();
+      layer.msg('正在登出...');
+
+      setTimeout(function () {
+        location.href = "/bs_index?pageIndex=user_login";
+      }, 1500);
+    }
+
+  });
+  </script>
+</body>
+</html>
+
+

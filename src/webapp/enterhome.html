@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>入户申请</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="static/css/all.css">
+    <link rel="shortcut icon" href="static/imgs/icon/_favicon.ico">
+</head>
+<body>
+    <div id="app">
+        <el-container>
+            <el-header id="xz_header">
+                <el-row type="flex" class="row-bg">
+                    <el-col :span="24">
+                        <div class="xz_title_center">入户申请</div>
+                    </el-col>
+                    <el-button type="text" class="login-button" @click="returnindex">主页</el-button>
+                </el-row>
+            </el-header>
+
+            <el-main id="xz_main">
+                <el-row style="margin-bottom:10px;">
+                    <p style="font-size:12px;color:#909399;">若家族或支系不存在，可以点击以下按钮进行添加操作</p>
+                </el-row>
+                <el-row style="margin-bottom:10px;">
+                    <el-button @click="addFamilyDialog = true" type="primary" size="mini" round plain>
+                        <i class="el-icon-plus"></i>
+                        家族
+                    </el-button>
+                    <el-button @click="addSubDialog = true" type="primary" size="mini" round plain>
+                        <i class="el-icon-plus"></i>
+                        支系
+                    </el-button>
+                </el-row>
+
+                <el-form ref="form" :model="form" status-icon :rules="rules" :label-position="labelPosition" label-width="80px">
+                    <el-form-item label="家族" prop="memberFamilyID">
+                        <el-select v-model="form.memberFamilyID"
+                                   :clearable="true"
+                                   @change="changeVal"
+                                   placeholder="请选择">
+                            <el-option
+                                    v-for="item in familys"
+                                    :key="item.familyID"
+                                    :label="item.familyName"
+                                    :value="item.familyID">
+                                <span style="float: left">{{ item.familyName }}</span>
+                            </el-option>
+                        </el-select>
+
+                    </el-form-item>
+
+                    <el-form-item label="支系" prop="sublineID">
+                        <el-select v-model="form.sublineID"
+                                   :clearable="true"
+                                   @change="changeVal2"
+                                   allow-create
+                                   filterable
+                                   placeholder="请选择">
+                            <el-option
+                                    v-for="item in sublines"
+                                    :key="item.value"
+                                    :label="item.subName"
+                                    :value="item.subID">
+                                <span style="float: left">{{ item.subName }}</span>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item label="字辈" prop="sublineGenealogy">
+                        <el-select v-model="form.sublineGenealogy"
+                                   :clearable="true"
+                                   @change="changeVal3"
+                                   placeholder="请选择">
+                            <el-option
+                                    v-for="item in genealogys"
+                                    :key="item.gelogyName"
+                                    :label="item.gelogyName"
+                                    :value="item.gelogyName">
+                                <span style="float: left">{{ item.gelogyName }}</span>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item label="辈分" prop="memberGenealogy">
+                        <el-select v-model="form.memberGenealogy"
+                                   :clearable="true"
+                                   placeholder="请选择">
+                            <el-option
+                                    v-for="item in geneas"
+                                    :key="item.value"
+                                    :label="item.subGelogy"
+                                    :value="item.subGelogy">
+                                <span style="float: left">{{ item.subGelogy }}</span>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+
+
+                    <el-button type="primary" @click="onSubmit('form')" style="width: 100%;">提交</el-button>
+
+                    <el-form-item style="text-align: right;">
+                        <el-button type="text" @click="returnlogin">登录</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-main>
+
+            <!--<el-footer id="xz_footer">-->
+
+            <!--</el-footer>-->
+        </el-container>
+
+        <!--家族添加-->
+        <el-dialog title="添加家族" :visible.sync="addFamilyDialog" width="90%" :fullscreen="true">
+            <el-form ref="addFamilyform" :model="addFamilyform" status-icon :rules="addFamilyrules" :label-position="labelPosition" label-width="80px">
+                <el-form-item label="家族名称" prop="familyName">
+                    <el-input v-model="addFamilyform.familyName"></el-input>
+                </el-form-item>
+
+                <el-button type="primary" @click="addFamily('addFamilyform')" >添加</el-button>
+
+            </el-form>
+        </el-dialog>
+
+        <!--支系添加-->
+        <el-dialog title="添加支系" :visible.sync="addSubDialog" width="90%" :fullscreen="true">
+            <el-form ref="addSubform" :model="addSubform" status-icon :rules="addSubrules" :label-position="labelPosition" label-width="80px">
+                <el-form-item label="支系名称" prop="subName">
+                    <el-input v-model="addSubform.subName"></el-input>
+                </el-form-item>
+
+                <el-form-item label="字辈" prop="subGelogy">
+                    <el-input v-model="addSubform.subGelogy"></el-input>
+                </el-form-item>
+
+                <el-form-item label="支系地址" prop="subAddress">
+                    <el-input v-model="addSubform.subAddress"></el-input>
+                </el-form-item>
+
+                <el-form-item label="家族" prop="subFamilyID">
+                    <el-select v-model="addSubform.subFamilyID"
+                               :clearable="true"
+                               placeholder="请选择">
+                        <el-option
+                                v-for="item in familys"
+                                :key="item.familyID"
+                                :label="item.familyName"
+                                :value="item.familyID">
+                            <span style="float: left">{{ item.familyName }}</span>
+                        </el-option>
+                    </el-select>
+
+                </el-form-item>
+
+                <el-button type="primary" @click="addSub('addSubform')" >添加</el-button>
+
+            </el-form>
+        </el-dialog>
+    </div>
+
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script>
+        $(function () {
+            var app_vue = new Vue({
+                el:"#app",
+                data:function () {
+                    return {
+                        familys:[],
+                        geneas:[],
+                        sublines:[],
+                        genealogys:[],
+                        list1:[],
+                        list2:[],
+                        list3:[],
+                        states1:[],
+                        states2:[],
+                        states3:[],
+                        loading1:false,
+                        loading2:false,
+                        loading3:false,
+                        visible:false,
+                        value3:true,
+                        addFamilyDialog:false,
+                        addSubDialog:false,
+                        labelPosition: 'left',
+                        form: {
+                            memberFamilyID: '',
+                            memberGenealogy: '',
+                            sublineGenealogy: '',
+                            sublineID: ''
+                        },
+                        addFamilyform:{
+                            familyName:""
+                        },
+                        addFamilyrules:{
+                            familyName:[
+                                {required:true, message:"请填写家族名称", trigger: "blur"}
+                            ]
+                        },
+                        addSubform:{
+                            subName:"",
+                            subGelogy:"",
+                            subAddress:"",
+                            subFamilyID:""
+                        },
+                        addSubrules:{
+                            subName:[
+                                {required:true, message:"请填写支系名称", trigger: "blur"}
+                            ],
+                            subGelogy:[
+                                {required:true, message:"请填写支系字辈", trigger: "blur"}
+                            ],
+                            subAddress:[
+                                {required:true, message:"请填写支系地址", trigger: "blur"}
+                            ],
+                            subFamilyID:[
+                                {required:true, message:"请选择家族", trigger: "blur"}
+                            ]
+                        },
+                        rules:{
+                            memberFamilyID:[
+                                {required:true, message:"请选择家族", trigger: "blur"}
+                            ],
+                            memberGenealogy:[
+                                {required:true, message:"请选择辈分", trigger: "blur"}
+                            ],
+                            sublineGenealogy:[
+                                {required:true, message:"请选择字辈", trigger: "blur"}
+                            ],
+                            sublineID:[
+                                {required:true, message:"请选择支系", trigger: "blur"}
+                            ]
+                        }
+                    }
+                },
+                mounted:function () {
+                    var _this = this;
+                    // 获取家族数据
+                    this.getFamilyData();
+                },
+                methods: {
+                    // 家族数据获取
+                    getFamilyData:function() {
+                        var _this = this;
+                        $.ajax({
+                            type:"POST",
+                            url:"/family/fa_list",
+                            success:function (r) {
+                                // console.log(r);
+                                _this.familys = r.data;
+                            },
+                            error:function () {
+                                console.log('家族数据加载失败');
+                            }
+                        });
+                    },
+                    // 添加新家族
+                    addFamily:function(forname) {
+                        var _this = this;
+                        this.$refs[forname].validate(function (valid) {
+                            if(valid) {
+                                $.ajax({
+                                    type:"POST",
+                                    url:"/family/fa_i",
+                                    data:{
+                                        familyName:_this.addFamilyform.familyName
+                                    },
+                                    success:function (res) {
+                                        if(res.code === 200) {
+                                            _this.addFamilyform.familyName = '';
+                                            _this.addFamilyDialog = false;
+                                            _this.$message({
+                                                type:'success',
+                                                message:'添加成功'
+                                            });
+                                            // 重新获取家族数据
+                                            _this.getFamilyData();
+                                        }
+                                    },
+                                    error:function () {
+                                        _this.$message.error('添加失败');
+                                    }
+                                });
+                            }
+                        });
+                    },
+                    // 添加支系
+                    addSub:function(formname) {
+                        var _this = this;
+                        this.$refs[formname].validate(function (valid) {
+                            if(valid) {
+                                $.ajax({
+                                    type:"POST",
+                                    url:"/subline/sub_i",
+                                    data:{
+                                        subName:_this.addSubform.subName,
+                                        subGelogy:_this.addSubform.subGelogy,
+                                        subAddress:_this.addSubform.subAddress,
+                                        subFamilyID:_this.addSubform.subFamilyID
+                                    },
+                                    success:function (res) {
+                                        if(res.code === 200) {
+                                            _this.addSubform.familyName = '';
+                                            _this.addSubform.subGelogy = '';
+                                            _this.addSubform.subAddress = '';
+                                            _this.addSubform.subFamilyID = '';
+                                            _this.addSubDialog = false;
+                                            _this.$message({
+                                                type:'success',
+                                                message:'添加成功'
+                                            });
+                                        }
+                                    },
+                                    error:function () {
+                                        _this.$message.error('添加失败');
+                                    }
+                                });
+                            }
+                        });
+
+                    },
+                    changeVal:function(item) {
+                        // console.log(item);
+                        var _this = this;
+                        _this.sublines = [];
+                        _this.form.memberGenealogy = '';
+                        _this.form.sublineGenealogy = '',
+                        _this.form.sublineID = '';
+                        $.ajax({
+                            type:"POST",
+                            url:"/subline/sub_list",
+                            data:{
+                                subFamilyID:item
+                            },
+                            success:function (r) {
+                                console.log(r);
+                                _this.sublines = r.data;
+                            },
+                            error:function () {
+                                console.log('字辈数据加载失败');
+                            }
+                        });
+                    },
+                    changeVal2:function(item) {
+                        var _this = this;
+                        _this.genealogys = [];
+                        _this.geneas = [];
+                        _this.form.memberGenealogy = '';
+                        _this.form.sublineGenealogy = '',
+                        console.log(item);
+                        _this.sublines.forEach(function (v, i) {
+                            // console.log(v);
+                            if(v.subID == item) {
+                                var O = {};
+                                O.gelogyName = v.subGelogy;
+                                _this.genealogys.push(O);
+                                return;
+                            }
+
+                        })
+                        console.log(_this.genealogys);
+                    },
+                    changeVal3:function(item) {
+                        var _this = this;
+                        _this.geneas = [];
+                        _this.form.memberGenealogy = '';
+                        console.log(item);
+                        var arr = item.split(',');
+                        arr.forEach(function (value) {
+                            var O = {};
+                            O.subGelogy = value;
+                            _this.geneas.push(O);
+                        })
+                        // console.log(_this.geneas);
+                    },
+                    onSubmit:function(formName) {
+                        var _this = this;
+                        this.$refs[formName].validate(function (valid) {
+                            if (valid) {
+                                // 新增家庭成员
+                                $.ajax({
+                                    type:"POST",
+                                    url:"/member/me_i",
+                                    data:{
+                                        isFather:sessionStorage.isFather,
+                                        memberBirthday:sessionStorage.memberBirthday,
+                                        memberHead:sessionStorage.memberHead,
+                                        memberIDNumber:sessionStorage.memberIDNumber,
+                                        memberName:sessionStorage.memberName,
+                                        memberNation:sessionStorage.memberNation,
+                                        memberPass:sessionStorage.memberPass,
+                                        memberPhone:sessionStorage.memberPhone,
+                                        memberSex:sessionStorage.memberSex,
+                                        memberFamilyID:_this.form.memberFamilyID,
+                                        memberGenealogy:_this.form.memberGenealogy,
+                                        memberRelation:sessionStorage.memberRelation
+                                    },
+                                    success:function (r) {
+                                        // console.log(r);
+                                        _this.list2 = r.data;
+                                        if(r.code == 200) {
+                                            _this.$message({
+                                                type:"success",
+                                                message:"注册成功！"
+                                            });
+                                            setTimeout(function () {
+                                                location.href = "login.html";
+                                            }, 2000);
+                                        }
+                                    },
+                                    error:function () {
+                                        _this.$message.error('注册失败，请检查');
+                                    }
+                                });
+                            } else {
+                                console.log('error submit!!');
+                                _this.$message.error('注册失败，请检查');
+                                return false;
+                            }
+                        })
+                    },
+                    returnindex:function () {
+                        location.href = "index.html";
+                    },
+                    returnlogin:function () {
+                        location.href = "login.html";
+                    }
+                }
+            });
+        })
+
+
+    </script>
+</body>
+</html>

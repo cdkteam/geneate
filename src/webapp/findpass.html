@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>找回密码</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="static/css/all.css">
+    <link rel="shortcut icon" href="static/imgs/icon/_favicon.ico">
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header id="xz_header">
+            <el-row type="flex" class="row-bg">
+                <el-col :span="24">
+                    <div class="xz_title_center">找回密码</div>
+                </el-col>
+                <el-button type="text" class="login-button" @click="returnindex">主页</el-button>
+            </el-row>
+        </el-header>
+
+        <el-main id="xz_main">
+            <!--步骤条-->
+            <el-steps :active="active" finish-status="success" align-center="true">
+                <el-step title="手机验证"></el-step>
+                <el-step title="重设密码"></el-step>
+                <el-step title="完成找回"></el-step>
+            </el-steps>
+            <!--第一步：手机验证-->
+            <div id="step_0" class="step_item">
+                <el-form ref="form" :model="form" status-icon :rules="rules" :label-position="labelPosition" label-width="80px">
+                    <el-form-item label="手机号" prop="phone">
+                        <el-input v-model="form.name" placeholder="请输入手机号"></el-input>
+                    </el-form-item>
+                    <el-form-item label="短信验证码" prop="">
+                        <el-input v-model="form.pwd" placeholder="请输入短信验证码"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <!--结束-->
+            <!--第二步：重设密码-->
+            <div id="step_1" class="step_item">
+                <el-form ref="form2" :model="form2" status-icon :rules="rules2" :label-position="labelPosition" label-width="80px">
+                    <el-form-item label="新密码" prop="pwd">
+                        <el-input v-model="form.pwd" placeholder="请输入密码"></el-input>
+                    </el-form-item>
+                    <el-form-item label="确认密码" prop="repwd">
+                        <el-input v-model="form.repwd" placeholder="确认密码"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <!--结束-->
+            <!--第三步：完成找回-->
+            <div id="step_2" class="step_item">
+                <div style="text-align: center;">
+                    <i class="el-icon-success" style="color:#409EFF;font-size:2.6rem;margin:20px 0;"></i>
+                    <p></p>
+                </div>
+                <el-button @click="returnlogin" style="width: 100%;">去登录</el-button>
+            </div>
+            <!--结束-->
+
+            <!--步骤控制按钮-->
+            <div id="next_button_div">
+                <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
+            </div>
+        </el-main>
+
+        <!--<el-footer id="xz_footer">-->
+
+        <!--</el-footer>-->
+    </el-container>
+</div>
+
+
+<!-- 引入组件库 -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<script>
+    new Vue({
+        el:"#app",
+        data:function () {
+            return {
+                active:0,
+                visible:false,
+                value3:true,
+                labelPosition: 'top',
+                form: {
+                    name: '',
+                    pwd: ''
+                },
+                rules:{
+                    name:[
+                        {required:true, message:"请输入手机号码", trigger: "blur"}
+                    ],
+                    pwd:[
+                        {required:true, message:"请输入密码", trigger: "blur"},
+                        { min: 6, max: 12, message: '长度至少6位', trigger: 'change' }
+                    ]
+                }
+            }
+        },
+        methods: {
+            onSubmit:function(formName) {
+                this.$refs[formName].validate(function (valid) {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                })
+            },
+            next:function () {
+                if(this.active++ > 2) {
+                    this.active = 0;
+                }
+                if(this.active == 2) {
+                    $("#next_button_div").hide();
+                }
+                $("#step_" + this.active).show().siblings(".step_item").hide();
+            },
+            returnindex:function () {
+                location.href = "index.html";
+            },
+            returnlogin:function () {
+                location.href = "login.html";
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>家族成员管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="/static/layuiadmin/style/admin.css" media="all">
+</head>
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+              <input type="text" name="memberName" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">手机号码</label>
+            <div class="layui-input-block">
+              <input type="text" name="memberPhone" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">身份证号</label>
+            <div class="layui-input-block">
+              <input type="text" name="memberIDNumber" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">家族</label>
+            <div class="layui-input-block">
+              <select name="memberFamilyID">
+                <option value="">不限</option>
+                <option value="1">男</option>
+                <option value="2">女</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">支系</label>
+            <div class="layui-input-block">
+              <select name="sublineID">
+                <option value="">不限</option>
+                <option value="1">男</option>
+                <option value="2">女</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+              <select name="memberSex">
+                <option value="">不限</option>
+                <option value="1">男</option>
+                <option value="2">女</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">民族</label>
+            <div class="layui-input-block">
+              <select name="memberNation">
+                <option value="">不限</option>
+                <option value="1">汉族</option>
+                <option value="2">蒙古族</option>
+                <option value="3">回族</option>
+                <option value="4">藏族</option>
+                <option value="5">维吾尔族</option>
+                <option value="6">苗族</option>
+                <option value="7">彝族</option>
+                <option value="8">壮族</option>
+                <option value="9">布依族</option>
+                <option value="10">朝鲜族</option>
+                <option value="11">满族</option>
+                <option value="12">侗族</option>
+                <option value="13">瑶族</option>
+                <option value="14">白族</option>
+                <option value="15">土家族</option>
+                <option value="16">哈尼族</option>
+                <option value="17">哈萨克族</option>
+                <option value="18">傣族</option>
+                <option value="19">黎族</option>
+                <option value="20">僳僳族</option>
+                <option value="21">佤族</option>
+                <option value="22">畲族</option>
+                <option value="23">高山族</option>
+                <option value="24">拉祜族</option>
+                <option value="25">水族</option>
+                <option value="26">东乡族</option>
+                <option value="27">纳西族</option>
+                <option value="28">景颇族</option>
+                <option value="29">柯尔克孜族</option>
+                <option value="30">土族</option>
+                <option value="31">达斡尔族</option>
+                <option value="32">仫佬族</option>
+                <option value="33">羌族</option>
+                <option value="34">布朗族</option>
+                <option value="35">撒拉族</option>
+                <option value="36">毛南族</option>
+                <option value="37">仡佬族</option>
+                <option value="38">锡伯族</option>
+                <option value="39">阿昌族</option>
+                <option value="40">普米族</option>
+                <option value="41">塔吉克族</option>
+                <option value="42">怒族</option>
+                <option value="43">乌孜别克族</option>
+                <option value="44">俄罗斯族</option>
+                <option value="45">鄂温克族</option>
+                <option value="46">德昂族</option>
+                <option value="47">保安族</option>
+                <option value="48">裕固族</option>
+                <option value="49">京族</option>
+                <option value="50">塔塔尔族</option>
+                <option value="51">独龙族</option>
+                <option value="52">鄂伦春族</option>
+                <option value="53">赫哲族</option>
+                <option value="54">门巴族</option>
+                <option value="55">珞巴族</option>
+                <option value="56">基诺族</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layui-card-body">
+        <div style="padding-bottom: 10px;">
+          <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+          <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+        </div>
+        
+        <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+        <script type="text/html" id="imgTpl"> 
+          <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
+        </script> 
+        <script type="text/html" id="table-useradmin-webuser">
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/layuiadmin/layui/layui.js"></script>
+  <script>
+  layui.config({
+    base: '/static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'useradmin', 'table'], function(){
+    var $ = layui.$
+    ,form = layui.form
+    ,table = layui.table;
+
+      // 表格内容渲染
+      table.render({
+          elem: '#LAY-user-manage'
+          ,url: '/member/me_list' //数据接口
+          ,response: {
+              // statusName: 'status' //规定数据状态的字段名称，默认：code
+              statusCode: 200 //规定成功的状态码，默认：0
+              ,msgName: 'message' //规定状态信息的字段名称，默认：msg
+              ,countName: 'pageCount' //规定数据总数的字段名称，默认：count
+              ,dataName: 'data' //规定数据列表的字段名称，默认：data
+          }
+          ,done:function (res, curr, count) {
+              // console.log(res);
+          }
+          ,page: true //开启分页
+          ,cols: [[ //表头
+              {type:'checkbox', fixed: 'left'}
+              ,{title: '序号', type:'numbers', fixed: 'left'}
+              ,{field: 'memberName', title: '姓名'}
+              ,{field: 'memberBirthday', title: '出生日期'}
+              ,{field: 'memberSex', title: '性别'}
+              ,{field: 'memberNation', title: '民族'}
+              ,{field: 'memberIDNumber', title: '身份证号'}
+              ,{field: 'memberPhone', title: '手机号码'}
+              ,{field: 'memberFamilyID', title: '家族'}
+              ,{field: 'sublineID', title: '支系'}
+              ,{field: 'memberGenealogy', title: '字辈'}
+              ,{field: 'fatherID', title: '户主'}
+              ,{field: 'memberRelation', title: '关系'}
+              ,{field: 'memberHead', title: '头像'}
+              ,{field: 'memberAddress', title: '地址'}
+              ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+          ]]
+      });
+    
+    //监听搜索
+    form.on('submit(LAY-user-front-search)', function(data){
+      var field = data.field;
+      
+      //执行重载
+      table.reload('LAY-user-manage', {
+        where: field
+      });
+    });
+
+    //监听行工具事件
+    table.on('tool(LAY-user-manage)', function(obj){
+      var data = obj.data;
+      var dataArray = [];
+      dataArray.push(data);
+      console.log(data);
+      if(obj.event === 'del'){
+        layer.confirm('真的删除行么', function(index){
+          $.ajax({
+            type:"POST",
+            url:"/member/me_d_list",
+            data:{
+              subs:JSON.stringify(dataArray)
+            },
+            success:function (res) {
+              if(res.code === 200) {
+                layer.msg('删除成功');
+              }
+              table.reload('LAY-user-manage', {
+                url:"/member/me_list"
+              });
+            },
+            error:function () {
+              layer.msg("删除失败");
+            }
+          });
+
+          obj.del();
+          layer.close(index);
+        });
+      } else if(obj.event === 'edit'){
+        sessionStorage.fatherID = data.fatherID;
+        sessionStorage.memberAddress = data.memberAddress;
+        sessionStorage.memberBirthday = data.memberBirthday;
+        sessionStorage.memberFamilyID = data.memberFamilyID;
+        sessionStorage.memberGenealogy = data.memberGenealogy;
+        sessionStorage.memberHead = data.memberHead;
+        sessionStorage.memberIDNumber = data.memberIDNumber;
+        sessionStorage.memberName = data.memberName;
+        sessionStorage.memberNation = data.memberNation;
+        sessionStorage.memberPhone = data.memberPhone;
+        sessionStorage.memberRelation = data.memberRelation;
+        sessionStorage.memberSex = data.memberSex;
+        sessionStorage.sublineID = data.sublineID;
+        layer.open({
+          type: 2
+          ,title: '编辑'
+          ,content: '/bs_index?pageIndex=user_administrators_updatememberform'
+          ,maxmin: true
+          ,area: ['500px', '550px']
+          ,btn: ['确定', '取消']
+          ,yes: function(index, layero){
+            var iframeWindow = window['layui-layer-iframe'+ index]
+                    ,submitID = 'LAY-user-back-submit'
+                    ,submitLayFilterID = 'LAY-user-front-submit'
+                    ,submit = layero.find('iframe').contents().find('#'+ submitID);
+            //监听提交
+            iframeWindow.layui.form.on('submit('+ submitLayFilterID +')', function(data){
+              var field = data.field; //获取提交的字段
+              $.ajax({
+                type:"POST",
+                url:"/member/me_i",
+                data: field,
+                success:function (res) {
+                  if(res.code === 200) {
+                    layer.msg('修改成功');
+                    table.reload('LAY-user-manage', {
+                      url:"/member/me_list"
+                    });
+                  }
+                },
+                error:function () {
+                  layer.msg('修改失败');
+                }
+              });
+
+              table.reload('LAY-user-back-manage', {
+                url:"/member/me_list"
+              });
+              layer.close(index); //关闭弹层
+            });
+
+            submit.trigger('click');
+          }
+        });
+
+      }
+    });
+  
+    //事件
+    var active = {
+      batchdel: function(){
+        var checkStatus = table.checkStatus('LAY-user-manage')
+        ,checkData = checkStatus.data; //得到选中的数据
+
+        if(checkData.length === 0){
+          return layer.msg('请选择数据');
+        }
+
+        layer.confirm('确定删除吗？', function(index) {
+          $.ajax({
+            type:"POST",
+            url:"/member/me_d_list",
+            data:{
+              mes:JSON.stringify(checkData)
+            },
+            success:function (res) {
+              if(res.code === 200) {
+                layer.msg('删除成功');
+              }
+              table.reload('LAY-user-manage', {
+                url:"/member/me_list"
+              });
+            },
+            error:function () {
+              layer.msg("删除失败");
+            }
+          });
+
+          table.reload('LAY-user-manage');
+          layer.msg('已删除');
+        });
+      }
+      ,add: function(){
+        layer.open({
+          type: 2
+          ,title: '添加用户'
+          ,content: '/bs_index?pageIndex=user_administrators_memberform'
+          ,maxmin: true
+          ,area: ['500px', '550px']
+          ,btn: ['确定', '取消']
+          ,yes: function(index, layero){
+            var iframeWindow = window['layui-layer-iframe'+ index]
+            ,submitID = 'LAY-user-back-submit'
+            ,submitLayFilterID = 'LAY-user-front-submit'
+            ,submit = layero.find('iframe').contents().find('#'+ submitID);
+            //监听提交
+            iframeWindow.layui.form.on('submit('+ submitLayFilterID +')', function(data){
+              var field = data.field; //获取提交的字段
+              field.memberCreateUser = localStorage.adminID || sessionStorage.adminID;
+              $.ajax({
+                type:"POST",
+                url:"/member/me_i",
+                data: field,
+                success:function (res) {
+                  if(res.code === 200) {
+                    layer.msg('添加成功');
+                    table.reload('LAY-user-manage', {
+                      url:"/member/me_list"
+                    });
+                  }
+                },
+                error:function () {
+                  layer.msg('添加失败');
+                }
+              });
+              
+              table.reload('LAY-user-back-manage', {
+                url:"/member/me_list"
+              });
+              layer.close(index); //关闭弹层
+            });  
+            
+            submit.trigger('click');
+          }
+        }); 
+      }
+    };
+    
+    $('.layui-btn.layuiadmin-btn-useradmin').on('click', function(){
+      var type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+
+  });
+  </script>
+</body>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logy.mapper.UserMapper">
+    <select id="queryUserByAccountAndPass" parameterType="com.logy.mode.User" resultType="com.logy.mode.User">
+        select adminAccount, adminFamilyID, adminID, adminName from admintab where 1 = 1
+        and adminAccount = #{adminAccount}
+        and adminPass = MD5(#{adminPass})
+    </select>
+
+    <select id="queryAllUser" parameterType="com.logy.form.UserForm" resultType="com.logy.mode.User">
+        select
+        adminAccount,
+        adminFamilyID,
+        adminID,
+        adminName,
+        adminCreateDate
+        from admintab where 1 = 1
+        <if test="adminAccount != '' and adminAccount != null">
+        and adminAccount like concat('%', #{adminAccount}, '%')
+        </if>
+        <if test="adminName != '' and adminName != null">
+        and adminName like concat('%', #{adminName}, '%')
+        </if>
+        order by adminID desc
+        <if test="page != null and limit != null">
+        limit #{page}, #{limit}
+        </if>
+    </select>
+
+    <select id="countUser" parameterType="com.logy.form.UserForm" resultType="java.lang.Integer">
+        select count(adminID) from admintab
+        where 1=1
+        <if test="adminAccount != '' and adminAccount != null">
+            and adminAccount like concat('%', #{adminAccount}, '%')
+        </if>
+        <if test="adminName != '' and adminName != null">
+            and adminName like concat('%', #{adminName}, '%')
+        </if>
+    </select>
+
+
+    <insert id="insertAdmin" parameterType="com.logy.mode.User" useGeneratedKeys="true" keyColumn="id">
+        insert into adminTab
+        (adminName, adminAccount, adminPass, adminCreateDate)
+        values (#{adminName}, #{adminAccount}, md5(#{adminPass}), #{adminCreateDate})
+    </insert>
+
+    <delete id="delAdmin" parameterType="com.logy.mode.User">
+        delete from adminTab
+        where adminID = #{adminID}
+    </delete>
+
+    <delete id="delAdminBatch" parameterType="java.util.List">
+        delete from adminTab
+        where adminID in
+        <foreach collection="list" separator="," item="item" open="(" close=")">
+            #{item.adminID}
+        </foreach>
+    </delete>
+
+    <update id="updateAdminPassword" parameterType="com.logy.form.UserForm">
+        update admintab
+        set adminPass = MD5(#{repassword})
+        where 1=1
+        and adminID = #{adminID}
+        and adminPass = MD5(#{adminPass})
+    </update>
+
+    <update id="updateAdminaccount" parameterType="com.logy.form.UserForm">
+        update admintab
+        set adminAccount = #{adminAccount}
+        where 1=1
+        and adminID = #{adminID}
+    </update>
+</mapper>

@@ -1,0 +1,69 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logy.mapper.SublineMapper">
+
+    <select id="queryAllSubline" parameterType="com.logy.form.SublineForm" resultType="com.logy.mode.Subline">
+        select
+        s.sublineID as subID,
+        s.sublineName as subName,
+        s.sublineGenealogy as subGelogy,
+        s.sublineAddress as subAddress,
+        f.familyName as subFamily,
+        s.sublineCode as subCode
+        from sublinetab s
+        left join familytab f on s.sublineFamilyID = f.familyID
+        where 1 = 1
+        <if test="subGelogy != '' and subGelogy != null">
+        and s.sublineGenealogy like concat('%', #{subGelogy}, '%')
+        </if>
+        <if test="subName != '' and subName != null">
+        and s.sublineName like concat('%', #{subName}, '%')
+        </if>
+        <if test="subName != '' and subName != null">
+        and s.sublineAddress like concat('%', #{subAddress}, '%')
+        </if>
+        <if test="subFamilyID != null">
+        and s.sublineFamilyID = #{subFamilyID}
+        </if>
+        <if test="sublineID != null">
+        and s.sublineID = #{sublineID}
+        </if>
+        order by s.sublineID desc
+        <if test="page != null and limit != null">
+        limit #{page}, #{limit}
+        </if>
+    </select>
+
+    <select id="countSubline" parameterType="com.logy.form.SublineForm" resultType="java.lang.Integer">
+        select
+        count(s.sublineID)
+        from sublinetab s
+        left join familytab f on s.sublineFamilyID = f.familyID
+        where 1=1
+        <if test="subGelogy != '' and subGelogy != null">
+            and s.sublineGenealogy like concat('%', #{subGelogy}, '%')
+        </if>
+        <if test="subName != '' and subName != null">
+            and s.sublineName like concat('%', #{subName}, '%')
+        </if>
+        <if test="subFamilyID != null">
+            and s.sublineFamilyID = #{subFamilyID}
+        </if>
+    </select>
+
+    <insert id="insertSub" parameterType="com.logy.mode.Subline" useGeneratedKeys="true" keyColumn="id">
+        insert into sublinetab
+        (sublineName, sublineGenealogy, sublineAddress, sublineFamilyID, sublineCreateDate, sublineCode)
+        values (#{subName}, #{subGelogy}, #{subAddress}, #{subFamilyID}, #{subCreateDate}, #{subCode})
+    </insert>
+
+    <delete id="delSubBatch" parameterType="java.util.List">
+        delete from sublinetab
+        where sublineID in
+        <foreach collection="list" separator="," item="item" open="(" close=")">
+            #{item.subID}
+        </foreach>
+    </delete>
+</mapper>

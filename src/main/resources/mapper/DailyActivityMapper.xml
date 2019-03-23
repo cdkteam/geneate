@@ -1,0 +1,47 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logy.mapper.DailyActivityMapper">
+    <select id="queryDailyByCreateDate" parameterType="com.logy.form.DailyActivityForm" resultType="java.lang.Integer">
+        select count(*) from dailyactivity
+        where 1=1
+        <if test="startTime != null and endTime != null">
+            and createDate between #{startTime} and #{endTime}
+        </if>
+        <if test="time != null and time != ''">
+            and time = #{time}
+        </if>
+
+    </select>
+
+    <update id="updateDailyActivity" parameterType="com.logy.form.DailyActivityForm">
+        update dailyactivity set number = number + 1 where 1 = 1
+        <if test="createDate != null and createDate != ''">
+            and createDate = #{createDate,jdbcType=DATE}
+        </if>
+        <if test="time != null and time != ''">
+            and time = #{time}
+        </if>
+    </update>
+
+    <select id="queryAllDailyActivity" parameterType="com.logy.form.DailyActivityForm" resultType="com.logy.mode.DailyActivity">
+        select
+        id,
+        time,
+        number,
+        createDate
+        from dailyactivity where 1 = 1
+        <if test="startTime != null and endTime != null">
+        and createDate between #{startTime} and #{endTime}
+        </if>
+        order by createDate
+    </select>
+
+    <insert id="insertDailyActivity" parameterType="com.logy.mode.DailyActivity" useGeneratedKeys="true" keyColumn="id">
+        insert into dailyactivity
+        (time, number)
+        values (#{time}, #{number})
+    </insert>
+
+</mapper>
