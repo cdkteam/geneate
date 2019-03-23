@@ -54,15 +54,17 @@
                         </el-alert>
                     </div>
 
-                    <!--新闻条目-->
+                    <!--帖子-->
                     <div>
                         <el-card v-for="item in posts" :key="item.id" class="box-card news_card" >
-                            <div class="news_text" @click="newsDetailDialogFunc">
-                                <p>{{item.title}}</p>
-                                <p class="news_title">{{item.name}} {{item.time}}</p>
-                            </div>
-                            <div class="news_img" @click="newsDetailDialogFunc">
-                                <img :src="item.imgUrl" alt="加载失败..." style="width:130px;height:100px;">
+                            <div @click="newsDetailDialogFunc(item)" style="width:100%;height:100%;">
+                                <div class="news_text">
+                                    <p>{{item.newsTitle}}</p>
+                                    <p class="news_title">{{item.familyName}} {{item.newsTime}}</p>
+                                </div>
+                                <div class="news_img" @click="newsDetailDialogFunc">
+                                    <img :src="item.imgUrl" v-if="item.imgUrl" style="width:130px;height:100px;">
+                                </div>
                             </div>
                         </el-card>
 
@@ -644,24 +646,14 @@
             <div>
                 <el-row>
                     <el-col :span="24">
-                        <div class="grid-content bg-purple-dark" style="font-size:1.2rem;">帖子标题</div>
+                        <div class="grid-content bg-purple-dark" style="font-size:1.2rem;">{{news_title}}</div>
                     </el-col>
                     <el-col :span="24" style="margin-top:10px;color:#909399;">
-                        <div class="grid-content bg-purple-dark">xxx支系 发布日期：2019-02-14</div>
+                        <div class="grid-content bg-purple-dark">{{news_familyName}} 发布日期：{{news_time}}</div>
                     </el-col>
                     <el-col :span="24" style="margin-top:10px;color:#909399;">
                         <div class="grid-content bg-purple-dark" style="text-align: justify;text-justify:inter-ideograph;text-indent: 2em;line-height: 30px;">
-                            <p>
-                                你原认为已经错过了的缘分，在你人生的不长不短的时光里一个人备受折磨，煎熬，孤独，冷漠，无助与彷徨，
-                                像极了失散了的蚂蚁无处可去，也无法安放灵魂，终于在某一个时刻，某处地点，回忆如潮水般一发不可收拾的涌上心头，从此放逐一生。
-                            </p>
-                            <p>
-                                或者在相处两不厌的那些流年中慢慢的变成了习惯，习惯一个人却又去忽视，冷落，只是将对方当做一个拥有时可有可无不珍惜，
-                                失去时天昏地暗后悔不已，哪怕是心如刀绞，哪怕是痛哭涕零，到最后也只不过换来的一句"好久不见"时，相逢一笑，各自安好。
-                            </p>
-                            <p>
-                                感谢相遇，感谢身边有你。
-                            </p>
+                            {{news_contnet}}
 
                         </div>
                     </el-col>

@@ -118,7 +118,7 @@ p {
     font-size:.6rem;
     color:#C0C4CC;
     position:absolute;
-    bottom:20px;
+    /*bottom:20px;*/
 }
 
 .news_text {

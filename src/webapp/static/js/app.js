@@ -13,6 +13,10 @@ $(function () {
                 }
             };
             return {
+                news_contnet:'',
+                news_title:'',
+                news_time:'',
+                news_familyName:'',
                 // 表示图片为头像类型
                 headImg:{
                     type:1
@@ -201,41 +205,7 @@ $(function () {
                 ],
                 // 帖子
                 posts:[
-                    {
-                        id:1,
-                        name:'xxx支系',
-                        title:'帖子标题',
-                        time:'2019-02-24',
-                        imgUrl:'static/imgs/ml1.jpg'
-                    },
-                    {
-                        id:2,
-                        name:'xxx支系',
-                        title:'帖子标题帖子标题帖子标题帖子标题帖子标题',
-                        time:'2019-02-25',
-                        imgUrl:'static/imgs/ml1.jpg'
-                    },
-                    {
-                        id:3,
-                        name:'xxx支系',
-                        title:'帖子标题帖子标题帖子标题帖子标题',
-                        time:'2019-02-26',
-                        imgUrl:'static/imgs/ml1.jpg'
-                    },
-                    {
-                        id:4,
-                        name:'xxx支系',
-                        title:'帖子标题帖子标题帖子标题帖子标题帖子标题',
-                        time:'2019-02-27',
-                        imgUrl:'static/imgs/ml1.jpg'
-                    },
-                    {
-                        id:5,
-                        name:'xxx支系',
-                        title:'帖子标题帖子标题帖子标题帖子标题帖子标题',
-                        time:'2019-02-28',
-                        imgUrl:'static/imgs/ml1.jpg'
-                    }
+
                 ],
 
                 gridData: []
@@ -252,7 +222,7 @@ $(function () {
                     subFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
                 },
                 success:function (r) {
-                    console.log(r);
+                    // console.log(r);
                     _this.geneas = [];
                     _this.form.memberGenealogy = '';
                     var arr = r.data[0].subGelogy.split(',');
@@ -427,9 +397,14 @@ $(function () {
                 this.dialogAddMemeberVisible = true;
             },
             // 打开帖子详情
-            newsDetailDialogFunc:function() {
+            newsDetailDialogFunc:function(item) {
+                // 打开帖子详情框
                 this.newsDetailDialog = true;
-                console.log('打开帖子详情');
+                // 帖子内容赋值
+                this.news_contnet = item.newsContent;
+                this.news_familyName = item.familyName;
+                this.news_time = item.newsTime;
+                this.news_title = item.newsTitle;
             },
             // 打开支系成员页面
             branchMember:function() {
@@ -789,4 +764,48 @@ $(function () {
             console.log('字辈数据加载失败');
         }
     });
-})
+
+    // 加载帖子
+    $.ajax({
+        type:"POST",
+        url:"/news/news_list",
+        success:function (r) {
+            console.log(r);
+            app_vue.posts = r.data;
+        },
+        error:function () {
+            console.log('帖子数据加载失败');
+        }
+    });
+
+    // 加载帖子
+    // layui.use(['flow'], function () {
+    //     var flow = layui.flow;
+    //
+    //
+    //     flow.load({
+    //         elem: '#app_index' //指定列表容器
+    //         ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+    //             var lis = [];
+    //             //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+    //             $.post('/news/news_list', {
+    //                 page:page,
+    //                 limit: 10
+    //             }, function(res){
+    //                 console.log(res);
+    //                 app_vue.posts = res.data;
+    //                 //假设你的列表返回在data集合中
+    //                 layui.each(res.data, function(index, item){
+    //                     lis.push('<li>'+ item.title +'</li>');
+    //                 });
+    //
+    //                 //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+    //                 //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+    //                 next(lis.join(''), page < res.pages);
+    //             });
+    //         }
+    //     });
+    //
+    //
+    // });
+});
