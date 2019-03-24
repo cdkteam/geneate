@@ -37,4 +37,6 @@ public class Member implements Serializable {
     private String memberCreateDate;
     private Integer memberCreateUser;
     private String sublineGenealogy;
+
+    private String fatherName;
 }

@@ -29,8 +29,31 @@
 
     <select id="queryAllMember" parameterType="com.logy.form.MemberForm" resultType="com.logy.mode.Member">
         select
-        *
+        m.memberID,
+        m.memberName,
+        m.memberBirthday,
+        (
+         case m.memberSex
+         when 1 then '男'
+         when 0 then '女'
+         else '-' end
+        ) as memberSex,
+        m.memberSex,
+        m.memberNation,
+        m.memberIDNumber,
+        m.memberPhone,
+        m.sublineID,
+        ifnull(f.familyName, '-') as memberFamilyID,
+        s.sublineName as sublineGenealogy,
+        m.memberGenealogy,
+        ifnull(mm.memberName, '-') as fatherName,
+        m.memberRelation,
+        m.memberHead,
+        m.memberAddress
         from membertab m
+        left join familytab f on m.memberFamilyID = f.familyID
+        left join sublinetab s on m.sublineID = s.sublineID
+        left join membertab mm on mm.memberID = m.fatherID
         where 1 = 1
         <if test="memberName != null and memberName != ''">
             and m.memberName like concat('%', #{memberName}, '%')
