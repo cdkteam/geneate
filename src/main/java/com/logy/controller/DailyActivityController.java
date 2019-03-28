@@ -25,14 +25,26 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("daily")
 public class DailyActivityController {
+    /**
+     * 声明对象
+     */
     @Autowired
     private DailyActivityService dailyActivityService;
 
+    /**
+     * 全讯所有的活跃数
+     * @param dailyActivityForm
+     * @return
+     */
     @RequestMapping("d_list")
     public DataResponse queryAllDailyActivity(DailyActivityForm dailyActivityForm) {
         return dailyActivityService.queryAllDailyActivity(dailyActivityForm);
     }
 
+    /**
+     * 插入活跃数量
+     * @return
+     */
     @RequestMapping("d_i")
     public DataResponse insertDailyActivity() {
         return dailyActivityService.insertDailyActivity();

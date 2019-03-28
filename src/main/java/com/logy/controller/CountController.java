@@ -5,10 +5,15 @@ import com.logy.utils.DataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+/**
+ * 活跃用户数量控制类
+ */
 @RestController
 @RequestMapping("count")
 public class CountController {
+    /**
+     * 活跃用户数量控制类对象
+     */
     @Autowired
     private CountService countService;
 

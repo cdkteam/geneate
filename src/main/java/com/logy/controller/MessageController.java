@@ -18,6 +18,11 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("message")
 public class MessageController {
+    /**
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping("app_index_message")
     public DataResponse appIndexMessage(HttpServletRequest request) {
         DataResponse<String> dataResponse = new DataResponse();

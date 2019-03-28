@@ -10,12 +10,25 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+/**
+ * 上传文件管理类
+ */
 @Controller
 @RequestMapping("upload")
 public class UploadController {
+    /**
+     * 声明上传文件服务类对象
+     */
     @Autowired
     private CarsouleImgServiceImpl carsouleImgService;
 
+    /**
+     * 向数据库中插入文件上传的数据
+     * @param carsouleImageFile
+     * @param type
+     * @return
+     * @throws IOException
+     */
     @RequestMapping("carsoule_upload")
     @ResponseBody
     public DataResponse carsouleUpload(MultipartFile carsouleImageFile, Integer type) throws IOException {

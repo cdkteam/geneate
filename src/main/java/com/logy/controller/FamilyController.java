@@ -13,22 +13,44 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 家族控制类
+ */
 @RestController
 @RequestMapping("family")
 public class FamilyController {
+    /**
+     * 家族控制服务类对象
+     */
     @Autowired
     private FamilyService familyService;
 
+    /**
+     * 查询所有家族数据
+     * @param familyForm
+     * @return
+     */
     @RequestMapping("fa_list")
     public DataResponse queryAllFamily(FamilyForm familyForm) {
         return familyService.queryAllFamily(familyForm);
     }
 
+    /**
+     * 插入家族数据
+     * @param family
+     * @param request
+     * @return
+     */
     @RequestMapping("fa_i")
     public DataResponse insertFamily(Family family, HttpServletRequest request) {
         return familyService.insertFamily(family, request);
     }
 
+    /**
+     * 删除家族数据
+     * @param fas
+     * @return
+     */
     @RequestMapping("fa_d_list")
     public DataResponse delFamilyBatch(String fas) {
         return familyService.delFamilyBatch(fas);
