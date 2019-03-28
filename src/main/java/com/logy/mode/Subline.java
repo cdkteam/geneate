@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  *    支系实体类
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/10 14:14
  * @param
  * @return

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  *    获取日活跃量数据。用户每次访问首页数量
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/14 0:00
  * @param
  * @return

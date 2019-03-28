@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  *    家族实体类
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/10 17:32
  * @param
  * @return

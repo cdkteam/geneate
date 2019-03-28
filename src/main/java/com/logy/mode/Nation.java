@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  *    民族类
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/18 14:04
  * @param
  * @return

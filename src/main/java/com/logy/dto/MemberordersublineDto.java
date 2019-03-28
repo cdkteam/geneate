@@ -10,7 +10,7 @@ import java.util.List;
 /**
  *    字辈信息
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/18 10:06
  * @param sublineName 字辈名称
  *        members 包含改字辈的家庭成员

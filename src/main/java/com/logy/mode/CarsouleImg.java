@@ -6,7 +6,7 @@ import lombok.Setter;
 /**
  *    图片类
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/18 22:33
  * @param
  * @return

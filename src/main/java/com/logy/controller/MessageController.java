@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 /**
  *    消息反馈类
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/16 0:04
  * @param
  * @return

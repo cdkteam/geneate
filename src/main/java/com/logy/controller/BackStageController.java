@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  *    控制后台页面跳转
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/5 0:03
  * @param pageIndex=xx_xx_xx
  *        xx_xx_xx为页面路径最后的xx应当为页面文件的名称，前面则是页面的路径地址

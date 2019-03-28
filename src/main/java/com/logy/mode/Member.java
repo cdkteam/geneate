@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  *    网站用户实体类（家族成员）
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/11 4:37
  * @param
  * @return

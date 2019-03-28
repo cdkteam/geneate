@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  *    用户信息类
  *
- * @author XingZengZhi
+ * @author xky
  * @date 2019/3/7 22:11
  * @param
  * @return
