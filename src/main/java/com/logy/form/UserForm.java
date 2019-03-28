@@ -3,6 +3,7 @@ package com.logy.form;
 /**
  * 用户信息Bean类
  */
+
 public class UserForm {
     private Integer adminID;
     private String adminName;

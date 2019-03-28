@@ -3,6 +3,7 @@ package com.logy.form;
 /**
  * 家族Bean类
  */
+
 public class FamilyForm {
     private Integer familyID;
     private String familyName;

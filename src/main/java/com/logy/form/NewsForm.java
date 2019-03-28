@@ -6,6 +6,7 @@ import lombok.Setter;
 /**
  * 帖子消息Bean类
  */
+
 public class NewsForm {
     @Setter
     @Getter
