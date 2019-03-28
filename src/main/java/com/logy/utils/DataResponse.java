@@ -1,5 +1,9 @@
 package com.logy.utils;
 
+/**
+ * 数据响应类
+ * @param <T> 泛型
+ */
 public class DataResponse<T> {
     private int id;
     private int code;
@@ -7,11 +11,19 @@ public class DataResponse<T> {
     private String message;
     private T data;
 
+    /**
+     * 无参构造函数
+     */
     public DataResponse() {
         this.code = 200;
         this.message = "success";
     }
 
+    /**
+     * 有参构造函数
+     * @param code  响应码
+     * @param message   消息
+     */
     public DataResponse(int code, String message) {
         this.code = code;
         this.message = message;
