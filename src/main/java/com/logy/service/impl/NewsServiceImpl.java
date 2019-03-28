@@ -43,6 +43,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Transactional
     @Override
+    /**给外界提供向数据库中插入消息的方法*/
     public DataResponse insertNews(News news, HttpServletRequest request) {
         DataResponse<News> dataResponse = new DataResponse<>();
         int result = 0;
