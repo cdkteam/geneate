@@ -3,6 +3,9 @@ package com.logy.form;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 支系信息Bean类
+ */
 public class SublineForm {
     @Setter
     @Getter
