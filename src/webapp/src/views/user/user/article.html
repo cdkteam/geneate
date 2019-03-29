@@ -127,8 +127,10 @@
           layer.close(index);
         });
       } else if(obj.event === 'edit'){
+        // 设置到本地缓存，以便articleform页面获取到
         sessionStorage.newsID = data.newsID;
         sessionStorage.newsTitle = data.newsTitle;
+        // 打开编辑对话框，内容来源是articleform页面
         layer.open({
           type: 2
           ,title: '编辑'
@@ -136,8 +138,8 @@
           ,maxmin: true
           ,area: ['1000px', '650px']
           ,btn: ['确定', '取消']
-          ,yes: function(index, layero){
-            var iframeWindow = window['layui-layer-iframe'+ index]
+          ,yes: function(index, layero){ // 点击确定时的回调函数
+            var iframeWindow = window['layui-layer-iframe'+ index] // 获取子窗口window对象
                     ,submitID = 'LAY-user-back-submit'
                     ,submitLayFilterID = 'LAY-user-front-submit'
                     ,submit = layero.find('iframe').contents().find('#'+ submitID);
@@ -148,7 +150,7 @@
                 type:"POST",
                 url:"/news/news_i",
                 data: {
-                    newsContent:iframeWindow.editor.html(),
+                    newsContent:iframeWindow.editor.html(), // 子窗口的编辑内容
                     newsTitle:sessionStorage.newsTitle,
                     newsFamilyID:field.family,
                     newsID:sessionStorage.newsID
@@ -211,7 +213,6 @@
       ,add: function(){
         sessionStorage.setItem('newsID', '');
         sessionStorage.setItem('newsTitle', '');
-        sessionStorage.setItem('newsID', '');
         layer.open({
           type: 2
           ,title: '新增帖子'
@@ -230,8 +231,8 @@
                 // 获取帖子的内容
                 var htmlValue = iframeWindow.editor.html();
 
-                console.log(htmlValue);
-                console.log(field);
+                // console.log(htmlValue);
+                // console.log(field);
 
                 $.ajax({
                   type:"POST",
@@ -256,8 +257,6 @@
                 });
             });
 
-
-
             layer.close(index); //关闭弹层
             
             submit.trigger('click');
@@ -265,7 +264,8 @@
         }); 
       }
     };
-    
+
+    // 监听表格全局操作。表格顶部编辑、删除按钮点击对象；
     $('.layui-btn.layuiadmin-btn-useradmin').on('click', function(){
       var type = $(this).data('type');
       active[type] ? active[type].call(this) : '';
