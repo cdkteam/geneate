@@ -76,7 +76,7 @@
                         </el-radio-group>
                     </el-form-item>
 
-                    <el-form-item label="与户主的关系" prop="memberRelation">
+                    <el-form-item label="关系" prop="memberRelation">
                         <el-input type="text" v-model="form.memberRelation" placeholder="请输入关系名称"></el-input>
                     </el-form-item>
                     <el-form-item label="身份证号" prop="memberIDNumber">
@@ -116,7 +116,7 @@
                         imageUrl:"",
                         visible:false,
                         value3:true,
-                        labelPosition: 'top',
+                        labelPosition: 'left',
                         form: {
                             memberName: '',
                             memberSex: '',
@@ -141,13 +141,15 @@
                     }
                 },
                 methods: {
-                    // 上传函数
+                    // 上传成功回调函数
                     handleAvatarSuccess:function(res, file) {
                         // console.log(res);
                         // console.log(file);
+                        // 将地址设置到memberHead属性，以显示头像
                         this.form.memberHead = res.data;
                         // this.imageUrl = URL.createObjectURL(file.raw);
                     },
+                    // 上传头像图片前的验证
                     beforeAvatarUpload:function(file) {
                         // var isJPG = file.type.contains() ;
                         var isJPG = ['image/jpeg', 'image/png'].toString().indexOf(file.type) > -1;
@@ -160,10 +162,12 @@
                         }
                         return isJPG && isLt2M;
                     },
+                    // 提交表单信息
                     onSubmit:function(formName) {
                         var _this = this;
+                        // 验证表单信息
                         this.$refs[formName].validate(function (valid) {
-                            if (valid) {
+                            if (valid) { // 验证通过，将填写的信息填入会话缓存
                                 sessionStorage.memberName = _this.form.memberName;
                                 sessionStorage.memberSex = _this.form.memberSex;
                                 sessionStorage.memberHead = _this.form.memberHead;
@@ -175,14 +179,16 @@
                                 // 跳转申请入户
                                 location.href = "enterhome.html";
                             } else {
-                                console.log('error submit!!');
+                                console.error('valid is fail.');
                                 return false;
                             }
                         })
                     },
+                    // 跳转主页
                     returnindex:function () {
                         location.href = "index.html";
                     },
+                    // 跳转登录页
                     returnlogin:function () {
                         location.href = "login.html";
                     }
