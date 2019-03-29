@@ -211,15 +211,29 @@
   }).extend({
     index: 'lib/index' //主入口模块
   }).use(['index', 'layer'], function () {
+    // 获取显示用户名的DOM
     var adminName = document.getElementById("adminName");
+    // 获取退出按钮DOM
     var logout = document.getElementById("logout");
+
+    // 将登录的用户名填入DOM文本中
     adminName.innerText = sessionStorage.adminName || localStorage.adminName;
 
+    // 未登录直接引导到后台系统登录页面
+    if(!adminName.innerText) {
+      location.href = "/bs_index?pageIndex=user_login";
+    }
+
+    // 退出操作
     logout.onclick = function () {
+      /**
+       * 清除会话缓存和本地缓存用户信息
+       */
       sessionStorage.clear();
       localStorage.clear();
       layer.msg('正在登出...');
 
+      // 1.5s后跳转后台登录页面
       setTimeout(function () {
         location.href = "/bs_index?pageIndex=user_login";
       }, 1500);
