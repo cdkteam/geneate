@@ -91,10 +91,11 @@
                         pwd = this.form.pwd,
                         isAutologin = this.value3,
                         _this = this;
-
+                    // 登录表单验证
                     this.$refs[formName].validate(function (valid) {
-                        if (valid) {
-                            _this.fullscreenLoading = true;
+                        if (valid) { // 验证通过
+                            _this.fullscreenLoading = true; // 开启加载动画
+                            // 发送登录请求
                             $.ajax({
                                 type:"POST",
                                 url:"/member/me_l",
@@ -105,11 +106,11 @@
                                 success:function(r) {
                                     layui.use(['layer'], function () {
                                         var layer = layui.layer;
-                                        if(r.code == 200) {
+                                        if(r.code == 200) { // 登录成功
                                             // console.log(r);
                                             localStorage.clear();
                                             sessionStorage.clear();
-                                            if(isAutologin) {
+                                            if(isAutologin) { // 记住登录操作，用户信息存入本地缓存
                                                 // layer.msg('记住登录');
                                                 localStorage.memberID = r.data.memberID;
                                                 localStorage.sublineID = r.data.sublineID;
@@ -119,19 +120,19 @@
                                                 localStorage.memberBirthday = r.data.memberBirthday;
                                                 localStorage.memberCode = r.data.memberCode;
                                                 localStorage.memberFamilyID = r.data.memberFamilyID;
-                                                // localStorage.memberHead = r.data.memberHead;
                                                 localStorage.memberIDNumber = r.data.memberIDNumber;
                                                 localStorage.memberNation = r.data.memberNation;
                                                 localStorage.memberPhone = r.data.memberPhone;
                                                 localStorage.memberRelation = r.data.memberRelation;
                                                 localStorage.memberGenealogy = r.data.memberGenealogy;
 
-                                                if(r.data.memberSex == 1) {
+                                                if(r.data.memberSex == 1) { // 判断是否是男性
+                                                    // 判断用户头像是否有值
                                                     localStorage.memberHead = r.data.memberHead || "/static/imgs/man.png";
                                                 } else {
                                                     localStorage.memberHead = r.data.memberHead || "/static/imgs/women.png";
                                                 }
-                                            } else {
+                                            } else { // 用户信息存入会话缓存
                                                 // layer.msg('不记住登录');
                                                 sessionStorage.memberID = r.data.memberID;
                                                 sessionStorage.sublineID = r.data.sublineID;
@@ -141,25 +142,26 @@
                                                 sessionStorage.memberBirthday = r.data.memberBirthday;
                                                 sessionStorage.memberCode = r.data.memberCode;
                                                 sessionStorage.memberFamilyID = r.data.memberFamilyID;
-                                                // sessionStorage.memberHead = r.data.memberHead;
                                                 sessionStorage.memberIDNumber = r.data.memberIDNumber;
                                                 sessionStorage.memberNation = r.data.memberNation;
                                                 sessionStorage.memberPhone = r.data.memberPhone;
                                                 sessionStorage.memberRelation = r.data.memberRelation;
                                                 sessionStorage.memberGenealogy = r.data.memberGenealogy;
 
-                                                if(r.data.memberSex == 1) {
+                                                if(r.data.memberSex == 1) { // 判断是否是男性
+                                                    // 判断用户头像是否有值
                                                     sessionStorage.memberHead = r.data.memberHead || "/static/imgs/man.png";
                                                 } else {
                                                     sessionStorage.memberHead = r.data.memberHead || "/static/imgs/women.png";
                                                 }
                                             }
-
+                                            // 2秒后跳转主页，并关闭加载动画
                                             setTimeout(function () {
                                                 _this.fullscreenLoading = false;
                                                 location.href = "index.html";
                                             }, 2000);
                                         } else {
+                                            // 登录失败，关闭加载动画并提示错误信息
                                             _this.fullscreenLoading = false;
                                             _this.$message.error('请检查用户名和密码');
                                         }
@@ -170,19 +172,22 @@
 
                                 }
                             });
-                        } else {
-                            console.log('error submit!!');
+                        } else { // 验证不通过
+                            console.error('login form valid is fail.');
                             return false;
                         }
                     })
                 },
+                // 跳转注册页面
                 register:function() {
                     location.href = "register.html";
 
                 },
+                // 跳转找回密码页面
                 findpass:function () {
                     location.href = "findpass.html";
                 },
+                // 跳转主页
                 goIndex:function () {
                     location.href = "index.html";
                 }
