@@ -12,11 +12,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+/**
+ * 上传照片服务实现类
+ */
 @Service
 public class CarsouleImgServiceImpl implements CarsouleImgService {
     @Autowired
     private CarsouleImgMapper carsouleImgMapper;
 
+    /**
+     * 向数据库中插入轮播图片数据
+     * @param file
+     * @param type
+     * @return
+     */
     @Transactional
     @Override
     public DataResponse insertCarsouleImg(MultipartFile file, Integer type) {
@@ -31,11 +40,19 @@ public class CarsouleImgServiceImpl implements CarsouleImgService {
         return dataResponse;
     }
 
+    /**
+     * 查询所有轮播图片
+     * @return
+     */
     @Override
     public List<CarsouleImg> queryFindAll() {
         return carsouleImgMapper.queryFindAll();
     }
 
+    /**
+     * 删除图片
+     * @param imgId
+     */
     @Transactional
     @Override
     public void delCarousel(List<Integer> imgId) {

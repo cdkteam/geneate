@@ -2,6 +2,9 @@ package com.logy.mode;
 
 import java.io.Serializable;
 
+/**
+ * 统计Bean类
+ */
 public class CountData implements Serializable {
     private Integer familys;
     private Integer sublines;

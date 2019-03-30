@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  *
- *   
+ *   帖子类
  * @author xky
  * @date 2019/3/21 22:13  
  * @param   
