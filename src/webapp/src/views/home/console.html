@@ -86,6 +86,7 @@
   </div>
 
   <script src="/static/layuiadmin/layui/layui.js?t=1"></script>
+  <!--每日用户活跃数和男女比例统计图-->
   <script src="/static/js/consolecount.js"></script>
   <script>
   layui.config({
@@ -94,22 +95,29 @@
     index: 'lib/index' //主入口模块
   }).use(['index', 'console'], function () {
     var $ = layui.$;
-
-    $.ajax({
-      type:"POST",
-      url:"/count/c_index_data",
-      success:function (r) {
-        $("#familys").text(r.data.familys);
-        $("#sublines").text(r.data.sublines);
-        $("#admins").text(r.data.admins);
-        $("#members").text(r.data.members);
-      },
-      error:function (r) {
-        console.error('基础统计数据获取失败')
-      }
-    })
-
-
+    /**
+     * 异步调用API，每3秒执行一次
+     * 获取家族数量、支系数量、总人数、管理员人数信息
+     * @return r.data.familys -> 家庭数量
+     * @return r.data.sublines -> 支系数量
+     * @return r.data.admins -> 管理员人数
+     * @return r.data.members -> 总人数
+     */
+    setInterval(function () {
+      $.ajax({
+        type:"POST",
+        url:"/count/c_index_data",
+        success:function (r) { // 获取首页基础数据成功时执行
+          $("#familys").text(r.data.familys);
+          $("#sublines").text(r.data.sublines);
+          $("#admins").text(r.data.admins);
+          $("#members").text(r.data.members);
+        },
+        error:function (r) { // 获取首页基础数据错误时执行
+          console.error('get base data is fail.');
+        }
+      })
+    }, 3000);
   });
   </script>
 </body>

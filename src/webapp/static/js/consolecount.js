@@ -1,16 +1,14 @@
 window.onload = function () {
-    // 用户日活跃量
+    // 用户日活跃量容器初始化
     var dayChart = echarts.init(document.getElementById("dayCount"));
-    // 男女比例
+    // 男女比例容器初始化
     var sexChart = echarts.init(document.getElementById("sexCount"));
 
-    var date = new Date();
-
-    var days = date.getDate();
-
+    // dayArray：每日用户活跃数图x轴坐标数据；dataArray：每日用户活跃数图y轴坐标数据。数据来源为后台数据
     var dayArray = [], dataArray = [];
 
-    var dayCount = {
+    // 初始化每日用户活跃量图参数
+    var dayOption = {
         title:{
             text:"本月每日用户活跃数"
         },
@@ -34,6 +32,7 @@ window.onload = function () {
         }]
     };
 
+    // 初始化男女比例图参数
     var sexOption = {
         title : {
             text: '男女比例',
@@ -65,10 +64,11 @@ window.onload = function () {
         ]
     };
 
-
-    dayChart.setOption(dayCount);
+    // 容器设置参数
+    dayChart.setOption(dayOption);
     sexChart.setOption(sexOption);
 
+    // 异步获取每日用户活跃量数据
     $.ajax({
         type:"POST",
         url:"/daily/d_list",
@@ -90,11 +90,12 @@ window.onload = function () {
         }
     });
 
+    // 异步获取男女比例数据
     $.ajax({
         type:"POST",
         url:"/count/c_index_sex",
         success:function (r) {
-            console.log(r);
+            // console.log(r);
             var d = r.data;
             sexChart.setOption({
                 series: [{
