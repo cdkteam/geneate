@@ -12,19 +12,22 @@
         n.newsTime,
         f.familyName,
         ad.adminName as createUser,
-        newsType
+        n.newsType
         from newstab n
         left join admintab ad on ad.adminID = n.newsFamilyID
         left join familytab f on n.newsFamilyID = f.familyID
         where 1 = 1
         <if test="newsID != null">
-            and newsID = #{newsID}
+            and n.newsID = #{newsID}
+        </if>
+        <if test="newsFamilyID != null">
+            and n.newsFamilyID = #{newsFamilyID}
         </if>
         <if test="newsTitle != '' and newsTitle != null">
-        and newsTitle like concat('%', #{newsTitle}, '%')
+        and n.newsTitle like concat('%', #{newsTitle}, '%')
         </if>
         <if test="newsType != '' and newsType != null">
-        and newsType = #{newsType}
+        and n.newsType = #{newsType}
         </if>
         order by newsID desc
         <if test="page != null and limit != null">
@@ -35,6 +38,9 @@
     <select id="countNews" parameterType="com.logy.form.NewsForm" resultType="java.lang.Integer">
         select count(newsID) from newstab
         where 1=1
+        <if test="newsFamilyID != null">
+            and newsFamilyID = #{newsFamilyID}
+        </if>
         <if test="newsTitle != '' and newsTitle != null">
             and newsTitle like concat('%', #{newsTitle}, '%')
         </if>

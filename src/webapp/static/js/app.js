@@ -769,6 +769,9 @@ $(function () {
     $.ajax({
         type:"POST",
         url:"/news/news_list",
+        data:{
+            newsFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
+        },
         success:function (r) {
             console.log(r);
             app_vue.posts = r.data;
