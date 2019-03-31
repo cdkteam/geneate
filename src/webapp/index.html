@@ -16,23 +16,23 @@
     <div id="app">
         <el-container>
             <el-header id="xz_header">
-                <template>
-                    <el-select v-model="selectProvince" placeholder="地址" class="selectProvince">
-                        <el-option
-                                v-for="item in cities"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                            <span style="float: left">{{ item.label }}</span>
-                            <!--<span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>-->
-                        </el-option>
-                    </el-select>
-                </template>
+                <!--<template>-->
+                    <!--<el-select v-model="selectProvince" placeholder="地址" class="selectProvince">-->
+                        <!--<el-option-->
+                                <!--v-for="item in cities"-->
+                                <!--:key="item.value"-->
+                                <!--:label="item.label"-->
+                                <!--:value="item.value">-->
+                            <!--<span style="float: left">{{ item.label }}</span>-->
+                            <!--&lt;!&ndash;<span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>&ndash;&gt;-->
+                        <!--</el-option>-->
+                    <!--</el-select>-->
+                <!--</template>-->
                 <el-row type="flex" class="row-bg">
                     <el-col :span="24">
                         <div class="xz_title_center">家谱系统</div>
                     </el-col>
-                    <el-button type="text" class="login-button" @click="goLogin" v-if="isLogin">登录</el-button>
+                    <!--<el-button type="text" class="login-button" @click="goLogin" v-if="isLogin">登录</el-button>-->
                 </el-row>
             </el-header>
 
@@ -286,7 +286,7 @@
                         <el-table-column width="100" property="fbQuestion" label="问题"></el-table-column>
                         <el-table-column width="300" property="fbAnswer" label="答复"></el-table-column>
                     </el-table>
-                    <el-button slot="reference" size="mini">我的反馈</el-button>
+                    <!--<el-button slot="reference" size="mini">我的反馈</el-button>-->
                 </el-popover>
             </div>
 
