@@ -47,10 +47,10 @@ $(function () {
             type: 'category',
             data: ['0-12', '12-18', '18-36', '36-60', '60<']
         },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
+        // tooltip : {
+        //     trigger: 'item',
+        //     formatter: "{a} <br/>{b} : {c} ({d}%)"
+        // },
         legend: {
             orient: 'vertical',
             left: 'left',
@@ -58,10 +58,11 @@ $(function () {
         },
         yAxis: {
             name:'数量/年龄',
+            minInterval: 1,
             type: 'value'
         },
         series: [{
-            data: [120, 200, 150, 80, 70, 110, 130],
+            data: [],
             type: 'bar'
         }]
     };
@@ -109,33 +110,30 @@ $(function () {
             type:3
         },
         success:function (r) {
-            // console.log(r);
+            console.log(r);
             var d = r.data;
             var arr = [0,0,0,0,0], ageName = [];
             d.forEach(function (v, i) {
                 var age = parseInt(v.age);
+                console.log(age);
                 if(age >= 0 && age <= 12) {
                     arr[0] += 1;
                 }
 
-                if(age >= 0 && age < 12) {
+                if(age >= 12 && age < 18) {
                     arr[1] += 1;
                 }
 
-                if(age >= 12 && age < 18) {
+                if(age >= 18 && age < 36) {
                     arr[2] += 1;
                 }
 
-                if(age >= 18 && age < 36) {
+                if(age >= 36 && age < 60) {
                     arr[3] += 1;
                 }
 
-                if(age >= 36 && age < 60) {
-                    arr[4] += 1;
-                }
-
                 if(age >= 60) {
-                    arr[5] += 1;
+                    arr[4] += 1;
                 }
             });
             ageChart.setOption({

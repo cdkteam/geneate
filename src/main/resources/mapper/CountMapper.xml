@@ -55,14 +55,12 @@
         from
         (
             select
-            count(memberID) as nums,
             timestampdiff(YEAR, memberBirthday, CURRENT_DATE) as age
             from membertab
             where 1 = 1
             <if test="memberFamilyID != null">
                 and memberFamilyID = #{memberFamilyID}
             </if>
-            GROUP BY age
         ) as a
         order by age desc
     </select>
