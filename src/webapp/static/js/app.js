@@ -280,7 +280,7 @@ $(function () {
                     newsFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
                 },
                 success:function (r) {
-                    console.log(r);
+                    // console.log(r);
                     app_vue.posts = r.data;
                 },
                 error:function () {
@@ -481,9 +481,9 @@ $(function () {
                 this.news_title = item.newsTitle;
             },
             // 打开支系成员页面
-            branchMember:function() {
+            branchMember:function(familyID) {
                 this.dialogFormVisible = true;
-                console.log(1);
+                this.getPeopleByFamilyID(familyID);
             },
             // 打开字辈信息页面
             zbMemeber:function() {
@@ -520,6 +520,38 @@ $(function () {
             handleChange:function(val) {
                 // console.log(val);
             },
+            // 获取家族成员
+            getPeopleByFamilyID:function (familyID) {
+                var _this = this;
+                $.ajax({
+                    type:"POST",
+                    url:"/member/me_my_list",
+                    data:{
+                        memberID:familyID
+                    },
+                    success:function (r) {
+                        // console.log(r);
+                        if(r.code == 200) {
+                            r.data.forEach(function (v, i) {
+                                var idNumber = v.memberIDNumber.split(''), newIdNumber = '';
+                                for(var i = 0;i < idNumber.length;i++) {
+                                    if(i < 5) {
+                                        newIdNumber += idNumber[i];
+                                    } else {
+                                        newIdNumber += '*';
+                                    }
+                                }
+                                v.memberIDNumber = newIdNumber;
+                            });
+                            _this.members = r.data;
+                        }
+                        layer.closeAll();
+                    },
+                    error:function () {
+                        layer.msg('网络错误');
+                    }
+                });
+            },
             // 我的页面点击链接
             myLinksDetail:function (mylink_id, event) {
                 var _this = this;
@@ -534,23 +566,7 @@ $(function () {
                         case 0:
                             // _this.icon_change(4);
                             _this.dialogFamilyMemberVisible = true;
-                            $.ajax({
-                                type:"POST",
-                                url:"/member/me_my_list",
-                                data:{
-                                    memberID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
-                                },
-                                success:function (r) {
-                                    console.log(r);
-                                    if(r.code == 200) {
-                                        _this.members = r.data;
-                                    }
-                                    layer.closeAll();
-                                },
-                                error:function () {
-                                    layer.msg('网络错误');
-                                }
-                            })
+                            _this.getPeopleByFamilyID(sessionStorage.memberFamilyID || localStorage.memberFamilyID);
                             break;
                         // 关系图谱
                         // case 1:
@@ -566,7 +582,7 @@ $(function () {
                                     memberID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
                                 },
                                 success:function (r) {
-                                    console.log(r);
+                                    // console.log(r);
                                     if(r.code == 200) {
                                         _this.sublines = r.data;
                                     }

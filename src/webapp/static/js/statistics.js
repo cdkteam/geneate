@@ -82,9 +82,9 @@ $(function () {
             type:2
         },
         success:function (r) {
-            console.log(r);
+            // console.log(r);
             var d = r.data, boys = 0,girls = 0;
-            console.log(d.length);
+            // console.log(d.length);
             if(d.length != 0) {
                 boys = d[0].boys;
                 girls = d[0].girls;
@@ -112,7 +112,7 @@ $(function () {
             type:3
         },
         success:function (r) {
-            console.log(r);
+            // console.log(r);
             var d = r.data;
             var arr = [], ageName = [];
             d.forEach(function (v, i) {
@@ -121,7 +121,7 @@ $(function () {
                 o.name = v.age + '岁';
                 ageName.push(o.name);
                 arr.push(o);
-            })
+            });
             ageChart.setOption({
                 legend: {
                     data: ageName

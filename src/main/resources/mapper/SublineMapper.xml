@@ -8,6 +8,7 @@
         select
         s.sublineID as subID,
         s.sublineName as subName,
+        s.sublineFamilyID as subFamilyID,
         s.sublineGenealogy as subGelogy,
         s.sublineAddress as subAddress,
         f.familyName as subFamily,
