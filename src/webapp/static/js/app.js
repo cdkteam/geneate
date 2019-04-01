@@ -209,7 +209,9 @@ $(function () {
 
                 ],
 
-                gridData: []
+                gridData: [],
+
+                sublineData: []
 
             }
         },
@@ -300,7 +302,7 @@ $(function () {
                         subName:_this.sublineName
                     },
                     success:function (r) {
-                        // console.log(r);
+                        console.log(r);
                         app_vue.sublines_index = r.data;
                     },
                     error:function () {
@@ -486,9 +488,30 @@ $(function () {
                 this.getPeopleByFamilyID(familyID);
             },
             // 打开字辈信息页面
-            zbMemeber:function() {
+            zbMemeber:function(subFamilyID) {
                 this.dialogZbVisible = true;
-                console.log(1);
+                var _this = this;
+                $.ajax({
+                    type:"POST",
+                    url:"/count/c_index_data",
+                    data:{
+                        memberFamilyID:subFamilyID,
+                        type:4
+                    },
+                    success:function (r) {
+                        console.log(r);
+                        var d = r.data;
+                        d.forEach(function (v, i) {
+                            var o= {};
+                            o.nums = v.nums;
+                            o.mgName = v.mgName;
+                            _this.sublineData.push(o);
+                        });
+                    },
+                    error:function () {
+                        console.error('辈分分布数据获取失败');
+                    }
+                });
             },
             // 打开年龄分布页面
             ageMemeber:function() {

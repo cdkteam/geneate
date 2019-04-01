@@ -90,7 +90,7 @@
                         <div>
                             <el-row style="display: flex;justify-content: space-between;">
                                 <el-button style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="branchMember(o.subFamilyID)">支系成员</el-button>
-                                <el-button type="primary" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="zbMemeber">字辈信息</el-button>
+                                <el-button type="primary" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="zbMemeber(o.subFamilyID)">字辈信息</el-button>
                                 <!--<el-button type="success" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="ageMemeber">年龄分布</el-button>-->
                                 <!--<el-button type="warning" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="wmMemeber">男女比例</el-button>-->
                             </el-row>
@@ -333,15 +333,25 @@
 
         <el-dialog title="字辈信息" :visible.sync="dialogZbVisible" width="90%" :fullscreen="true">
             <div>
-                <el-row>
-                    <el-col :span="24">
-                        <div class="grid-content bg-purple-dark">这里展示支系成员信息</div>
-                    </el-col>
-                </el-row>
+                <template>
+                    <el-table
+                            :data="sublineData"
+                            style="width: 100%">
+                        <el-table-column
+                                prop="mgName"
+                                label="辈分"
+                                width="100">
+                        </el-table-column>
+                        <el-table-column
+                                prop="nums"
+                                label="人数"
+                                min-width="100">
+                        </el-table-column>
+                    </el-table>
+                </template>
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogZbVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogZbVisible = false">确 定</el-button>
+                <el-button @click="dialogZbVisible = false">确 定</el-button>
             </div>
         </el-dialog>
 

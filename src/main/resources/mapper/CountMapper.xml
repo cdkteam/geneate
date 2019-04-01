@@ -67,4 +67,18 @@
         order by age desc
     </select>
 
+    <select id="countSubline" parameterType="com.logy.form.CountForm" resultType="com.logy.mode.CountData">
+        SELECT
+        count( memberID ) AS nums,
+        memberGenealogy as mgName
+        FROM
+        membertab
+        WHERE
+        1 = 1
+        <if test="memberFamilyID != null">
+            and memberFamilyID = #{memberFamilyID}
+        </if>
+        GROUP BY CONVERT(memberGenealogy USING gbk)
+    </select>
+
 </mapper>

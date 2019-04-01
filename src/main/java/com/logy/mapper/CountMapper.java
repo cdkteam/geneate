@@ -31,4 +31,10 @@ public interface CountMapper {
      * @return
      */
     List<CountData> countAge(CountForm countForm);
+
+    /**
+     * 获取辈分分布
+     * @return
+     */
+    List<CountData> countSubline(CountForm countForm);
 }

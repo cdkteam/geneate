@@ -22,4 +22,7 @@ public class CountData implements Serializable {
     private Integer nums;
     private Integer age;
 
+    // 辈分分布
+    private String mgName;
+
 }
