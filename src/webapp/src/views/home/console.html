@@ -107,11 +107,14 @@
       $.ajax({
         type:"POST",
         url:"/count/c_index_data",
+        data:{
+          type:1
+        },
         success:function (r) { // 获取首页基础数据成功时执行
-          $("#familys").text(r.data.familys);
-          $("#sublines").text(r.data.sublines);
-          $("#admins").text(r.data.admins);
-          $("#members").text(r.data.members);
+          $("#familys").text(r.data[0].familys);
+          $("#sublines").text(r.data[0].sublines);
+          $("#admins").text(r.data[0].admins);
+          $("#members").text(r.data[0].members);
         },
         error:function (r) { // 获取首页基础数据错误时执行
           console.error('get base data is fail.');

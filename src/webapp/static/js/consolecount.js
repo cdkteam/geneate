@@ -93,10 +93,13 @@ window.onload = function () {
     // 异步获取男女比例数据
     $.ajax({
         type:"POST",
-        url:"/count/c_index_sex",
+        url:"/count/c_index_data",
+        data:{
+            type:2
+        },
         success:function (r) {
             // console.log(r);
-            var d = r.data;
+            var d = r.data[0];
             sexChart.setOption({
                 series: [{
                     data: [

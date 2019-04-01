@@ -1,76 +1,30 @@
 $(function () {
+    // 男女分布
     var maleChart = echarts.init(document.getElementById('male_dis'));
-    var areaChart = echarts.init(document.getElementById('area_dis'));
+    // 年龄分布
     var ageChart = echarts.init(document.getElementById('age_dis'));
 
     // 指定图表的配置项和数据
     var maleOption = {
         title : {
-            text: '某站点用户访问来源',
-            subtext: '纯属虚构',
+            text: '男女比例',
             x:'center'
         },
         tooltip : {
             trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
+            formatter: "{b} : {c}人 ({d}%)"
         },
         legend: {
             orient: 'vertical',
             left: 'left',
-            data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+            data: ['男','女']
         },
         series : [
             {
-                name: '访问来源',
                 type: 'pie',
                 radius : '55%',
                 center: ['50%', '60%'],
-                data:[
-                    {value:335, name:'直接访问'},
-                    {value:310, name:'邮件营销'},
-                    {value:234, name:'联盟广告'},
-                    {value:135, name:'视频广告'},
-                    {value:1548, name:'搜索引擎'}
-                ],
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                }
-            }
-        ]
-    };
-
-    var areaOption = {
-        title : {
-            text: '某站点用户访问来源',
-            subtext: '纯属虚构',
-            x:'center'
-        },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            orient: 'vertical',
-            left: 'left',
-            data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-        },
-        series : [
-            {
-                name: '访问来源',
-                type: 'pie',
-                radius : '55%',
-                center: ['50%', '60%'],
-                data:[
-                    {value:335, name:'直接访问'},
-                    {value:310, name:'邮件营销'},
-                    {value:234, name:'联盟广告'},
-                    {value:135, name:'视频广告'},
-                    {value:1548, name:'搜索引擎'}
-                ],
+                data:[],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -84,8 +38,7 @@ $(function () {
 
     var ageOption = {
         title : {
-            text: '某站点用户访问来源',
-            subtext: '纯属虚构',
+            text: '年龄分布',
             x:'center'
         },
         tooltip : {
@@ -95,7 +48,7 @@ $(function () {
         legend: {
             orient: 'vertical',
             left: 'left',
-            data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+            data: []
         },
         series : [
             {
@@ -103,13 +56,7 @@ $(function () {
                 type: 'pie',
                 radius : '55%',
                 center: ['50%', '60%'],
-                data:[
-                    {value:335, name:'直接访问'},
-                    {value:310, name:'邮件营销'},
-                    {value:234, name:'联盟广告'},
-                    {value:135, name:'视频广告'},
-                    {value:1548, name:'搜索引擎'}
-                ],
+                data:[],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -123,6 +70,61 @@ $(function () {
 
     // 使用刚指定的配置项和数据显示图表。
     maleChart.setOption(maleOption);
-    areaChart.setOption(areaOption);
     ageChart.setOption(ageOption);
+
+    $.ajax({
+        type:"POST",
+        url:"/count/c_index_data",
+        data:{
+            memberFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID,
+            type:2
+        },
+        success:function (r) {
+            // console.log(r);
+            var d = r.data[0];
+            maleChart.setOption({
+                series: [{
+                    data: [
+                        {value: d.boys, name:"男"},
+                        {value: d.girls, name:"女"}
+                    ]
+                }]
+            })
+        },
+        error:function (r) {
+            console.error('男女比例数据获取失败')
+        }
+    });
+
+    $.ajax({
+        type:"POST",
+        url:"/count/c_index_data",
+        data:{
+            memberFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID,
+            type:3
+        },
+        success:function (r) {
+            console.log(r);
+            var d = r.data;
+            var arr = [], ageName = [];
+            d.forEach(function (v, i) {
+                var o= {};
+                o.value = v.nums;
+                o.name = v.age + '岁';
+                ageName.push(o.name);
+                arr.push(o);
+            })
+            ageChart.setOption({
+                legend: {
+                    data: ageName
+                },
+                series: [{
+                    data: arr
+                }]
+            })
+        },
+        error:function (r) {
+            console.error('年龄分布数据获取失败')
+        }
+    });
 });

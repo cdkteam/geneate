@@ -102,31 +102,10 @@
                 <div class="content-box">
                     <el-row>
                         <el-col :span="24">
-                            <div class="grid-content bg-purple-dark" style="color:#909399;">男女比例</div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="24">
                             <div id="male_dis" style="height: 250px;width:350px;"></div>
                         </el-col>
                     </el-row>
 
-                    <el-row>
-                        <el-col :span="24">
-                            <div class="grid-content bg-purple-dark" style="color:#909399;">地域分布</div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="24">
-                            <div id="area_dis" style="height: 250px;width:350px;"></div>
-                        </el-col>
-                    </el-row>
-
-                    <el-row>
-                        <el-col :span="24">
-                            <div class="grid-content bg-purple-dark" style="color:#909399;">年龄分布</div>
-                        </el-col>
-                    </el-row>
                     <el-row>
                         <el-col :span="24">
                             <div id="age_dis" style="height: 250px;width:350px;"></div>
@@ -165,26 +144,26 @@
             </el-main>
 
             <el-footer id="xz_footer">
-                <el-row :gutter="20">
-                    <el-col :span="8">
+                <el-row :gutter="24">
+                    <el-col :span="6">
                         <div :class="index_text_active" @click="icon_change(0)">
                             <img :src="icon_index[index_active]" alt="">
                             <p>首页</p>
                         </div>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
                         <div :class="group_text_active" @click="icon_change(1)">
                             <img :src="group_index[group_active]" alt="">
                             <p>支系</p>
                         </div>
                     </el-col>
-                    <!--<el-col :span="6">-->
-                        <!--<div :class="graphic_text_active" @click="icon_change(2)">-->
-                            <!--<img :src="graphic_index[graphic_active]" alt="">-->
-                            <!--<p>统计</p>-->
-                        <!--</div>-->
-                    <!--</el-col>-->
-                    <el-col :span="8">
+                    <el-col :span="6">
+                        <div :class="graphic_text_active" @click="icon_change(2)">
+                            <img :src="graphic_index[graphic_active]" alt="">
+                            <p>统计</p>
+                        </div>
+                    </el-col>
+                    <el-col :span="6">
                         <div :class="user_text_active" @click="icon_change(3)">
                             <img :src="user_index[user_active]" alt="">
                             <p>我的</p>
@@ -675,7 +654,7 @@
     </div>
     <script src="static/js/jquery-3.3.1.min.js"></script>
     <script src="static/layui/layui.js"></script>
-    <script src="static/js/echarts.simple.min.js"></script>
+    <script src="/static/js/echarts.min.js"></script>
     <script src="static/js/app.js?v=1.2"></script>
     <script src="static/js/app_index_message.js"></script>
     <script src="static/js/statistics.js"></script>

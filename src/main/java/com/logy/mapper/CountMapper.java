@@ -1,6 +1,9 @@
 package com.logy.mapper;
 
+import com.logy.form.CountForm;
 import com.logy.mode.CountData;
+
+import java.util.List;
 
 /**
  *    统计
@@ -15,11 +18,17 @@ public interface CountMapper {
      * 家族数量、支系数量、总人数、管理员人数
      * @return
      */
-    CountData countData();
+    List<CountData> countData();
 
     /**
      * 获取男女比例数量
      * @return
      */
-    CountData countSex();
+    List<CountData> countSex(CountForm countForm);
+
+    /**
+     * 获取年龄分布
+     * @return
+     */
+    List<CountData> countAge(CountForm countForm);
 }

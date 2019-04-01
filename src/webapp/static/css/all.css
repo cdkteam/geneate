@@ -134,12 +134,15 @@ p {
 /*底部导航*/
 .grid-content {
     text-align: center;
+    font-size:13px;
+    position:relative;
+    margin-top:10px;
 }
 
 .grid-content > img {
     display:block;
-    width: 32px;
-    height:32px;
+    width:26px;
+    height:26px;
     margin:0 auto;
 }
 

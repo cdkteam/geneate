@@ -21,7 +21,7 @@
         ) as d
     </select>
 
-    <select id="countSex" resultType="com.logy.mode.CountData">
+    <select id="countSex" parameterType="com.logy.form.CountForm" resultType="com.logy.mode.CountData">
         select
         boys, girls
         from
@@ -39,6 +39,27 @@
         membertab
         where memberSex = 0
         ) as b
+        <if test="memberFamilyID != null">
+            and memberFamilyID = #{memberFamilyID}
+        </if>
+    </select>
+
+    <select id="countAge" parameterType="com.logy.form.CountForm" resultType="com.logy.mode.CountData">
+        select
+        *
+        from
+        (
+            select
+            count(memberID) as nums,
+            timestampdiff(YEAR, memberBirthday, CURRENT_DATE) as age
+            from membertab
+            where 1 = 1
+            <if test="memberFamilyID != null">
+                and memberFamilyID = #{memberFamilyID}
+            </if>
+            GROUP BY age
+        ) as a
+        order by age desc
     </select>
 
 </mapper>
