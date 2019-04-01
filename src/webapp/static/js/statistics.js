@@ -42,6 +42,11 @@ $(function () {
             text: '年龄分布',
             x:'center'
         },
+        xAxis: {
+            // name:'年龄',
+            type: 'category',
+            data: ['0-12', '12-18', '18-36', '36-60', '60<']
+        },
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -51,22 +56,14 @@ $(function () {
             left: 'left',
             data: []
         },
-        series : [
-            {
-                name: '访问来源',
-                type: 'pie',
-                radius : '55%',
-                center: ['50%', '60%'],
-                data:[],
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                }
-            }
-        ]
+        yAxis: {
+            name:'数量/年龄',
+            type: 'value'
+        },
+        series: [{
+            data: [120, 200, 150, 80, 70, 110, 130],
+            type: 'bar'
+        }]
     };
 
     // 使用刚指定的配置项和数据显示图表。
@@ -114,22 +111,38 @@ $(function () {
         success:function (r) {
             // console.log(r);
             var d = r.data;
-            var arr = [], ageName = [];
+            var arr = [0,0,0,0,0], ageName = [];
             d.forEach(function (v, i) {
-                var o= {};
-                o.value = v.nums;
-                o.name = v.age + '岁';
-                ageName.push(o.name);
-                arr.push(o);
+                var age = parseInt(v.age);
+                if(age >= 0 && age <= 12) {
+                    arr[0] += 1;
+                }
+
+                if(age >= 0 && age < 12) {
+                    arr[1] += 1;
+                }
+
+                if(age >= 12 && age < 18) {
+                    arr[2] += 1;
+                }
+
+                if(age >= 18 && age < 36) {
+                    arr[3] += 1;
+                }
+
+                if(age >= 36 && age < 60) {
+                    arr[4] += 1;
+                }
+
+                if(age >= 60) {
+                    arr[5] += 1;
+                }
             });
             ageChart.setOption({
-                legend: {
-                    data: ageName
-                },
                 series: [{
                     data: arr
                 }]
-            })
+            });
         },
         error:function (r) {
             console.error('年龄分布数据获取失败')

@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class CountForm {
     private Integer memberFamilyID;
+    private Integer sublineID;
 }

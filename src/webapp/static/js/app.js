@@ -303,6 +303,7 @@ $(function () {
                     },
                     success:function (r) {
                         console.log(r);
+                        app_vue.sublines_index = [];
                         app_vue.sublines_index = r.data;
                     },
                     error:function () {
@@ -483,9 +484,9 @@ $(function () {
                 this.news_title = item.newsTitle;
             },
             // 打开支系成员页面
-            branchMember:function(familyID) {
+            branchMember:function(subID) {
                 this.dialogFormVisible = true;
-                this.getPeopleByFamilyID(familyID);
+                this.getPeopleByFamilyID(subID);
             },
             // 打开字辈信息页面
             zbMemeber:function(subFamilyID) {
@@ -495,12 +496,13 @@ $(function () {
                     type:"POST",
                     url:"/count/c_index_data",
                     data:{
-                        memberFamilyID:subFamilyID,
+                        sublineID:subFamilyID,
                         type:4
                     },
                     success:function (r) {
                         console.log(r);
                         var d = r.data;
+                        _this.sublineData = [];
                         d.forEach(function (v, i) {
                             var o= {};
                             o.nums = v.nums;
@@ -544,13 +546,13 @@ $(function () {
                 // console.log(val);
             },
             // 获取家族成员
-            getPeopleByFamilyID:function (familyID) {
+            getPeopleByFamilyID:function (subID) {
                 var _this = this;
                 $.ajax({
                     type:"POST",
-                    url:"/member/me_my_list",
+                    url:"/member/me_list",
                     data:{
-                        memberID:familyID
+                        sublineID:subID
                     },
                     success:function (r) {
                         // console.log(r);
