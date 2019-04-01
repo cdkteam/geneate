@@ -4,7 +4,7 @@ $(function () {
     // 年龄分布
     var ageChart = echarts.init(document.getElementById('age_dis'));
 
-    // 指定图表的配置项和数据
+    // 男女分布图配置
     var maleOption = {
         title : {
             text: '男女比例',
@@ -36,6 +36,7 @@ $(function () {
         ]
     };
 
+    // 年龄分布图配置
     var ageOption = {
         title : {
             text: '年龄分布',
@@ -72,6 +73,7 @@ $(function () {
     maleChart.setOption(maleOption);
     ageChart.setOption(ageOption);
 
+    // 男女比例数据获取
     $.ajax({
         type:"POST",
         url:"/count/c_index_data",
@@ -96,6 +98,7 @@ $(function () {
         }
     });
 
+    // 年龄分布数据获取
     $.ajax({
         type:"POST",
         url:"/count/c_index_data",
