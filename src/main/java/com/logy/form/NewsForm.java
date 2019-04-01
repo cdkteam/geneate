@@ -8,28 +8,21 @@ import lombok.Setter;
  */
 
 public class NewsForm {
-    @Setter
-    @Getter
+
     private Long newsID;
 
-    @Setter
-    @Getter
+
     private String newsTitle;
 
-    @Setter
-    @Getter
+
     private String newsContent;
 
-    @Setter
-    @Getter
     private String newsTime;
 
-    @Setter
-    @Getter
+
     private Long newsFamilyID;
 
-    @Setter
-    @Getter
+
     private Integer newsType;
 
     private Integer page;

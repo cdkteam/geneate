@@ -8,24 +8,18 @@ import lombok.Setter;
  */
 
 public class SublineForm {
-    @Setter
-    @Getter
+
     private String subName;
 
-    @Setter
-    @Getter
+
     private String subGelogy;
 
-    @Setter
-    @Getter
     private Integer subFamilyID;
 
-    @Setter
-    @Getter
+
     private Integer sublineID;
 
-    @Setter
-    @Getter
+
     private String subAddress;
 
     private Integer page;

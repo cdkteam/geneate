@@ -9,20 +9,16 @@ import lombok.Setter;
  */
 
 public class FeedBackForm {
-    @Setter
-    @Getter
+
     private Long fbID;
 
-    @Getter
-    @Setter
+
     private Long fbmemberID;
 
-    @Setter
-    @Getter
+
     private String fbQuestion;
 
-    @Setter
-    @Getter
+
     private String fbAnswer;
 
     private Integer page;

@@ -12,8 +12,7 @@ import java.util.Date;
  * 日期Bean类
  */
 
-@Setter
-@Getter
+
 public class DailyActivityForm {
     private Integer time;
     /**

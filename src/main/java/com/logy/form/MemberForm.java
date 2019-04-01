@@ -9,8 +9,7 @@ import java.io.Serializable;
  * 家庭成员Bean类
  */
 
-@Getter
-@Setter
+
 public class MemberForm implements Serializable {
     private Integer memberID;
     private String memberName;
