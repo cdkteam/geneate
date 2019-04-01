@@ -32,7 +32,7 @@ public class DailyActivityController {
     private DailyActivityService dailyActivityService;
 
     /**
-     * 全讯所有的活跃数
+     * 查询所有的活跃数
      * @param dailyActivityForm
      * @return
      */
