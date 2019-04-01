@@ -82,13 +82,17 @@ $(function () {
             type:2
         },
         success:function (r) {
-            // console.log(r);
-            var d = r.data[0];
+            console.log(r);
+            var d = r.data, boys = 0,girls = 0;
+            if(d.length != 0) {
+                boys = d.boys;
+                girls = d.girls;
+            }
             maleChart.setOption({
                 series: [{
                     data: [
-                        {value: d.boys, name:"男"},
-                        {value: d.girls, name:"女"}
+                        {value: boys, name:"男"},
+                        {value: girls, name:"女"}
                     ]
                 }]
             })
