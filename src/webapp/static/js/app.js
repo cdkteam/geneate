@@ -13,6 +13,7 @@ $(function () {
                 }
             };
             return {
+                sublineName:'',
                 news_contnet:'',
                 news_title:'',
                 news_time:'',
@@ -236,8 +237,81 @@ $(function () {
                     console.log('家族数据加载失败');
                 }
             });
+
+            // 获取轮播图数据
+            $.ajax({
+                type:"POST",
+                url:"/img/carousel",
+                success:function (r) {
+                    // console.log(r);
+                    var imgData = [];
+                    r.forEach(function (v, i) {
+                        // console.log(v);
+                        imgData.push(v);
+                    });
+                    app_vue.myloves = imgData;
+                },
+                error:function () {
+                    console.log('轮播图加载失败');
+                }
+            })
+
+            // 获取民族数据
+            $.ajax({
+                type:"POST",
+                url:"/nation/user_list",
+                success:function (r) {
+                    // console.log(r);
+                    app_vue.nations = r.data;
+                },
+                error:function () {
+                    console.log('民族数据加载失败');
+                }
+            });
+
+            this.getSublineData();
+
+            // 加载帖子
+            $.ajax({
+                type:"POST",
+                url:"/news/news_list",
+                data:{
+                    // 家族ID参数
+                    newsFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
+                },
+                success:function (r) {
+                    console.log(r);
+                    app_vue.posts = r.data;
+                },
+                error:function () {
+                    console.log('帖子数据加载失败');
+                }
+            });
         },
         methods: {
+            getSublineData:function() {
+                var _this = this;
+                // 获取支系数据
+                $.ajax({
+                    type:"POST",
+                    url:"/subline/sub_list",
+                    data:{
+                        subFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID,
+                        subName:_this.sublineName
+                    },
+                    success:function (r) {
+                        // console.log(r);
+                        app_vue.sublines_index = r.data;
+                    },
+                    error:function () {
+                        console.log('支系数据加载失败');
+                    }
+                });
+            },
+            // 支系搜索
+            searchSubline:function() {
+              this.getSublineData();
+            },
             // 显示反馈数据
             showFb:function() {
                 var _this = this;
@@ -719,67 +793,9 @@ $(function () {
         app_vue.memberHead = sessionStorage.memberHead || localStorage.memberHead || "/static/imgs/man.png";
     } else {
         app_vue.isLogin = true;
+        // 未登录时跳转登录页
+        location.href = 'login.html';
     }
-
-    // 获取轮播图数据
-    $.ajax({
-        type:"POST",
-        url:"/img/carousel",
-        success:function (r) {
-            // console.log(r);
-            var imgData = [];
-            r.forEach(function (v, i) {
-                // console.log(v);
-                imgData.push(v);
-            });
-            app_vue.myloves = imgData;
-        },
-        error:function () {
-            console.log('轮播图加载失败');
-        }
-    })
-
-    // 获取民族数据
-    $.ajax({
-        type:"POST",
-        url:"/nation/user_list",
-        success:function (r) {
-            // console.log(r);
-            app_vue.nations = r.data;
-        },
-        error:function () {
-            console.log('民族数据加载失败');
-        }
-    });
-
-    // 获取字辈数据
-    $.ajax({
-        type:"POST",
-        url:"/subline/sub_list",
-        success:function (r) {
-            // console.log(r);
-            app_vue.sublines_index = r.data;
-        },
-        error:function () {
-            console.log('字辈数据加载失败');
-        }
-    });
-
-    // 加载帖子
-    $.ajax({
-        type:"POST",
-        url:"/news/news_list",
-        data:{
-            newsFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
-        },
-        success:function (r) {
-            console.log(r);
-            app_vue.posts = r.data;
-        },
-        error:function () {
-            console.log('帖子数据加载失败');
-        }
-    });
 
     // 加载帖子
     // layui.use(['flow'], function () {

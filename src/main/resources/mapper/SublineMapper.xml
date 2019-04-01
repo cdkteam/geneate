@@ -21,7 +21,7 @@
         <if test="subName != '' and subName != null">
         and s.sublineName like concat('%', #{subName}, '%')
         </if>
-        <if test="subName != '' and subName != null">
+        <if test="subAddress != '' and subAddress != null">
         and s.sublineAddress like concat('%', #{subAddress}, '%')
         </if>
         <if test="subFamilyID != null">

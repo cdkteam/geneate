@@ -24,6 +24,10 @@ public class SublineForm {
     @Getter
     private Integer sublineID;
 
+    @Setter
+    @Getter
+    private String subAddress;
+
     private Integer page;
     private Integer limit;
 

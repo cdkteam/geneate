@@ -73,10 +73,10 @@
 
                 <!--支系-->
                 <div class="content-box" id="app_memeber">
-                    <!--成员搜索与地区选择-->
+                    <!--支系搜索-->
                     <div>
-                        <el-input placeholder="请输入支系名称" v-model="province" class="input-with-select">
-                            <el-button slot="append" icon="el-icon-search"></el-button>
+                        <el-input :clearable="true" placeholder="请输入支系名称" v-model="sublineName" class="input-with-select">
+                            <el-button slot="append" icon="el-icon-search" @click="searchSubline"></el-button>
                         </el-input>
                     </div>
 
