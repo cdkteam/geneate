@@ -23,24 +23,29 @@
 
     <select id="countSex" parameterType="com.logy.form.CountForm" resultType="com.logy.mode.CountData">
         select
-        boys, girls
+        boys,
+        girls,
+         a.memberFamilyID
         from
         (
         select
-        count(memberID) as boys
+        ifnull(count(memberID), 0) as boys,
+        memberFamilyID
         from
         membertab
         where memberSex = 1
         ) as a join
         (
         select
-        count(memberID) as girls
+        ifnull(count(memberID), 0) as girls,
+        memberFamilyID
         from
         membertab
         where memberSex = 0
         ) as b
+        where 1=1
         <if test="memberFamilyID != null">
-            and memberFamilyID = #{memberFamilyID}
+            and a.memberFamilyID = #{memberFamilyID}
         </if>
     </select>
 
