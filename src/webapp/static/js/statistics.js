@@ -115,7 +115,7 @@ $(function () {
             var arr = [0,0,0,0,0], ageName = [];
             d.forEach(function (v, i) {
                 var age = parseInt(v.age);
-                console.log(age);
+                // console.log(age);
                 if(age >= 0 && age <= 12) {
                     arr[0] += 1;
                 }
