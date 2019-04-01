@@ -11,8 +11,7 @@ import lombok.Setter;
  * @param
  * @return
  */
-@Getter
-@Setter
+
 public class CarsouleImg {
     private Integer id;
     private Integer type;
@@ -25,4 +24,35 @@ public class CarsouleImg {
 
     public CarsouleImg(){}
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
 }

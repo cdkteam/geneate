@@ -12,8 +12,7 @@ import java.util.Date;
  * 日期Bean类
  */
 
-@Setter
-@Getter
+
 public class DailyActivityForm {
     private Integer time;
     /**
@@ -31,5 +30,35 @@ public class DailyActivityForm {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endTime;
 
+    public Integer getTime() {
+        return time;
+    }
 
+    public void setTime(Integer time) {
+        this.time = time;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
 }

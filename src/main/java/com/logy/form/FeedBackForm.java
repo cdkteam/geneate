@@ -9,20 +9,16 @@ import lombok.Setter;
  */
 
 public class FeedBackForm {
-    @Setter
-    @Getter
+
     private Long fbID;
 
-    @Getter
-    @Setter
+
     private Long fbmemberID;
 
-    @Setter
-    @Getter
+
     private String fbQuestion;
 
-    @Setter
-    @Getter
+
     private String fbAnswer;
 
     private Integer page;
@@ -43,5 +39,37 @@ public class FeedBackForm {
 
     public void setLimit(Integer limit) {
         this.limit = limit;
+    }
+
+    public Long getFbID() {
+        return fbID;
+    }
+
+    public void setFbID(Long fbID) {
+        this.fbID = fbID;
+    }
+
+    public Long getFbmemberID() {
+        return fbmemberID;
+    }
+
+    public void setFbmemberID(Long fbmemberID) {
+        this.fbmemberID = fbmemberID;
+    }
+
+    public String getFbQuestion() {
+        return fbQuestion;
+    }
+
+    public void setFbQuestion(String fbQuestion) {
+        this.fbQuestion = fbQuestion;
+    }
+
+    public String getFbAnswer() {
+        return fbAnswer;
+    }
+
+    public void setFbAnswer(String fbAnswer) {
+        this.fbAnswer = fbAnswer;
     }
 }

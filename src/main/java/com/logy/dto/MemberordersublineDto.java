@@ -12,13 +12,27 @@ import java.util.List;
  *
  * @author xky
  * @date 2019/3/18 10:06
- * @param sublineName 字辈名称
  *        members 包含改字辈的家庭成员
  * @return
  */
-@Setter
-@Getter
+
 public class MemberordersublineDto {
     private String sublineName;
     private List<Member> members = new ArrayList<>();
+
+    public String getSublineName() {
+        return sublineName;
+    }
+
+    public void setSublineName(String sublineName) {
+        this.sublineName = sublineName;
+    }
+
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
+    }
 }

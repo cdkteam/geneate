@@ -45,6 +45,11 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private DailyActivityService dailyActivityService;
 
+    /**
+     * 查询所有成员
+     * @param memberForm
+     * @return
+     */
     @Override
     public DataResponse queryAllMember(MemberForm memberForm) {
         DataResponse<List<Member>> dataResponse = new DataResponse<>();
@@ -55,6 +60,11 @@ public class MemberServiceImpl implements MemberService {
         return dataResponse;
     }
 
+    /**
+     * 查询家族成员
+     * @param memberForm
+     * @return
+     */
     @Override
     public DataResponse queryMyMembers(MemberForm memberForm) {
         DataResponse<List<Member>> dataResponse = new DataResponse<>();
@@ -63,6 +73,11 @@ public class MemberServiceImpl implements MemberService {
         return dataResponse;
     }
 
+    /**
+     * 通过支系查询成员
+     * @param memberForm
+     * @return
+     */
     @Override
     public DataResponse queryMembersOrderBySubline(MemberForm memberForm) {
         DataResponse<List<MemberordersublineDto>> dataResponse = new DataResponse<>();
@@ -103,6 +118,11 @@ public class MemberServiceImpl implements MemberService {
         return dataResponse;
     }
 
+    /**
+     * 通过手机号码或者地址查询
+     * @param memberForm
+     * @return
+     */
     @Override
     public DataResponse queryMemberByPhoneAndPass(MemberForm memberForm) {
         DataResponse<Member> dataResponse = new DataResponse<>();
@@ -117,6 +137,11 @@ public class MemberServiceImpl implements MemberService {
         return dataResponse;
     }
 
+    /**
+     * 向数据库中插入成员
+     * @param member
+     * @return
+     */
     @Transactional
     @Override
     public DataResponse insertMember(Member member) {
@@ -143,6 +168,11 @@ public class MemberServiceImpl implements MemberService {
         return dataResponse;
     }
 
+    /**
+     * 删除成员
+     * @param mes
+     * @return
+     */
     @Transactional
     @Override
     public DataResponse delMemberBatch(String mes) {
@@ -156,6 +186,11 @@ public class MemberServiceImpl implements MemberService {
         return dataResponse;
     }
 
+    /**
+     * 修改成员密码
+     * @param memberForm
+     * @return
+     */
     @Override
     public DataResponse ChangeMemberPwd(MemberForm memberForm) {
         DataResponse<Member> dataResponse = new DataResponse<>();
