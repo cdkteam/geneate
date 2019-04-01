@@ -84,9 +84,10 @@ $(function () {
         success:function (r) {
             console.log(r);
             var d = r.data, boys = 0,girls = 0;
+            console.log(d.length);
             if(d.length != 0) {
-                boys = d.boys;
-                girls = d.girls;
+                boys = d[0].boys;
+                girls = d[0].girls;
             }
             maleChart.setOption({
                 series: [{
