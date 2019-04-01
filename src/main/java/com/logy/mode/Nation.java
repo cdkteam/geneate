@@ -10,8 +10,24 @@ import lombok.Data;
  * @param
  * @return
  */
-@Data
+
 public class Nation {
     private Integer nationID;
     private String nationName;
+
+    public Integer getNationID() {
+        return nationID;
+    }
+
+    public void setNationID(Integer nationID) {
+        this.nationID = nationID;
+    }
+
+    public String getNationName() {
+        return nationName;
+    }
+
+    public void setNationName(String nationName) {
+        this.nationName = nationName;
+    }
 }

@@ -28,7 +28,7 @@ public class UploadUtil {
         //给图片随机取名
         String newFileFullName = UUID.randomUUID().toString() + localTimeFormatter + suffixName;
         //声明图片存储文件件
-        File file = new File("F:/upload/" + localTimeFormatter + "/" + newFileFullName);
+        File file = new File("D:/upload/" + localTimeFormatter + "/" + newFileFullName);
         //如果其文件夹不存在，则创建文件夹
         if(!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
