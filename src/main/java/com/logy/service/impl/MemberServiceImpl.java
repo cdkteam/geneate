@@ -85,11 +85,13 @@ public class MemberServiceImpl implements MemberService {
                         } else {
                             dto.setSublineName(m.getMemberGenealogy());
                             dto.getMembers().add(m);
+                            memberordersublineDtos.add(dto);
+                            break;
                         }
                     }
-                    if(dto.getSublineName() != "") {
-                        memberordersublineDtos.add(dto);
-                    }
+                    // if(dto.getSublineName() != "") {
+                    //     memberordersublineDtos.add(dto);
+                    // }
                 }
             }
         }
