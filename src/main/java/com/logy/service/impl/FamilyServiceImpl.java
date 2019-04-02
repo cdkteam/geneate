@@ -16,7 +16,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-
+/**
+ * 家族服务实现类
+ */
 @Service
 public class FamilyServiceImpl implements FamilyService {
     private Logger logger = LoggerFactory.getLogger(FamilyServiceImpl.class);
@@ -24,23 +26,34 @@ public class FamilyServiceImpl implements FamilyService {
     @Autowired
     private FamilyMapper familyMapper;
 
+    /**
+     * 查询所有家族
+     * @param familyForm
+     * @return
+     */
     @Override
     public DataResponse queryAllFamily(FamilyForm familyForm) {
         DataResponse<List<Family>> dataResponse = new DataResponse<>();
-        List<Family> familyList = familyMapper.queryAllFamily(familyForm);
-        int familyCount = familyMapper.countFamily(familyForm);
-        dataResponse.setData(familyList);
-        dataResponse.setPageCount(familyCount);
+        List<Family> familyList = familyMapper.queryAllFamily(familyForm);//将查询到的列表赋值到新列表中
+        int familyCount = familyMapper.countFamily(familyForm);//将统计到该家族的数量赋值给新的int变量
+        dataResponse.setData(familyList);//给返回数据对象设置家族列表
+        dataResponse.setPageCount(familyCount);//给返回对象设置家族数量
         return dataResponse;
     }
 
+    /**
+     * 插入家族
+     * @param family
+     * @param request
+     * @return
+     */
     @Override
     public DataResponse insertFamily(Family family, HttpServletRequest request) {
         DataResponse<Family> dataResponse = new DataResponse<>();
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyyMMdd");
-        family.setFamilyCreateDate(localDate.format(d));
-        int result = familyMapper.insertFamily(family);
+        LocalDate localDate = LocalDate.now();//获取系统当前时间
+        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyyMMdd");//格式化日期数据
+        family.setFamilyCreateDate(localDate.format(d));//将日期设置给家族对象
+        int result = familyMapper.insertFamily(family);//向数据库中插入家族
         if(result <= 0) {
             dataResponse.setMessage("fail");
             dataResponse.setCode(500);
@@ -53,11 +66,16 @@ public class FamilyServiceImpl implements FamilyService {
         return dataResponse;
     }
 
+    /**
+     * 删除家族
+     * @param fas
+     * @return
+     */
     @Override
     public DataResponse delFamilyBatch(String fas) {
         DataResponse<Family> dataResponse = new DataResponse<>();
-        List<Family> familyList = JSONArray.parseArray(fas, Family.class);
-        int result = familyMapper.delFamilyBatch(familyList);
+        List<Family> familyList = JSONArray.parseArray(fas, Family.class);//使用json解析字符串
+        int result = familyMapper.delFamilyBatch(familyList);//从数据库重伤删除家族
         if(result <= 0) {
             dataResponse.setCode(500);
             dataResponse.setMessage("fail");

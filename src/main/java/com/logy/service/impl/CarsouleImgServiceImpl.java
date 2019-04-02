@@ -29,15 +29,15 @@ public class CarsouleImgServiceImpl implements CarsouleImgService {
     @Transactional
     @Override
     public DataResponse insertCarsouleImg(MultipartFile file, Integer type) {
-        DataResponse<String> dataResponse = new DataResponse();
-        CarsouleImg carsouleImg = new CarsouleImg();
-        String imgPath = UploadUtil.uploadImage(file);
-        carsouleImg.setImgUrl(imgPath);
-        carsouleImg.setType(type);
-        carsouleImgMapper.insertCarsouleImg(carsouleImg);
-        dataResponse.setId(carsouleImg.getId());
-        dataResponse.setData(imgPath);
-        return dataResponse;
+        DataResponse<String> dataResponse = new DataResponse();//声明返回数据对象  数据是字符串
+        CarsouleImg carsouleImg = new CarsouleImg();//声明图片对象
+        String imgPath = UploadUtil.uploadImage(file);//获取图片上传存储路径
+        carsouleImg.setImgUrl(imgPath);//向图片对象中添加路径
+        carsouleImg.setType(type);//向图片对象添加类型
+        carsouleImgMapper.insertCarsouleImg(carsouleImg);//向数据库中插入图片对象数据
+        dataResponse.setId(carsouleImg.getId());//获取图片对象的id并设置给返回数据对象
+        dataResponse.setData(imgPath);//给返回数据设置图片路径
+        return dataResponse;//返回数据
     }
 
     /**

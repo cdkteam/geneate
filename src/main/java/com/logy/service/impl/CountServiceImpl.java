@@ -10,11 +10,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 统计服务实现类
+ */
 @Service
 public class CountServiceImpl implements CountService {
     @Autowired
     private CountMapper countMapper;
 
+    /**
+     * 统计基础数据
+     * @param countForm
+     * @param type
+     * @return
+     */
     @Override
     public DataResponse countBaseData(CountForm countForm, Integer type) {
         DataResponse<List<CountData>> response = new DataResponse<>();

@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-
+/**
+ * 新闻服务实现类
+ */
 @Service
 public class NewsServiceImpl implements NewsService {
     private Logger logger = LoggerFactory.getLogger(NewsServiceImpl.class);

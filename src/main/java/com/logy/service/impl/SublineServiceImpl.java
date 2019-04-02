@@ -16,7 +16,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
-
+/**
+ * 支系列表服务实现类
+ */
 @Service
 public class SublineServiceImpl implements SublineService {
     private Logger logger = LoggerFactory.getLogger(SublineServiceImpl.class);
@@ -24,14 +26,19 @@ public class SublineServiceImpl implements SublineService {
     @Autowired
     private SublineMapper sublineMapper;
 
+    /**
+     * 查询所有支系
+     * @param sublineForm
+     * @return
+     */
     @Override
     public DataResponse queryAllSubline(SublineForm sublineForm) {
-        DataResponse<List<Subline>> dataResponse = new DataResponse<>();
-        List<Subline> sublineList = sublineMapper.queryAllSubline(sublineForm);
-        int sublineCount = sublineMapper.countSubline(sublineForm);
-        dataResponse.setData(sublineList);
-        dataResponse.setPageCount(sublineCount);
-        return dataResponse;
+        DataResponse<List<Subline>> dataResponse = new DataResponse<>();//声明响应数据对象
+        List<Subline> sublineList = sublineMapper.queryAllSubline(sublineForm);//查询所有数据
+        int sublineCount = sublineMapper.countSubline(sublineForm);//统计支系条目数量
+        dataResponse.setData(sublineList);//向响应数据对象设置查询到的所有数据
+        dataResponse.setPageCount(sublineCount);//向相应数据设置条目数
+        return dataResponse;//返回响应数据对象
     }
 
     @Override

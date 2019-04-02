@@ -32,7 +32,7 @@ import java.util.UUID;
 @Service
 public class MemberServiceImpl implements MemberService {
     private Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
-
+    //Autowired  自动装配;
     @Autowired
     private MemberMapper memberMapper;
 
@@ -53,11 +53,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public DataResponse queryAllMember(MemberForm memberForm) {
         DataResponse<List<Member>> dataResponse = new DataResponse<>();
-        List<Member> memberList = memberMapper.queryAllMember(memberForm);
-        int memberCount = memberMapper.countMember(memberForm);
-        dataResponse.setData(memberList);
-        dataResponse.setPageCount(memberCount);
-        return dataResponse;
+        List<Member> memberList = memberMapper.queryAllMember(memberForm);//查询所有成员
+        int memberCount = memberMapper.countMember(memberForm);//统计成员数量
+        dataResponse.setData(memberList);//向返回对象中设置查询到的所有成员
+        dataResponse.setPageCount(memberCount);//向返回对象中设置条数
+        return dataResponse;//返回响应数据
     }
 
     /**

@@ -20,11 +20,19 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 统计APP日活跃数
+ */
 @Service
 public class DailyActivityServiceImpl implements DailyActivityService {
     @Autowired
     private DailyActivityMapper dailyActivityMapper;
 
+    /**
+     * 查询所有数据
+     * @param dailyActivityForm
+     * @return
+     */
     @Override
     public DataResponse queryAllDailyActivity(DailyActivityForm dailyActivityForm) {
         DataResponse<List<DailyActivity>> dataResponse = new DataResponse<>();

@@ -10,16 +10,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 民族服务实现类
+ */
 @Service
 public class NationServiceImpl implements NationService {
     @Autowired
     private NationMapper nationMapper;
 
+    /**
+     * 查询所有民族信息
+     * @return
+     */
     @Override
     public DataResponse queryAllNation() {
         DataResponse<List<Nation>> dataResponse = new DataResponse<>();
-        List<Nation> nationList = nationMapper.queryAllNation();
-        dataResponse.setData(nationList);
-        return dataResponse;
+        List<Nation> nationList = nationMapper.queryAllNation();//查询所有民族信息
+        dataResponse.setData(nationList);//向相应数据设置查询到的民族信息
+        return dataResponse;//返回响应数据
     }
 }
