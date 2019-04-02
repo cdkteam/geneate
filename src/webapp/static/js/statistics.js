@@ -72,78 +72,84 @@ $(function () {
     ageChart.setOption(ageOption);
 
     // 男女比例数据获取
-    $.ajax({
-        type:"POST",
-        url:"/count/c_index_data",
-        data:{
-            memberFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID,
-            type:2
-        },
-        success:function (r) {
-            // console.log(r);
-            var d = r.data, boys = 0,girls = 0;
-            // console.log(d.length);
-            if(d.length != 0) {
-                boys = d[0].boys;
-                girls = d[0].girls;
+    setInterval(function () {
+        $.ajax({
+            type:"POST",
+            url:"/count/c_index_data",
+            data:{
+                memberFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID,
+                type:2
+            },
+            success:function (r) {
+                // console.log(r);
+                var d = r.data, boys = 0,girls = 0;
+                // console.log(d);
+                if(d.length != 0) {
+                    boys = d[0].boys;
+                    girls = d[0].girls;
+                }
+                maleChart.setOption({
+                    series: [{
+                        data: [
+                            {value: boys, name:"男"},
+                            {value: girls, name:"女"}
+                        ]
+                    }]
+                })
+            },
+            error:function (r) {
+                console.error('男女比例数据获取失败')
             }
-            maleChart.setOption({
-                series: [{
-                    data: [
-                        {value: boys, name:"男"},
-                        {value: girls, name:"女"}
-                    ]
-                }]
-            })
-        },
-        error:function (r) {
-            console.error('男女比例数据获取失败')
-        }
-    });
+        });
+    }, 3000);
+
 
     // 年龄分布数据获取
-    $.ajax({
-        type:"POST",
-        url:"/count/c_index_data",
-        data:{
-            memberFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID,
-            type:3
-        },
-        success:function (r) {
-            console.log(r);
-            var d = r.data;
-            var arr = [0,0,0,0,0], ageName = [];
-            d.forEach(function (v, i) {
-                var age = parseInt(v.age);
-                // console.log(age);
-                if(age >= 0 && age < 12) {
-                    arr[0] += 1;
-                }
+    setInterval(function () {
+        $.ajax({
+            type:"POST",
+            url:"/count/c_index_data",
+            data:{
+                memberFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID,
+                type:3
+            },
+            success:function (r) {
+                console.log(r);
+                var d = r.data;
+                var arr = [0,0,0,0,0], ageName = [];
+                d.forEach(function (v, i) {
+                    var age = parseInt(v.age);
+                    // console.log(age);
+                    if(age >= 0 && age < 12) {
+                        arr[0] += 1;
+                    }
 
-                if(age >= 12 && age < 18) {
-                    arr[1] += 1;
-                }
+                    if(age >= 12 && age < 18) {
+                        arr[1] += 1;
+                    }
 
-                if(age >= 18 && age < 36) {
-                    arr[2] += 1;
-                }
+                    if(age >= 18 && age < 36) {
+                        arr[2] += 1;
+                    }
 
-                if(age >= 36 && age < 60) {
-                    arr[3] += 1;
-                }
+                    if(age >= 36 && age < 60) {
+                        arr[3] += 1;
+                    }
 
-                if(age >= 60) {
-                    arr[4] += 1;
-                }
-            });
-            ageChart.setOption({
-                series: [{
-                    data: arr
-                }]
-            });
-        },
-        error:function (r) {
-            console.error('年龄分布数据获取失败')
-        }
-    });
+                    if(age >= 60) {
+                        arr[4] += 1;
+                    }
+                });
+                ageChart.setOption({
+                    series: [{
+                        data: arr
+                    }]
+                });
+            },
+            error:function (r) {
+                console.error('年龄分布数据获取失败')
+            }
+        });
+    },3000)
+
 });
