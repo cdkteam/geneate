@@ -165,13 +165,13 @@
     <update id="updateMember" parameterType="com.logy.form.MemberForm">
         update membertab
         <set>
-            <if test="memberName != ''">
+            <if test="memberName != '' and memberName != null">
                 memberName = #{memberName},
             </if>
-            <if test="memberBirthday != null">
+            <if test="memberBirthday != null and memberBirthday != ''">
                 memberBirthday = #{memberBirthday},
             </if>
-            <if test="memberIDNumber != null">
+            <if test="memberIDNumber != null and memberIDNumber != ''">
                 memberIDNumber = #{memberIDNumber},
             </if>
             <if test="memberFamilyID != null">
@@ -183,7 +183,7 @@
             <if test="sublineID != null">
                 sublineID = #{sublineID},
             </if>
-            <if test="memberPhone != ''">
+            <if test="memberPhone != '' and memberPhone != null">
                 memberPhone = #{memberPhone},
             </if>
             <if test="memberPass != '' and memberPass != null">
