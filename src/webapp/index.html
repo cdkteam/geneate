@@ -317,7 +317,7 @@
                                     <div>地址：{{item.memberAddress}}</div>
                                     <div>出生日期：{{item.memberBirthday}}</div>
                                     <div>民族：{{item.memberNation}}</div>
-                                    <div>关系：{{item.memberRelation}}</div>
+                                    <!--<div>关系：{{item.memberRelation}}</div>-->
                                     <div>性别：{{item.memberSex}}</div>
                                     <div>字辈：{{item.memberGenealogy}}</div>
                                     <div>身份证号：{{item.memberIDNumber}}</div>
@@ -600,15 +600,15 @@
                                                     value-format="yyyy-MM-dd"
                                                     style="width: 100%;"></el-date-picker>
                                 </el-form-item>
-                                <el-form-item label="是否户主" prop="isFather">
-                                    <el-radio-group v-model="addMemberForm.isFather">
-                                        <el-radio label="1">是</el-radio>
-                                        <el-radio label="0">否</el-radio>
-                                    </el-radio-group>
-                                </el-form-item>
-                                <el-form-item label="与户主的关系" prop="memberRelation">
-                                    <el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请输入关系名称"></el-input>
-                                </el-form-item>
+                                <!--<el-form-item label="是否户主" prop="isFather">-->
+                                    <!--<el-radio-group v-model="addMemberForm.isFather">-->
+                                        <!--<el-radio label="1">是</el-radio>-->
+                                        <!--<el-radio label="0">否</el-radio>-->
+                                    <!--</el-radio-group>-->
+                                <!--</el-form-item>-->
+                                <!--<el-form-item label="与户主的关系" prop="memberRelation">-->
+                                    <!--<el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请输入关系名称"></el-input>-->
+                                <!--</el-form-item>-->
                                 <el-form-item label="身份证号" prop="memberIDNumber">
                                     <el-input type="text" v-model="addMemberForm.memberIDNumber"></el-input>
                                 </el-form-item>
