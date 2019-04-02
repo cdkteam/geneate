@@ -48,6 +48,7 @@
     </div>
 
 
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -104,8 +105,26 @@
                             // 存储信息到本地会话；电话号码、密码
                             sessionStorage.memberPhone = _this.form.phone;
                             sessionStorage.memberPass = _this.form.pwd;
-                            // 跳转到申请入户
-                            location.href = "authenticate.html";
+                            $.ajax({
+                                type:"POST",
+                                url:"/member/me_list",
+                                data:{
+                                    memberPhone:_this.form.phone
+                                },
+                                success:function (r) {
+                                    console.log(r);
+                                    if(r.code == 200) {
+                                        _this.$message.error('号码已存在，请重试');
+                                    } else {
+                                        // 跳转到申请入户
+                                        location.href = "authenticate.html";
+                                    }
+                                },
+                                error:function () {
+                                    _this.$message.error('系统错误');
+                                }
+                            })
+
                         } else {
                             console.log('error submit!!');
                             return false;

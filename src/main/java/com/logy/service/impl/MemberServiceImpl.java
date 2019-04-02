@@ -54,9 +54,14 @@ public class MemberServiceImpl implements MemberService {
     public DataResponse queryAllMember(MemberForm memberForm) {
         DataResponse<List<Member>> dataResponse = new DataResponse<>();
         List<Member> memberList = memberMapper.queryAllMember(memberForm);//查询所有成员
-        int memberCount = memberMapper.countMember(memberForm);//统计成员数量
-        dataResponse.setData(memberList);//向返回对象中设置查询到的所有成员
-        dataResponse.setPageCount(memberCount);//向返回对象中设置条数
+        if(memberList.size() == 0) {
+            dataResponse.setCode(404);
+            dataResponse.setMessage("fail");
+        } else {
+            int memberCount = memberMapper.countMember(memberForm);//统计成员数量
+            dataResponse.setData(memberList);//向返回对象中设置查询到的所有成员
+            dataResponse.setPageCount(memberCount);//向返回对象中设置条数
+        }
         return dataResponse;//返回响应数据
     }
 
