@@ -596,7 +596,7 @@ $(function () {
                         case 0:
                             // _this.icon_change(4);
                             _this.dialogFamilyMemberVisible = true;
-                            _this.getPeopleByFamilyID(sessionStorage.memberFamilyID || localStorage.memberFamilyID);
+                            _this.getPeopleByFamilyID(sessionStorage.sublineID || localStorage.sublineID);
                             break;
                         // 关系图谱
                         // case 1:
