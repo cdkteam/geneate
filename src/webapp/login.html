@@ -105,11 +105,11 @@
                                 },
                                 success:function(r) {
                                     layui.use(['layer'], function () {
-                                        var layer = layui.layer;
+                                        //var layer = layui.layer;
                                         if(r.code == 200) { // 登录成功
                                             // console.log(r);
                                             localStorage.clear();
-                                            sessionStorage.clear();
+
                                             if(isAutologin) { // 记住登录操作，用户信息存入本地缓存
                                                 // layer.msg('记住登录');
                                                 localStorage.memberID = r.data.memberID;
@@ -134,6 +134,7 @@
                                                 }
                                             } else { // 用户信息存入会话缓存
                                                 // layer.msg('不记住登录');
+                                                sessionStorage.clear();
                                                 sessionStorage.memberID = r.data.memberID;
                                                 sessionStorage.sublineID = r.data.sublineID;
                                                 sessionStorage.memberName = r.data.memberName;
