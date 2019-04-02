@@ -558,10 +558,10 @@ $(function () {
                         sublineID:subID
                     },
                     success:function (r) {
-                        // console.log(r);
+                         console.log(r);
                         if(r.code == 200) {
                             _this.sublineNumber = r.data.length;
-                            console.log(sublineNumber);
+                            //console.log(sublineNumber);
                             r.data.forEach(function (v, i) {
                                 var idNumber = v.memberIDNumber.split(''), newIdNumber = '';
                                 for(var i = 0;i < idNumber.length;i++) {
@@ -794,6 +794,7 @@ $(function () {
                     type:"POST",
                     url:"/member/me_u_pwd",
                     data:{
+                        memberID:sessionStorage.memberID || localStorage.memberID,
                         memberPhone:sessionStorage.memberPhone || localStorage.memberPhone,
                         memberPass:l.changePassForm.oldpass,
                         newPass:l.changePassForm.newpass
