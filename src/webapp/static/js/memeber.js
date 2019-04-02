@@ -18,7 +18,7 @@
                 this.dialogFormVisible = true;
                 console.log(1);
             },
-            // 打开字辈信息页面
+            // 打开字辈歌信息页面
             zbMemeber:function() {
                 this.dialogZbVisible = true;
                 console.log(1);

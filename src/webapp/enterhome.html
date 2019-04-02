@@ -70,7 +70,7 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="字辈" prop="sublineGenealogy">
+                    <el-form-item label="字辈歌" prop="sublineGenealogy">
                         <el-select v-model="form.sublineGenealogy"
                                    :clearable="true"
                                    @change="changeVal3"
@@ -85,7 +85,7 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="辈分" prop="memberGenealogy">
+                    <el-form-item label="字辈" prop="memberGenealogy">
                         <el-select v-model="form.memberGenealogy"
                                    :clearable="true"
                                    placeholder="请选择">
@@ -373,6 +373,9 @@
                         // console.log(item);
                         var arr = item.split('');
                         arr.forEach(function (value) {
+                            if(value == ','){
+                                return;
+                            }
                             var O = {};
                             O.subGelogy = value;
                             _this.geneas.push(O);

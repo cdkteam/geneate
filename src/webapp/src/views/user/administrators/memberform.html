@@ -134,7 +134,7 @@
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">辈分</label>
+      <label class="layui-form-label">字辈</label>
       <div class="layui-input-block">
         <select name="memberGenealogy" id="memberGenealogy" lay-filter="memberGenealogy">
         </select>
@@ -229,7 +229,7 @@
         },
         success:function (r) {
           console.log(r);
-          // 取出支系下的字辈
+          // 取出支系下的字辈歌
           genealogys = r.data;
           $("#sublineID").children('option').remove();
           $("#sublineID").append("<option value=''>请选择</option>");
@@ -244,7 +244,7 @@
       });
     });
 
-    // 提取支系下的辈分
+    // 提取支系下的字辈
     form.on('select(sublineID)', function(data) {
       sublineID = data.value;
       if(genealogys.length > 0) {

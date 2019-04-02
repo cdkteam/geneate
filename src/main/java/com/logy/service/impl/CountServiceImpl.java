@@ -41,7 +41,7 @@ public class CountServiceImpl implements CountService {
             case 3:
                 countData = countMapper.countAge(countForm);
             break;
-            // 辈分分布
+            // 字辈分布
             case 4:
                 countData = countMapper.countSubline(countForm);
                 break;

@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *    字辈信息
+ *    字辈歌信息
  *
  * @author xky
  * @date 2019/3/18 10:06
- *        members 包含改字辈的家庭成员
+ *        members 包含改字辈歌的家庭成员
  * @return
  */
 

@@ -167,7 +167,7 @@ $(function () {
                 mylinks:[
                     "家庭成员",
                     // "关系图谱",
-                    "字辈信息",
+                    "字辈歌信息",
                     "个人资料",
                     "修改密码",
                     "问题反馈"
@@ -491,7 +491,7 @@ $(function () {
                 this.dialogFormVisible = true;
                 this.getPeopleByFamilyID(subID);
             },
-            // 打开字辈信息页面
+            // 打开字辈歌信息页面
             zbMemeber:function(subFamilyID) {
                 this.dialogZbVisible = true;
                 var _this = this;
@@ -514,7 +514,7 @@ $(function () {
                         });
                     },
                     error:function () {
-                        console.error('辈分分布数据获取失败');
+                        console.error('字辈分布数据获取失败');
                     }
                 });
             },
@@ -602,7 +602,7 @@ $(function () {
                         // case 1:
                         //     _this.dialogRelationVisible = true;
                         //     break;
-                        // 字辈信息
+                        // 字辈歌信息
                         case 1:
                             _this.dialogZbMessageVisible = true;
                             $.ajax({
