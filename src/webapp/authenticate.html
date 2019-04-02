@@ -69,14 +69,14 @@
                                         style="width: 100%;"></el-date-picker>
                     </el-form-item>
 
-                    <el-form-item label="是否户主" prop="isFather">
+                    <el-form-item label="是否户主" prop="isFather" v-show="false">
                         <el-radio-group v-model="form.isFather">
                             <el-radio label="1">是</el-radio>
                             <el-radio label="0">否</el-radio>
                         </el-radio-group>
                     </el-form-item>
 
-                    <el-form-item label="关系" prop="memberRelation">
+                    <el-form-item label="关系" prop="memberRelation" v-show="false">
                         <el-input type="text" v-model="form.memberRelation" placeholder="请输入关系名称"></el-input>
                     </el-form-item>
                     <el-form-item label="身份证号" prop="memberIDNumber">
