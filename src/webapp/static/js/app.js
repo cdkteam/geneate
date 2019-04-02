@@ -13,6 +13,7 @@ $(function () {
                 }
             };
             return {
+                sublineNumber:'',
                 sublineName:'',
                 news_contnet:'',
                 news_title:'',
@@ -289,6 +290,8 @@ $(function () {
                     console.log('帖子数据加载失败');
                 }
             });
+
+            this.getPeopleByFamilyID(sessionStorage.sublineID || localStorage.sublineID);
         },
         methods: {
             getSublineData:function() {
@@ -557,6 +560,8 @@ $(function () {
                     success:function (r) {
                         // console.log(r);
                         if(r.code == 200) {
+                            _this.sublineNumber = r.data.length;
+                            console.log(sublineNumber);
                             r.data.forEach(function (v, i) {
                                 var idNumber = v.memberIDNumber.split(''), newIdNumber = '';
                                 for(var i = 0;i < idNumber.length;i++) {
@@ -570,7 +575,7 @@ $(function () {
                             });
                             _this.members = r.data;
                         }
-                        layer.closeAll();
+                        // layer.closeAll();
                     },
                     error:function () {
                         layer.msg('网络错误');
@@ -607,7 +612,7 @@ $(function () {
                                     memberID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
                                 },
                                 success:function (r) {
-                                    // console.log(r);
+                                    console.log(r);
                                     if(r.code == 200) {
                                         _this.sublines = r.data;
                                     }

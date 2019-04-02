@@ -34,6 +34,9 @@
         from
         membertab
         where memberSex = 1
+        <if test="memberFamilyID != null">
+            and memberFamilyID = #{memberFamilyID}
+        </if>
         ) as a join
         (
         select
@@ -42,11 +45,11 @@
         from
         membertab
         where memberSex = 0
+        <if test="memberFamilyID != null">
+            and memberFamilyID = #{memberFamilyID}
+        </if>
         ) as b
         where 1=1
-        <if test="memberFamilyID != null">
-            and a.memberFamilyID = #{memberFamilyID}
-        </if>
     </select>
 
     <select id="countAge" parameterType="com.logy.form.CountForm" resultType="com.logy.mode.CountData">
