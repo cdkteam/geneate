@@ -35,7 +35,7 @@ public class UploadUtil {
         }
         //捕获输入输出异常
         try {
-            String imagePath = "http://localhost" + file.getCanonicalPath().substring(2, file.getCanonicalPath().length())
+            String imagePath = "http://1676566g8b.iok.la:43472" + file.getCanonicalPath().substring(2, file.getCanonicalPath().length())
                     .replace("\\", "/");
             multipartFile.transferTo(file);
             return imagePath;
