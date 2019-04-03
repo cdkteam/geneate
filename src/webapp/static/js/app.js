@@ -543,6 +543,7 @@ $(function () {
                 this.isLogin = true;
                 sessionStorage.clear();
                 localStorage.clear();
+                location.href = "login.html";
                 console.log('退出登录操作');
             },
             handleChange:function(val) {
