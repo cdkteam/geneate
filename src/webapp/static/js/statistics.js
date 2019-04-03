@@ -114,7 +114,7 @@ $(function () {
                 type:3
             },
             success:function (r) {
-                console.log(r);
+                // console.log(r);
                 var d = r.data;
                 var arr = [0,0,0,0,0], ageName = [];
                 d.forEach(function (v, i) {
