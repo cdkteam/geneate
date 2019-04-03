@@ -109,8 +109,6 @@
                                         if(r.code == 200) { // 登录成功
                                             // console.log(r);
                                             // 2秒后跳转主页，并关闭加载动画
-
-
                                             if(isAutologin) { // 记住登录操作，用户信息存入本地缓存
                                                 // layer.msg('记住登录');
                                                 localStorage.memberID = r.data.memberID;
@@ -161,7 +159,6 @@
                                                 _this.fullscreenLoading = false;
                                                 location.href = "index.html";
                                             }, 2000);
-                                            localStorage.clear();
 
                                         } else {
                                             // 登录失败，关闭加载动画并提示错误信息

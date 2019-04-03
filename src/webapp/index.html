@@ -33,6 +33,7 @@
                             <div class="xz_title_center">家谱系统</div>
                         </el-col>
                         <!--<el-button type="text" class="login-button" @click="goLogin" v-if="isLogin">登录</el-button>-->
+                        <el-button type="text" class="login-button" @click="addMemeber">添加成员</el-button>
                     </el-row>
                 </el-header>
 
@@ -91,7 +92,7 @@
                             <div>
                                 <el-row style="display: flex;justify-content: space-between;">
                                     <el-button style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="branchMember(o.subID)">支系成员</el-button>
-                                    <el-button type="primary" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="zbMemeber(o.subID)">字辈歌信息</el-button>
+                                    <el-button type="primary" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="zbMemeber(o.subID)">字辈谱信息</el-button>
                                     <!--<el-button type="success" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="ageMemeber">年龄分布</el-button>-->
                                     <!--<el-button type="warning" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="wmMemeber">男女比例</el-button>-->
                                 </el-row>
@@ -317,7 +318,7 @@
                                     <div>地址：{{item.memberAddress}}</div>
                                     <div>出生日期：{{item.memberBirthday}}</div>
                                     <div>民族：{{item.memberNation}}</div>
-                                    <!--<div>关系：{{item.memberRelation}}</div>-->
+                                    <div>关系：{{item.memberRelation}}</div>
                                     <div>性别：{{item.memberSex}}</div>
                                     <div>字辈歌：{{item.memberGenealogy}}</div>
                                     <div>身份证号：{{item.memberIDNumber}}</div>
@@ -332,7 +333,7 @@
                 </div>
             </el-dialog>
 
-            <el-dialog title="字辈歌信息" :visible.sync="dialogZbVisible" width="90%" :fullscreen="true">
+            <el-dialog title="字辈谱信息" :visible.sync="dialogZbVisible" width="90%" :fullscreen="true">
                 <div>
                     <template>
                         <el-table
@@ -600,15 +601,15 @@
                                                     value-format="yyyy-MM-dd"
                                                     style="width: 100%;"></el-date-picker>
                                 </el-form-item>
-                                <!--<el-form-item label="是否户主" prop="isFather">-->
-                                    <!--<el-radio-group v-model="addMemberForm.isFather">-->
-                                        <!--<el-radio label="1">是</el-radio>-->
-                                        <!--<el-radio label="0">否</el-radio>-->
-                                    <!--</el-radio-group>-->
-                                <!--</el-form-item>-->
-                                <!--<el-form-item label="与户主的关系" prop="memberRelation">-->
-                                    <!--<el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请输入关系名称"></el-input>-->
-                                <!--</el-form-item>-->
+                                <el-form-item label="是否户主" prop="isFather">
+                                    <el-radio-group v-model="addMemberForm.isFather">
+                                        <el-radio label="1">是</el-radio>
+                                        <el-radio label="0">否</el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+                                <el-form-item label="与户主的关系" prop="memberRelation">
+                                    <el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请输入关系名称"></el-input>
+                                </el-form-item>
                                 <el-form-item label="身份证号" prop="memberIDNumber">
                                     <el-input type="text" v-model="addMemberForm.memberIDNumber"></el-input>
                                 </el-form-item>
