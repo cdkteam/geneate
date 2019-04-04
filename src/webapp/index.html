@@ -82,12 +82,13 @@
                         </div>
 
 
-                        <el-card class="box-card" v-for="o in sublines_index" :key="o.subID">
+                        <el-card class="box-card" v-for="(o, index) in sublines_index" :key="o.subID">
                             <div slot="header" class="clearfix">
                                 <span>{{o.subName}}</span>
                                 <p style="color:#909399;font-size:.6rem;">地址：{{o.subAddress}}</p>
+                                <p style="color:#909399;font-size:.6rem;">总人数：{{o.sublineNumber}}人</p>
                                 <!--<el-button style="float: right; padding: 3px 0" type="text" @click="memberDetail">详情</el-button>-->
-                                <el-button style="float: right; padding: 3px 0" type="text">总人数：{{sublineNumber}}人</el-button>
+                                <!--<el-button style="float: right; padding: 3px 0" type="text">总人数：{{sublineNumber[index]}}人</el-button>-->
                             </div>
                             <div>
                                 <el-row style="display: flex;justify-content: space-between;">
@@ -320,7 +321,7 @@
                                     <div>民族：{{item.memberNation}}</div>
                                     <div>关系：{{item.memberRelation}}</div>
                                     <div>性别：{{item.memberSex}}</div>
-                                    <div>字辈歌：{{item.memberGenealogy}}</div>
+                                    <div>字辈谱：{{item.memberGenealogy}}</div>
                                     <div>身份证号：{{item.memberIDNumber}}</div>
                                 </el-collapse-item>
                             </el-collapse>
@@ -460,9 +461,9 @@
                                     <div>地址：{{item.memberAddress}}</div>
                                     <div>出生日期：{{item.memberBirthday}}</div>
                                     <div>民族：{{item.memberNation}}</div>
-                                    <!--<div>关系：{{item.memberRelation}}</div>-->
+                                    <div>关系：{{item.memberRelation}}</div>
                                     <div>性别：{{item.memberSex}}</div>
-                                    <div>字辈歌：{{item.memberGenealogy}}</div>
+                                    <div>字辈谱：{{item.memberGenealogy}}</div>
                                     <div>身份证号：{{item.memberIDNumber}}</div>
                                 </el-collapse-item>
                             </el-collapse>
@@ -520,7 +521,7 @@
                 </div>
             </el-dialog>
 
-            <el-dialog title="字辈歌信息" :visible.sync="dialogZbMessageVisible" width="90%" :fullscreen="true">
+            <el-dialog title="字辈谱信息" :visible.sync="dialogZbMessageVisible" width="90%" :fullscreen="true">
                 <div>
                     <el-row>
                         <el-col :span="24">

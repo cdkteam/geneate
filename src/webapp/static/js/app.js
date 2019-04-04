@@ -13,7 +13,6 @@ $(function () {
                 }
             };
             return {
-                sublineNumber:'',
                 sublineName:'',
                 news_contnet:'',
                 news_title:'',
@@ -229,7 +228,7 @@ $(function () {
                     // console.log(r);
                     _this.geneas = [];
                     _this.form.memberGenealogy = '';
-                    var arr = r.data[0].subGelogy.split(',');
+                    var arr = r.data[0].subGelogy.split('');
                     arr.forEach(function (value) {
                         var O = {};
                         O.subGelogy = value;
@@ -291,12 +290,12 @@ $(function () {
                 }
             });
 
-            this.getPeopleByFamilyID(sessionStorage.sublineID || localStorage.sublineID);
+            this.getPeopleByFamilyID(sessionStorage.sublineID || localStorage.sublineID, null);
         },
         methods: {
+            // 获取支系数据
             getSublineData:function() {
                 var _this = this;
-                // 获取支系数据
                 $.ajax({
                     type:"POST",
                     url:"/subline/sub_list",
@@ -307,7 +306,11 @@ $(function () {
                     success:function (r) {
                         console.log(r);
                         app_vue.sublines_index = [];
-                        app_vue.sublines_index = r.data;
+                        r.data.forEach(function (v, i) {
+                            // console.log(v);
+                            _this.getPeopleByFamilyID(v.subID, i, v);
+                        });
+                        // app_vue.sublines_index = r.data;
                     },
                     error:function () {
                         console.log('支系数据加载失败');
@@ -489,7 +492,7 @@ $(function () {
             // 打开支系成员页面
             branchMember:function(subID) {
                 this.dialogFormVisible = true;
-                this.getPeopleByFamilyID(subID);
+                this.getPeopleByFamilyID(subID, null);
             },
             // 打开字辈歌信息页面
             zbMemeber:function(subFamilyID) {
@@ -550,7 +553,7 @@ $(function () {
                 // console.log(val);
             },
             // 获取家族成员
-            getPeopleByFamilyID:function (subID) {
+            getPeopleByFamilyID:function (subID, index, v) {
                 var _this = this;
                 $.ajax({
                     type:"POST",
@@ -559,9 +562,13 @@ $(function () {
                         sublineID:subID
                     },
                     success:function (r) {
-                         console.log(r);
+                         // console.log(r);
                         if(r.code == 200) {
-                            _this.sublineNumber = r.data.length;
+                            // 设置每个支系的人数到数组中
+                            if(index != null) {
+                                v.sublineNumber = r.data.length;
+                                app_vue.sublines_index.push(v);
+                            }
                             //console.log(sublineNumber);
                             r.data.forEach(function (v, i) {
                                 var idNumber = v.memberIDNumber.split(''), newIdNumber = '';
