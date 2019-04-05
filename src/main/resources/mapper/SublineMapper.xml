@@ -12,7 +12,8 @@
         s.sublineGenealogy as subGelogy,
         s.sublineAddress as subAddress,
         f.familyName as subFamily,
-        s.sublineCode as subCode
+        s.sublineCode as subCode,
+        ifnull(s.subIntro, '') as subIntro
         from sublinetab s
         left join familytab f on s.sublineFamilyID = f.familyID
         where 1 = 1
@@ -56,8 +57,8 @@
 
     <insert id="insertSub" parameterType="com.logy.mode.Subline" useGeneratedKeys="true" keyColumn="id">
         insert into sublinetab
-        (sublineName, sublineGenealogy, sublineAddress, sublineFamilyID, sublineCreateDate, sublineCode)
-        values (#{subName}, #{subGelogy}, #{subAddress}, #{subFamilyID}, #{subCreateDate}, #{subCode})
+        (sublineName, sublineGenealogy, sublineAddress, sublineFamilyID, sublineCreateDate, sublineCode, subIntro)
+        values (#{subName}, #{subGelogy}, #{subAddress}, #{subFamilyID}, #{subCreateDate}, #{subCode}, #{subIntro})
     </insert>
 
     <delete id="delSubBatch" parameterType="java.util.List">
@@ -67,4 +68,26 @@
             #{item.subID}
         </foreach>
     </delete>
+
+    <update id="updateSub" parameterType="com.logy.form.SublineForm">
+        update sublinetab
+        <set>
+            <if test="subName != '' and subName != null">
+                sublineName = #{subName},
+            </if>
+            <if test="subGelogy != null and subGelogy != ''">
+                sublineGenealogy = #{subGelogy},
+            </if>
+            <if test="subAddress != null and subAddress != ''">
+                sublineAddress = #{subAddress},
+            </if>
+            <if test="subFamilyID != null">
+                sublineFamilyID = #{subFamilyID},
+            </if>
+            <if test="subIntro != null">
+                subIntro = #{subIntro},
+            </if>
+        </set>
+        where sublineID = #{subID}
+    </update>
 </mapper>
