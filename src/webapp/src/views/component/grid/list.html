@@ -103,7 +103,7 @@
         ,{field: 'id', title: '序号', type:'numbers', fixed: 'left'}
         ,{field: 'subName', title: '支系名称'}
         ,{field: 'subAddress', title: '支系地址'}
-        ,{field: 'subGelogy', title: '字辈歌'}
+        ,{field: 'subGelogy', title: '字辈谱'}
         ,{field: 'subFamily', title: '家族'}
         ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
       ]]
@@ -147,14 +147,50 @@
           layer.close(index);
         });
       } else if(obj.event === 'edit'){
-        layer.prompt({
-          formType: 2
-          ,value: data.email
-        }, function(value, index){
-          obj.update({
-            email: value
-          });
-          layer.close(index);
+        // console.log(data);
+        // 设置到本地缓存，以便articleform页面获取到
+        sessionStorage.subObj = JSON.stringify(data);
+        // 打开编辑对话框，内容来源是articleform页面
+        layer.open({
+          type: 2
+          ,title: '编辑'
+          ,content: '/bs_index?pageIndex=user_administrators_sublineEditeForm'
+          ,maxmin: true
+          ,area: ['1000px', '650px']
+          ,btn: ['确定', '取消']
+          ,yes: function(index, layero){ // 点击确定时的回调函数
+            var iframeWindow = window['layui-layer-iframe'+ index] // 获取子窗口window对象
+                    ,submitID = 'LAY-user-back-submit'
+                    ,submitLayFilterID = 'LAY-user-front-submit'
+                    ,submit = layero.find('iframe').contents().find('#'+ submitID);
+            //监听提交
+            iframeWindow.layui.form.on('submit('+ submitLayFilterID +')', function(data){
+              var field = data.field; //获取提交的字段
+              console.log(field);
+              field.subIntro = iframeWindow.editor.html();
+              $.ajax({
+                type:"POST",
+                url:"/subline/sub_i",
+                data: JSON.stringify(field),
+                contentType:"application/json;charset=utf-8",
+                success:function (res) {
+                  if(res.code === 200) {
+                    layer.msg('修改成功');
+                    table.reload('LAY-user-back-manage', {
+                      url:"/subline/sub_list"
+                    });
+                  }
+                },
+                error:function () {
+                  layer.msg('修改失败');
+                }
+              });
+
+              layer.close(index); //关闭弹层
+            });
+
+            submit.trigger('click');
+          }
         });
       }
     });
@@ -199,7 +235,7 @@
       ,add: function(){
         layer.open({
           type: 2
-          ,title: '添加管理员'
+          ,title: '添加新支系'
           ,content: '/bs_index?pageIndex=user_administrators_sublineform'
           ,area: ['420px', '420px']
           ,btn: ['确定', '取消']
@@ -221,7 +257,8 @@
               $.ajax({
                 type:"POST",
                 url:"/subline/sub_i",
-                data: field,
+                data: JSON.stringify(field),
+                contentType:"application/json;charset=utf-8",
                 success:function (res) {
                   if(res.code === 200) {
                     layer.msg('添加成功');
@@ -253,7 +290,7 @@
 </body>
 
 <script type="text/html" id="barDemo">
-  <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 

@@ -23,6 +23,7 @@ public class Subline implements Serializable {
     private String subCreateDate;
     private String subCode;
     private String subAddress;
+    private String subIntro;
 
     public Integer getSubID() {
         return subID;
@@ -86,5 +87,13 @@ public class Subline implements Serializable {
 
     public void setSubAddress(String subAddress) {
         this.subAddress = subAddress;
+    }
+
+    public String getSubIntro() {
+        return subIntro;
+    }
+
+    public void setSubIntro(String subIntro) {
+        this.subIntro = subIntro;
     }
 }

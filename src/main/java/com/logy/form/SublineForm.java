@@ -22,6 +22,8 @@ public class SublineForm {
 
     private String subAddress;
 
+    private String subIntro;
+
     private Integer page;
     private Integer limit;
 

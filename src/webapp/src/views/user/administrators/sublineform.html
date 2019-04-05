@@ -32,11 +32,9 @@
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">家族</label>
-      <div class="layui-input-block">
-        <select name="subFamilyID">
-          <option value="1">李氏家族</option>
-          <option value="2">张氏家族</option>
+      <label class="layui-form-label">支系家族</label>
+      <div class="layui-input-inline">
+        <select name="subFamilyID" lay-verify="required" lay-filter="familyFilter" id="subFamilyID">
         </select>
       </div>
     </div>
@@ -58,6 +56,26 @@
 
     form.on('submit(LAY-user-front-submit)', function(data){
       var field = data.field;
+    });
+
+    // 获取家族数据
+    $.ajax({
+      type:"POST",
+      url:"/family/fa_list",
+      success:function (r) {
+        // console.log(r);
+        var familyData = r.data;
+        $("#subFamilyID").children('option').remove();
+        $("#subFamilyID").append("<option value=''></option>");
+        for(var i = 0; i < familyData.length;i++) {
+          $("#subFamilyID").append("<option value='"+ familyData[i].familyID +"'>"+ familyData[i].familyName +"</option>");
+        }
+        form.render('select');
+        // _this.familys = r.data;
+      },
+      error:function () {
+        console.log('家族数据加载失败');
+      }
     });
 
   })

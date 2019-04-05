@@ -1,0 +1,138 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>支系编辑</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+</head>
+<body>
+
+  <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
+    <input type="hidden" name="subID" id="subID" class="layui-input">
+    <div class="layui-form-item">
+      <label class="layui-form-label">支系名称</label>
+      <div class="layui-input-inline">
+        <input type="text" name="subName" id="subName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">字辈谱</label>
+      <div class="layui-input-inline">
+        <input type="text" name="subGelogy" id="subGelogy" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">支系家族</label>
+      <div class="layui-input-inline">
+        <select name="subFamilyID" lay-verify="required" lay-filter="familyFilter" id="subFamilyID">
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">支系地址</label>
+      <div class="layui-input-inline">
+        <input type="text" name="subAddress" id="subAddress" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">支系介绍</label>
+      <div class="layui-input-block">
+        <textarea id="editor_id" name="subIntro" style="width:800px;height:450px;"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item layui-hide">
+      <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-back-submit" value="确认">
+    </div>
+  </div>
+
+  <script src="/static/layuiadmin/layui/layui.js"></script>
+  <!--引入帖子相关脚本-->
+  <script charset="utf-8" src="/static/kindeditor/kindeditor-all-min.js"></script>
+  <script charset="utf-8" src="/static/kindeditor/lang/zh-CN.js"></script>
+  <script>
+    // 加载富文本编辑器
+    KindEditor.ready(function(K) {
+      // 设置编辑器工具条
+      var options = {
+        items:[
+          'undo', 'redo', '|', 'preview', 'template', 'cut', 'copy', 'paste',
+          'plainpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+          'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+          'superscript', 'quickformat', 'selectall', '|', '/',
+          'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+          'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'table', 'hr', 'emoticons'
+        ]
+      };
+
+      window.editor = K.create('#editor_id', options);
+    });
+  </script>
+  <script>
+  layui.config({
+    base: '/static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'form', 'layer', 'laydate'], function(){
+    var $ = layui.$
+    ,form = layui.form;
+
+    var subObj = JSON.parse(sessionStorage.getItem('subObj'));
+
+    form.on('submit(LAY-user-front-submit)', function(data){
+      var field = data.field;
+
+    });
+
+    // 选择家族时触发
+    form.on('select(familyFilter)', function(data){
+      // console.log(data.elem); //得到select原始DOM对象
+      console.log(data.value); //得到被选中的值
+      // console.log(data.othis); //得到美化后的DOM对象
+    });
+
+    // 将本地缓存的信息存入输入框内进行回显
+    $("#subID").val(subObj.subID);
+    $("#subName").val(subObj.subName);
+    $("#subGelogy").val(subObj.subGelogy);
+    $("#subAddress").val(subObj.subAddress);
+    window.editor.html(subObj.subIntro);
+
+
+    // 获取家族数据
+    $.ajax({
+      type:"POST",
+      url:"/family/fa_list",
+      success:function (r) {
+        // console.log(r);
+        var familyData = r.data;
+        $("#subFamilyID").children('option').remove();
+        $("#subFamilyID").append("<option value=''></option>");
+        for(var i = 0; i < familyData.length;i++) {
+          // 若和选中编辑的支系家族ID相同，则显示选中状态
+          if(subObj.subFamilyID == familyData[i].familyID) {
+            $("#subFamilyID").append("<option value='"+ familyData[i].familyID +"' selected>"+ familyData[i].familyName +"</option>");
+          } else {
+            $("#subFamilyID").append("<option value='"+ familyData[i].familyID +"'>"+ familyData[i].familyName +"</option>");
+          }
+        }
+        form.render('select');
+        // _this.familys = r.data;
+      },
+      error:function () {
+        console.log('家族数据加载失败');
+      }
+    });
+
+  })
+  </script>
+</body>
+</html>

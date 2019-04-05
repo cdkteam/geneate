@@ -5,6 +5,7 @@ import com.logy.mode.Subline;
 import com.logy.service.inter.SublineService;
 import com.logy.utils.DataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +37,7 @@ public class SublineController {
      * @return
      */
     @RequestMapping("sub_i")
-    public DataResponse insertSub(Subline subline) {
+    public DataResponse insertSub(@RequestBody Subline subline) {
         return sublineService.insertSub(subline);
     }
 

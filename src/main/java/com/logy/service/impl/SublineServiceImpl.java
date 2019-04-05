@@ -6,10 +6,12 @@ import com.logy.form.SublineForm;
 import com.logy.mode.Subline;
 import com.logy.service.inter.SublineService;
 import com.logy.utils.DataResponse;
+import com.logy.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -41,14 +43,18 @@ public class SublineServiceImpl implements SublineService {
         return dataResponse;//返回响应数据对象
     }
 
+    @Transactional
     @Override
     public DataResponse insertSub(Subline subline) {
         DataResponse<Subline> dataResponse = new DataResponse<>();
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyyMMdd");
-        subline.setSubCreateDate(localDate.format(d));
-        subline.setSubCode(UUID.randomUUID().toString().replace("-", ""));
-        int result = sublineMapper.insertSub(subline);
+        int result = 0;
+        if(subline.getSubID() == null) {
+            subline.setSubCreateDate(DateUtils.getLocalDateNow().toString());
+            subline.setSubCode(UUID.randomUUID().toString().replace("-", ""));
+            result = sublineMapper.insertSub(subline);
+        } else {
+            result = sublineMapper.updateSub(subline);
+        }
         if(result <= 0) {
             dataResponse.setMessage("fail");
             dataResponse.setCode(500);
@@ -57,6 +63,7 @@ public class SublineServiceImpl implements SublineService {
         return dataResponse;
     }
 
+    @Transactional
     @Override
     public DataResponse delSubBatch(String subs) {
         DataResponse<Subline> dataResponse = new DataResponse<>();
