@@ -13,6 +13,7 @@ $(function () {
                 }
             };
             return {
+                searchType:'',
                 familyIntroContent:'',
                 familyName:'',
                 sublineName:'',
@@ -24,6 +25,7 @@ $(function () {
                 headImg:{
                     type:1
                 },
+                members_index:[],
                 sublines_index:[],
                 nations:[],
                 sublines:[],
@@ -277,6 +279,7 @@ $(function () {
             });
 
             this.getSublineData();
+            this.getMembers();
 
             // 加载帖子
             $.ajax({
@@ -318,6 +321,26 @@ $(function () {
                     }
                 });
             },
+            getMembers:function() {
+                var _this = this;
+
+                $.ajax({
+                    type:"POST",
+                    url:"/member/me_list",
+                    data:{
+                        memberFamilyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID,
+                        memberName:_this.sublineName
+                    },
+                    success:function (r) {
+                        // console.log(r);
+                        _this.members_index = r.data;
+                        console.log(_this.members_index);
+                    },
+                    error:function () {
+                        layer.msg('网络错误');
+                    }
+                });
+            },
             // 获取支系数据
             getSublineData:function() {
                 var _this = this;
@@ -344,7 +367,16 @@ $(function () {
             },
             // 支系搜索
             searchSubline:function() {
-              this.getSublineData();
+                var _this = this;
+                // console.log(_this.searchType);
+                switch (_this.searchType) {
+                    case '2':
+                        _this.getMembers();
+                        break;
+                    default:
+                        _this.getSublineData();
+                        break;
+                }
             },
             // 显示反馈数据
             showFb:function() {

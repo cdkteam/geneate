@@ -80,26 +80,56 @@
                         <!--支系搜索-->
                         <div>
                             <el-input :clearable="true" placeholder="搜索支系/成员" v-model="sublineName" class="input-with-select">
+                                <el-select v-model="searchType" slot="prepend" placeholder="支系" style="width:75px;">
+                                    <el-option label="支系" value="1"></el-option>
+                                    <el-option label="成员" value="2"></el-option>
+                                </el-select>
                                 <el-button slot="append" icon="el-icon-search" @click="searchSubline"></el-button>
                             </el-input>
                         </div>
 
 
-                        <el-card class="box-card" v-for="(o, index) in sublines_index" :key="o.subID">
+                        <el-card v-if="searchType != '2'" class="box-card" v-for="(o, index) in sublines_index" :key="o.subID">
                             <div slot="header" class="clearfix">
                                 <span>{{o.subName}}</span>
                                 <p style="color:#909399;font-size:.6rem;">地址：{{o.subAddress}}</p>
                                 <p style="color:#909399;font-size:.6rem;">总人数：{{o.sublineNumber}}人</p>
                                 <!--<el-button style="float: right; padding: 3px 0" type="text" @click="memberDetail">详情</el-button>-->
-                                <!--<el-button style="float: right; padding: 3px 0" type="text">总人数：{{sublineNumber[index]}}人</el-button>-->
                             </div>
                             <div>
                                 <el-row style="display: flex;justify-content: space-between;">
-                                    <el-button style="width:85px;height:30px;white-space: normal;font-size:.6rem;padding:5px;" @click="branchMember(o.subID)">支系成员</el-button>
-                                    <el-button type="primary" style="width:85px;height:30px;white-space: normal;font-size:.6rem;padding:5px;" @click="zbMemeber(o.subID)">字辈谱信息</el-button>
+                                    <el-button
+                                            style="width:85px;height:30px;white-space: normal;font-size:.6rem;padding:5px;"
+                                            @click="branchMember(o.subID)">
+                                        支系成员
+                                    </el-button>
+                                    <el-button type="primary"
+                                               style="width:85px;height:30px;white-space: normal;font-size:.6rem;padding:5px;"
+                                               @click="zbMemeber(o.subID)">
+                                        字辈谱信息
+                                    </el-button>
                                     <!--<el-button type="success" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="ageMemeber">年龄分布</el-button>-->
                                     <!--<el-button type="warning" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="wmMemeber">男女比例</el-button>-->
                                 </el-row>
+                            </div>
+                        </el-card>
+
+                        <el-card v-if="searchType == '2'" class="box-card" v-for="item in members_index" :key="item.memberID">
+                            <div slot="header" class="clearfix">
+                                <span>{{item.memberName}}</span>
+                                <el-button style="float: right; padding: 3px 0" type="text">
+                                    <img :src="item.memberHead" alt="" style="width:50px;height:50px;">
+                                </el-button>
+                            </div>
+                            <div class="text item">
+                                <div style="font-size: 12px;color:#909399;">地址：{{item.memberAddress}}</div>
+                                <div style="font-size: 12px;color:#909399;">出生日期：{{item.memberBirthday}}</div>
+                                <div style="font-size: 12px;color:#909399;">民族：{{item.memberNation}}</div>
+                                <!--<div>关系：{{item.memberRelation}}</div>-->
+                                <div style="font-size: 12px;color:#909399;">性别：{{item.memberSex}}</div>
+                                <div style="font-size: 12px;color:#909399;">字辈谱：{{item.memberGenealogy}}</div>
+                                <div style="font-size: 12px;color:#909399;">所属支系：{{item.sublineGenealogy}}</div>
+                                <!--<div>身份证号：{{item.memberIDNumber}}</div>-->
                             </div>
                         </el-card>
                     </div>
