@@ -268,9 +268,10 @@
                                 $.ajax({
                                     type:"POST",
                                     url:"/family/fa_i",
-                                    data:{
+                                    data:JSON.stringify({
                                         familyName:_this.addFamilyform.familyName
-                                    },
+                                    }),
+                                    contentType:"application/json;charset=utf-8",
                                     success:function (res) {
                                         if(res.code === 200) {
                                             _this.addFamilyform.familyName = '';
@@ -298,12 +299,13 @@
                                 $.ajax({
                                     type:"POST",
                                     url:"/subline/sub_i",
-                                    data:{
+                                    data:JSON.stringify({
                                         subName:_this.addSubform.subName,
                                         subGelogy:_this.addSubform.subGelogy,
                                         subAddress:_this.addSubform.subAddress,
                                         subFamilyID:_this.addSubform.subFamilyID
-                                    },
+                                    }),
+                                    contentType:"application/json;charset=utf-8",
                                     success:function (res) {
                                         if(res.code === 200) {
                                             _this.addSubform.familyName = '';
