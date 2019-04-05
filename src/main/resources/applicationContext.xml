@@ -17,4 +17,22 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 
     <import resource="classpath:spring-mybatis.xml" />
 
+    <!--API请求中JSON对象转实体类对象配置-->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jsonHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+    <!--配置结束-->
+
 </beans>
