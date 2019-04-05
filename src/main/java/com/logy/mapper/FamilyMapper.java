@@ -13,4 +13,5 @@ public interface FamilyMapper {
     Integer insertFamily(Family family);
     Integer delFamilyBatch(List<Family> fas);
     void updateFamilyNum(FamilyForm familyForm);
+    Integer updateFamily(Family family);
 }

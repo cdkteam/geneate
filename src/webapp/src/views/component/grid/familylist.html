@@ -20,7 +20,7 @@
         <div class="layui-inline">
           <label class="layui-form-label">家族</label>
           <div class="layui-input-block">
-            <select name="familyID">
+            <select name="familyID" id="familyID">
               <option value="">全部家族</option>
               <option value="1">李氏家族</option>
               <option value="2">张氏家族</option>
@@ -129,14 +129,48 @@
           layer.close(index);
         });
       } else if(obj.event === 'edit'){
-        layer.prompt({
-          formType: 2
-          ,value: data.email
-        }, function(value, index){
-          obj.update({
-            email: value
-          });
-          layer.close(index);
+        sessionStorage.familyObj = JSON.stringify(data);
+        // 打开编辑对话框，内容来源是articleform页面
+        layer.open({
+          type: 2
+          ,title: '编辑'
+          ,content: '/bs_index?pageIndex=user_administrators_familyEditeForm'
+          ,maxmin: true
+          ,area: ['1000px', '650px']
+          ,btn: ['确定', '取消']
+          ,yes: function(index, layero){ // 点击确定时的回调函数
+            var iframeWindow = window['layui-layer-iframe'+ index] // 获取子窗口window对象
+                    ,submitID = 'LAY-user-back-submit'
+                    ,submitLayFilterID = 'LAY-user-front-submit'
+                    ,submit = layero.find('iframe').contents().find('#'+ submitID);
+            //监听提交
+            iframeWindow.layui.form.on('submit('+ submitLayFilterID +')', function(data){
+              var field = data.field; //获取提交的字段
+              console.log(field);
+              field.familyIntro = iframeWindow.editor.html();
+              $.ajax({
+                type:"POST",
+                url:"/family/fa_i",
+                data: JSON.stringify(field),
+                contentType:"application/json;charset=utf-8",
+                success:function (res) {
+                  if(res.code === 200) {
+                    layer.msg('修改成功');
+                    table.reload('LAY-user-back-manage', {
+                      url:"/family/fa_list"
+                    });
+                  }
+                },
+                error:function () {
+                  layer.msg('修改失败');
+                }
+              });
+
+              layer.close(index); //关闭弹层
+            });
+
+            submit.trigger('click');
+          }
         });
       }
     });
@@ -183,7 +217,7 @@
           type: 2
           ,title: '添加家族'
           ,content: '/bs_index?pageIndex=user_administrators_familyform'
-          ,area: ['420px', '420px']
+          ,area: ['420px', '220px']
           ,btn: ['确定', '取消']
           ,yes: function(index, layero){
             var iframeWindow = window['layui-layer-iframe'+ index]
@@ -194,16 +228,12 @@
             iframeWindow.layui.form.on('submit('+ submitLayFilterID +')', function(data){
               var field = data.field; //获取提交的字段
               //提交 Ajax 成功后，静态更新表格中的数据
-              //$.ajax({});
-              if(field.adminPass != field.reviewPass) {
-                layer.msg('两次密码输入不相同');
-                return;
-              }
 
               $.ajax({
                 type:"POST",
                 url:"/family/fa_i",
-                data: field,
+                data: JSON.stringify(field),
+                contentType:"application/json;charset=utf-8",
                 success:function (res) {
                   if(res.code === 200) {
                     layer.msg('添加成功');
@@ -226,6 +256,25 @@
       }
     }
 
+    // 获取家族数据
+    $.ajax({
+      type:"POST",
+      url:"/family/fa_list",
+      success:function (r) {
+        // console.log(r);
+        var familyData = r.data;
+        $("#familyID").children('option').remove();
+        $("#familyID").append("<option value=''></option>");
+        for(var i = 0; i < familyData.length;i++) {
+          $("#familyID").append("<option value='"+ familyData[i].familyID +"'>"+ familyData[i].familyName +"</option>");
+        }
+        form.render('select');
+      },
+      error:function () {
+        console.log('家族数据加载失败');
+      }
+    });
+
     $('.layui-btn.layuiadmin-btn-admin').on('click', function(){
       var type = $(this).data('type');
       active[type] ? active[type].call(this) : '';
@@ -235,7 +284,7 @@
 </body>
 
 <script type="text/html" id="barDemo">
-  <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 

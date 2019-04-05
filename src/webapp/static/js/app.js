@@ -13,6 +13,8 @@ $(function () {
                 }
             };
             return {
+                familyIntroContent:'',
+                familyName:'',
                 sublineName:'',
                 news_contnet:'',
                 news_title:'',
@@ -46,6 +48,7 @@ $(function () {
                     resource: '',
                     desc: ''
                 },
+                subIntroDialog:false,
                 // 成员
                 dialogFormVisible:false,
                 dialogFamilyMemberVisible:false,
@@ -171,7 +174,9 @@ $(function () {
                     "修改密码",
                     "问题反馈"
                 ],
-                myloves:[],
+                myloves:[
+                    {imgUrl:"static/imgs/sublineIntro.jpg", id:1},
+                ],
                 familyCard:[
                     {img:"static/imgs/ml1.jpg", name:'龙洞湾向继耀支系'},
                     {img:"static/imgs/ml1.jpg", name:'龙洞湾向继耀支系'},
@@ -241,22 +246,22 @@ $(function () {
             });
 
             // 获取轮播图数据
-            $.ajax({
-                type:"POST",
-                url:"/img/carousel",
-                success:function (r) {
-                    // console.log(r);
-                    var imgData = [];
-                    r.forEach(function (v, i) {
-                        // console.log(v);
-                        imgData.push(v);
-                    });
-                    app_vue.myloves = imgData;
-                },
-                error:function () {
-                    console.log('轮播图加载失败');
-                }
-            })
+            // $.ajax({
+            //     type:"POST",
+            //     url:"/img/carousel",
+            //     success:function (r) {
+            //         // console.log(r);
+            //         var imgData = [];
+            //         r.forEach(function (v, i) {
+            //             // console.log(v);
+            //             imgData.push(v);
+            //         });
+            //         app_vue.myloves = imgData;
+            //     },
+            //     error:function () {
+            //         console.log('轮播图加载失败');
+            //     }
+            // })
 
             // 获取民族数据
             $.ajax({
@@ -293,6 +298,26 @@ $(function () {
             this.getPeopleByFamilyID(sessionStorage.sublineID || localStorage.sublineID, null);
         },
         methods: {
+            // 姓氏介绍
+            familyIntro:function () {
+                var _this = this;
+                this.subIntroDialog = true;
+                $.ajax({
+                    type:"POST",
+                    url:"/family/fa_list",
+                    data:{
+                        familyID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
+                    },
+                    success:function (r) {
+                        console.log(r);
+                        _this.familyIntroContent = r.data[0].familyIntro;
+                        _this.familyName = r.data[0].familyName;
+                    },
+                    error:function () {
+                        console.log('家族数据加载失败');
+                    }
+                });
+            },
             // 获取支系数据
             getSublineData:function() {
                 var _this = this;

@@ -7,6 +7,7 @@ package com.logy.form;
 public class FamilyForm {
     private Integer familyID;
     private String familyName;
+    private String familyIntro;
 
     private Integer page;
     private Integer limit;
@@ -41,5 +42,13 @@ public class FamilyForm {
 
     public void setLimit(Integer limit) {
         this.limit = limit;
+    }
+
+    public String getFamilyIntro() {
+        return familyIntro;
+    }
+
+    public void setFamilyIntro(String familyIntro) {
+        this.familyIntro = familyIntro;
     }
 }

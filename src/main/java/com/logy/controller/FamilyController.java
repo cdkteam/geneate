@@ -8,6 +8,7 @@ import com.logy.service.inter.FamilyService;
 import com.logy.service.inter.SublineService;
 import com.logy.utils.DataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,7 +43,7 @@ public class FamilyController {
      * @return
      */
     @RequestMapping("fa_i")
-    public DataResponse insertFamily(Family family, HttpServletRequest request) {
+    public DataResponse insertFamily(@RequestBody Family family, HttpServletRequest request) {
         return familyService.insertFamily(family, request);
     }
 

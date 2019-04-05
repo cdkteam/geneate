@@ -6,6 +6,7 @@ import com.logy.form.FamilyForm;
 import com.logy.mode.Family;
 import com.logy.service.inter.FamilyService;
 import com.logy.utils.DataResponse;
+import com.logy.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +51,13 @@ public class FamilyServiceImpl implements FamilyService {
     @Override
     public DataResponse insertFamily(Family family, HttpServletRequest request) {
         DataResponse<Family> dataResponse = new DataResponse<>();
-        LocalDate localDate = LocalDate.now();//获取系统当前时间
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyyMMdd");//格式化日期数据
-        family.setFamilyCreateDate(localDate.format(d));//将日期设置给家族对象
-        int result = familyMapper.insertFamily(family);//向数据库中插入家族
+        int result = 0;
+        if(family.getFamilyID() != null) {
+            family.setFamilyCreateDate(DateUtils.getLocalDateNow().toString());//将日期设置给家族对象
+            result = familyMapper.updateFamily(family);
+        } else {
+            result = familyMapper.insertFamily(family);//向数据库中插入家族
+        }
         if(result <= 0) {
             dataResponse.setMessage("fail");
             dataResponse.setCode(500);

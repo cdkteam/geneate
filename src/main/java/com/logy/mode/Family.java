@@ -15,6 +15,7 @@ public class Family implements Serializable {
     private String familyName;
     private Integer familyNum;
     private String familyCreateDate;
+    private String familyIntro;
 
     public Integer getFamilyID() {
         return familyID;
@@ -46,5 +47,13 @@ public class Family implements Serializable {
 
     public void setFamilyCreateDate(String familyCreateDate) {
         this.familyCreateDate = familyCreateDate;
+    }
+
+    public String getFamilyIntro() {
+        return familyIntro;
+    }
+
+    public void setFamilyIntro(String familyIntro) {
+        this.familyIntro = familyIntro;
     }
 }

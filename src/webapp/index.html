@@ -41,9 +41,12 @@
                     <!--首页-->
                     <div class="content-box active-box" id="app_index">
                         <div class="block">
-                            <el-carousel trigger="click" height="150px">
+                            <el-carousel
+                                    :autoplay="false"
+                                    arrow="never"
+                                    height="150px">
                                 <el-carousel-item v-for="item in myloves" :key="item.id">
-                                    <img :src="item.imgUrl" alt="" style="display: block;width:100%;height:100%;">
+                                    <img :src="item.imgUrl" @click="familyIntro" style="display: block;width:100%;height:100%;">
                                 </el-carousel-item>
                             </el-carousel>
                         </div>
@@ -309,6 +312,26 @@
                 </div>
 
             </el-container>
+
+            <el-dialog title="姓氏介绍" :visible.sync="subIntroDialog" width="90%" :fullscreen="true">
+                <div>
+                    <el-row>
+                        <el-col :span="24">
+                            <div class="grid-content bg-purple-dark" style="font-size:1.2rem;">{{familyName}}</div>
+                        </el-col>
+                        <!--<el-col :span="24" style="margin-top:10px;color:#909399;">-->
+                            <!--<div class="grid-content bg-purple-dark">{{news_familyName}} 发布日期：{{news_time}}</div>-->
+                        <!--</el-col>-->
+                        <el-col :span="24" style="margin-top:10px;color:#909399;">
+                            <div class="grid-content bg-purple-dark"
+                                 style="text-align: justify;text-justify:inter-ideograph;text-indent: 2em;line-height: 30px;"
+                                 v-html="familyIntroContent">
+                                {{familyIntroContent}}
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-dialog>
 
             <el-dialog title="支系成员" :visible.sync="dialogFormVisible" width="90%" :fullscreen="true">
                 <div>

@@ -49,4 +49,17 @@
         </set>
         where familyID = #{familyID}
     </update>
+
+    <update id="updateFamily" parameterType="com.logy.mode.Family">
+        update familytab
+        <set>
+            <if test="familyName != '' and familyName != null">
+                familyName = #{familyName},
+            </if>
+            <if test="familyIntro != null and familyIntro != ''">
+                familyIntro = #{familyIntro},
+            </if>
+        </set>
+        where familyID = #{familyID}
+    </update>
 </mapper>
