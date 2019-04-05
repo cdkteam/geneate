@@ -19,27 +19,24 @@
       <div class="layui-input-inline">
         <input type="text" name="newsTitle" id="newsTitle" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
       </div>
-    </div>
 
-    <div class="layui-form-item">
       <label class="layui-form-label">家族</label>
-      <div class="layui-input-block">
+      <div class="layui-input-inline">
         <select name="family" lay-verify="required" lay-filter="familyFilter" id="family">
         </select>
       </div>
-    </div>
 
-    <div class="layui-form-item">
       <label class="layui-form-label">支系</label>
-      <div class="layui-input-block">
+      <div class="layui-input-inline">
         <select name="subline" lay-verify="required" id="subline">
         </select>
       </div>
     </div>
 
     <div class="layui-form-item">
-      <div class="layui-input-inline">
-        <textarea id="editor_id" name="content" style="width:1000px;height:450px;"></textarea>
+      <label class="layui-form-label">帖子内容</label>
+      <div class="layui-input-block">
+        <textarea id="editor_id" name="content" style="width:810px;height:450px;"></textarea>
       </div>
     </div>
     <div class="layui-form-item layui-hide">
@@ -58,11 +55,11 @@
       var options = {
         items:[
           'undo', 'redo', '|', 'preview', 'template', 'cut', 'copy', 'paste',
-          'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+          'plainpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
           'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-          'superscript', 'clearhtml', 'quickformat', 'selectall', '|', '/',
+          'superscript', 'quickformat', 'selectall', '|', '/',
           'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-          'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'table', 'hr', 'emoticons'
+          'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'table', 'hr', 'emoticons'
         ]
       };
 
