@@ -37,4 +37,16 @@ public interface CountMapper {
      * @return
      */
     List<CountData> countSubline(CountForm countForm);
+
+    /**
+     * 家族支系统计
+     * @return
+     */
+    List<CountData> countFamSubline(CountForm countForm);
+
+    /**
+     * 民族分布
+     * @return
+     */
+    List<CountData> countByNation(CountForm countForm);
 }

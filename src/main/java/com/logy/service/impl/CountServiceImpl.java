@@ -45,6 +45,14 @@ public class CountServiceImpl implements CountService {
             case 4:
                 countData = countMapper.countSubline(countForm);
                 break;
+            // 家族支系统计
+            case 5:
+                countData = countMapper.countFamSubline(countForm);
+                break;
+            // 民族分布
+            case 6:
+                countData = countMapper.countByNation(countForm);
+                break;
         }
         if(countData == null) {
             response.setCode(500);

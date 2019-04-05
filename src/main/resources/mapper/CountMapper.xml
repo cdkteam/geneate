@@ -82,4 +82,23 @@
         GROUP BY CONVERT(memberGenealogy USING gbk)
     </select>
 
+    <select id="countFamSubline" parameterType="com.logy.form.CountForm" resultType="com.logy.mode.CountData">
+        select
+        count(s.sublineID) as sublineCount,
+        f.familyName
+        from
+        sublinetab s
+        left join familytab f on s.sublineFamilyID = f.familyID
+        GROUP BY f.familyName
+    </select>
+
+    <select id="countByNation" parameterType="com.logy.form.CountForm" resultType="com.logy.mode.CountData">
+        select
+        count(memberID) as nationCount,
+        memberNation
+        from
+        membertab
+        GROUP BY memberNation
+    </select>
+
 </mapper>

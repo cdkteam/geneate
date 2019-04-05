@@ -1,0 +1,223 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>家族支系统计</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="/static/layuiadmin/style/admin.css" media="all">
+  <script src="/static/js/echarts.min.js"></script>
+  <script src="/static/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+  
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md12">
+        <div class="layui-row layui-col-space15">
+          <div class="layui-col-md12">
+            <div class="layui-card">
+              <div class="layui-card-header">家族支系统计</div>
+              <div class="layui-card-body">
+                
+                <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade">
+                  <div carousel-item>
+                    <div>
+                      <div id="famSubCount" style="width:1607px;height:332px;"></div>
+                    </div>
+                    <!--<div>3</div>-->
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md12">
+        <div class="layui-row layui-col-space15">
+          <div class="layui-col-md12">
+            <div class="layui-card">
+              <div class="layui-card-header">民族分布</div>
+              <div class="layui-card-body">
+
+                <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade">
+                  <div carousel-item>
+                    <div>
+                      <div id="nationCount" style="width:1607px;height:332px;"></div>
+                    </div>
+                    <!--<div>3</div>-->
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/static/layuiadmin/layui/layui.js?t=1"></script>
+  <script>
+  layui.config({
+    base: '/static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'console'], function () {
+    var $ = layui.$;
+    // 家族支系统计容器初始化
+    var famSubCount = echarts.init(document.getElementById("famSubCount"));
+    var nationCount = echarts.init(document.getElementById("nationCount"));
+
+    var dayArray = [], dataArray = [];
+
+    // 初始化家族支系统计比例图参数
+    var famSubCountOption = {
+      title : {
+        text: '家族支系统计',
+        x:'center'
+      },
+      xAxis: {
+        name:'家族',
+        type: 'category',
+        data: []
+      },
+      tooltip : {
+          trigger: 'item',
+          formatter: "{b}<br/> 支系数量:{c} "
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: []
+      },
+      yAxis: {
+        name:'支系数量',
+        minInterval: 1,
+        type: 'value'
+      },
+      series: [{
+        data: [],
+        type: 'bar'
+      }]
+    };
+    var nationCountOption = {
+      title : {
+        text: '民族统计',
+        x:'center'
+      },
+      xAxis: {
+        name:'民族',
+        type: 'category',
+        data: []
+      },
+      tooltip : {
+          trigger: 'item',
+          formatter: "{b}<br/> 人数:{c} "
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: []
+      },
+      yAxis: {
+        name:'人数',
+        minInterval: 1,
+        type: 'value'
+      },
+      series: [{
+        data: [],
+        type: 'bar'
+      }]
+    };
+
+    // 容器设置参数
+    famSubCount.setOption(famSubCountOption);
+    nationCount.setOption(nationCountOption);
+
+    getfamSubCount();
+    getnationCount()
+
+    setInterval(function () {
+      getfamSubCount();
+    }, 3000);
+
+    setInterval(function () {
+      getnationCount();
+    }, 3000);
+
+    function getfamSubCount() {
+      $.ajax({
+        type:"POST",
+        url:"/count/c_index_data",
+        data:{
+          type:5
+        },
+        success:function (r) {
+          console.log(r);
+          var d = r.data;
+          var arr = [], name = [];
+          d.forEach(function (v, i) {
+            name.push(v.familyName);
+            arr.push(v.sublineCount);
+          });
+          famSubCount.setOption({
+            xAxis: {
+              data: name
+            },
+            series: [{
+              data: arr
+            }]
+          });
+        },
+        error:function (r) {
+          console.error('家族支系统计数据获取失败')
+        }
+      });
+    }
+
+    function getnationCount() {
+      $.ajax({
+        type:"POST",
+        url:"/count/c_index_data",
+        data:{
+          type:6
+        },
+        success:function (r) {
+          console.log(r);
+          var d = r.data;
+          var arr = [], name = [];
+          d.forEach(function (v, i) {
+            name.push(v.memberNation);
+            arr.push(v.nationCount);
+          });
+          nationCount.setOption({
+            xAxis: {
+              data: name
+            },
+            series: [{
+              data: arr
+            }]
+          });
+        },
+        error:function (r) {
+          console.error('民族分布统计数据获取失败')
+        }
+      });
+    }
+
+  });
+  </script>
+</body>
+</html>
+

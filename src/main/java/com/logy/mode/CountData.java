@@ -25,4 +25,12 @@ public class CountData implements Serializable {
     // 字辈分布
     private String mgName;
 
+    // 家族支系统计
+    private Integer sublineCount;
+    private String familyName;
+
+    // 民族分布
+    private Integer nationCount;
+    private String memberNation;
+
 }
