@@ -13,6 +13,11 @@ $(function () {
                 }
             };
             return {
+                relations:[
+                    {value:'之妻', name:'之妻'},
+                    {value:'之女', name:'之女'},
+                    {value:'之子', name:'之子'}
+                ],
                 searchType:'',
                 familyIntroContent:'',
                 familyName:'',
@@ -114,16 +119,17 @@ $(function () {
                 addMemberForm: {
                     repwd:"",
                     memberName: '',
-                    memberSex: '',
+                    memberSex: '1',
                     memberHead: '',
                     memberBirthday: '',
                     memberIDNumber: '',
+                    fatherIDNumber: '',
                     memberNation: '',
                     memberRelation: '',
                     memberGenealogy: '',
                     memberPass: '',
                     memberAddress: '',
-                    isFather: ''
+                    isFather: '0'
                 },
                 memberInfoForm: {
                     name: '',
@@ -445,6 +451,7 @@ $(function () {
                               memberPhone: _this.addMemberForm.memberPhone,
                               memberBirthday: _this.addMemberForm.memberBirthday,
                               memberIDNumber: _this.addMemberForm.memberIDNumber,
+                              fatherIDNumber: _this.addMemberForm.fatherIDNumber,
                               memberNation: _this.addMemberForm.memberNation,
                               memberRelation: _this.addMemberForm.memberRelation,
                               memberGenealogy: _this.addMemberForm.memberGenealogy,

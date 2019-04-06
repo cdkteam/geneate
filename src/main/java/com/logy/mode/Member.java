@@ -20,6 +20,7 @@ public class Member implements Serializable {
     private String memberName;
     private String memberBirthday;
     private String memberIDNumber;
+    private String fatherIDNumber;
     private String memberFamilyID;
     private Integer isFather;
     private Integer fatherID;
@@ -69,6 +70,14 @@ public class Member implements Serializable {
 
     public void setMemberIDNumber(String memberIDNumber) {
         this.memberIDNumber = memberIDNumber;
+    }
+
+    public String getFatherIDNumber() {
+        return fatherIDNumber;
+    }
+
+    public void setFatherIDNumber(String fatherIDNumber) {
+        this.fatherIDNumber = fatherIDNumber;
     }
 
     public String getMemberFamilyID() {

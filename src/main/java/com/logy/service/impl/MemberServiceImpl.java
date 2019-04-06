@@ -14,6 +14,7 @@ import com.logy.mode.Subline;
 import com.logy.service.inter.DailyActivityService;
 import com.logy.service.inter.MemberService;
 import com.logy.utils.DataResponse;
+import com.logy.utils.DateUtils;
 import com.logy.utils.UploadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -151,16 +152,20 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public DataResponse insertMember(Member member) {
         DataResponse<Member> dataResponse = new DataResponse<>();
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyyMMdd");
         int result = 0;
         if(member.getMemberID() != null) {
             result = memberMapper.updateMember(member);
         } else {
             FamilyForm familyForm = new FamilyForm();
+            // 查询父ID
+            MemberForm mf = new MemberForm();
+            mf.setMemberIDNumber(member.getFatherIDNumber());
+            Member m2 = memberMapper.queryAllMember(mf).get(0);
+            //*************/
             familyForm.setFamilyID(Integer.valueOf(member.getMemberFamilyID()));
-            member.setMemberCreateDate(localDate.format(d));
+            member.setMemberCreateDate(DateUtils.getLocalDateNow().toString());
             member.setMemberCode(UUID.randomUUID().toString().replace("-", ""));
+            member.setFatherID(m2.getMemberID());
             familyMapper.updateFamilyNum(familyForm);
             result = memberMapper.insertMember(member);
         }

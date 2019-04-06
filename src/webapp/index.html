@@ -661,8 +661,24 @@
                                         <el-radio label="0">否</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
-                                <el-form-item label="与户主的关系" prop="memberRelation">
-                                    <el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请输入关系名称"></el-input>
+
+                                <el-form-item v-if="addMemberForm.isFather == 0" label="户主身份证号" prop="memberIDNumber">
+                                    <el-input type="text" v-model="addMemberForm.fatherIDNumber"></el-input>
+                                </el-form-item>
+
+                                <el-form-item v-if="addMemberForm.isFather == 0" label="与户主的关系" prop="memberRelation">
+                                    <!--<el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请输入关系名称"></el-input>-->
+                                    <el-select v-model="addMemberForm.memberRelation"
+                                               :clearable="true"
+                                               placeholder="请选择">
+                                        <el-option
+                                                v-for="item in relations"
+                                                :key="item.value"
+                                                :label="item.value"
+                                                :value="item.name">
+                                            <span style="float: left">{{ item.name }}</span>
+                                        </el-option>
+                                    </el-select>
                                 </el-form-item>
                                 <el-form-item label="身份证号" prop="memberIDNumber">
                                     <el-input type="text" v-model="addMemberForm.memberIDNumber"></el-input>
