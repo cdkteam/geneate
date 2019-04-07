@@ -1,6 +1,6 @@
 package com.logy.form;
 
-import lombok.Data;
+
 
 
 public class CountForm {

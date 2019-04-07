@@ -1,6 +1,6 @@
 package com.logy.mode;
 
-import lombok.Data;
+
 
 /**
  *    反馈实体类

@@ -1,7 +1,6 @@
 package com.logy.mode;
 
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  *    图片类

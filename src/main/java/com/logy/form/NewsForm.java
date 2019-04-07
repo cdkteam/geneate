@@ -1,7 +1,6 @@
 package com.logy.form;
 
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 帖子消息Bean类

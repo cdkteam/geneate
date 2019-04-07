@@ -1,8 +1,7 @@
 package com.logy.form;
 
 
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 消息反馈Bean类

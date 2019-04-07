@@ -162,6 +162,7 @@ public class MemberServiceImpl implements MemberService {
             member.setFatherID(m2.getMemberID());
             member.setMemberRelation(m2.getMemberName() + member.getMemberRelation());
         }
+        member.setMemberRelation(m2.getMemberName() + member.getMemberRelation());
         if(member.getMemberID() != null) {
             result = memberMapper.updateMember(member);
         } else {
