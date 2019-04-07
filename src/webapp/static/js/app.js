@@ -444,13 +444,21 @@ $(function () {
                 }
                 this.$refs[formname].validate(function (valid) {
                   if(valid) {
+
+                      if (_this.addMemberForm.memberHead == '' || _this.addMemberForm.memberHead == null){
+                          if (_this.addMemberForm.memberSex == 1) {
+                              _this.addMemberForm.memberHead = "/static/imgs/man.png";
+                          }else{
+                              _this.addMemberForm.memberHead = "/static/imgs/women.png"
+                          }
+                      }
                       $.ajax({
                           type:"POST",
                           url:"/member/me_i",
                           data: {
                               memberName: _this.addMemberForm.memberName,
                               memberSex: _this.addMemberForm.memberSex,
-                              memberHead: _this.addMemberForm.memberHead,
+                              memberHead:_this.addMemberForm.memberHead,
                               memberPhone: _this.addMemberForm.memberPhone,
                               memberBirthday: _this.addMemberForm.memberBirthday,
                               memberIDNumber: _this.addMemberForm.memberIDNumber,
@@ -753,6 +761,13 @@ $(function () {
                 }, 2000);
                 // 重置用户信息表单branchMember
                 // this.$refs['userInfoForm'].resetFields();
+                if (l.userInfoForm.memberHead == '' || l.userInfoForm.memberHead == null){
+                    if (l.userInfoForm.memberSex == 1) {
+                        l.userInfoForm.memberHead = "/static/imgs/man.png";
+                    }else{
+                        l.userInfoForm.memberHead = "/static/imgs/women.png"
+                    }
+                }
                 $.ajax({
                     type:"POST",
                     url:"/member/me_i",
