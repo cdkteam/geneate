@@ -23,7 +23,7 @@
 
             <el-main id="xz_main">
                 <el-form ref="form" :model="form" status-icon :rules="rules" :label-position="labelPosition" label-width="80px">
-                    <el-form-item label="图片">
+                    <el-form-item label="头像">
                         <el-upload
                                 class="avatar-uploader"
                                 action="/upload/carsoule_upload"
@@ -69,16 +69,31 @@
                                         style="width: 100%;"></el-date-picker>
                     </el-form-item>
 
-                    <el-form-item label="是否户主" prop="isFather" v-show="false">
+                    <el-form-item label="是否户主" prop="isFather">
                         <el-radio-group v-model="form.isFather">
                             <el-radio label="1">是</el-radio>
                             <el-radio label="0">否</el-radio>
                         </el-radio-group>
                     </el-form-item>
 
-                    <el-form-item label="关系" prop="memberRelation" v-show="false">
-                        <el-input type="text" v-model="form.memberRelation" placeholder="请输入关系名称"></el-input>
+                    <el-form-item v-if="form.isFather == 0" label="户主身份证号" prop="memberIDNumber">
+                        <el-input type="text" v-model="form.fatherIDNumber"></el-input>
                     </el-form-item>
+
+                    <el-form-item v-if="form.isFather == 0" label="与户主的关系" prop="memberRelation">
+                        <el-select v-model="form.memberRelation"
+                                   :clearable="true"
+                                   placeholder="请选择">
+                            <el-option
+                                    v-for="item in relations"
+                                    :key="item.value"
+                                    :label="item.value"
+                                    :value="item.name">
+                                <span style="float: left">{{ item.name }}</span>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+
                     <el-form-item label="身份证号" prop="memberIDNumber">
                         <el-input type="text" v-model="form.memberIDNumber"></el-input>
                     </el-form-item>
@@ -108,6 +123,11 @@
                 el:"#app",
                 data:function () {
                     return {
+                        relations:[
+                            {value:'之妻', name:'之妻'},
+                            {value:'之女', name:'之女'},
+                            {value:'之子', name:'之子'}
+                        ],
                         headImg:{
                             type:1
                         },
@@ -116,16 +136,17 @@
                         imageUrl:"",
                         visible:false,
                         value3:true,
-                        labelPosition: 'left',
+                        labelPosition: 'top',
                         form: {
                             memberName: '',
-                            memberSex: '',
+                            memberSex: '1',
                             memberHead: '',
                             memberBirthday: '',
                             memberIDNumber: '',
+                            fatherIDNumber: '',
                             memberNation: '',
                             memberRelation: '',
-                            isFather: ''
+                            isFather: '0'
                         },
                         rules:{
                             memberName:[
@@ -136,6 +157,9 @@
                             ],
                             memberNation:[
                                 {required:true, message:"请选择民族", trigger: "blur"}
+                            ],
+                            memberRelation:[
+                                {required:true, message:"请选择关系", trigger: "blur"}
                             ]
                         }
                     }
@@ -173,6 +197,7 @@
                                 sessionStorage.memberHead = _this.form.memberHead;
                                 sessionStorage.memberBirthday = _this.form.memberBirthday;
                                 sessionStorage.memberIDNumber = _this.form.memberIDNumber;
+                                sessionStorage.fatherIDNumber = _this.form.fatherIDNumber;
                                 sessionStorage.memberNation = _this.form.memberNation;
                                 sessionStorage.memberRelation = _this.form.memberRelation;
                                 sessionStorage.isFather = _this.form.isFather;
