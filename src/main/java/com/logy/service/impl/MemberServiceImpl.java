@@ -181,6 +181,9 @@ public class MemberServiceImpl implements MemberService {
             member.setMemberCreateDate(DateUtils.getLocalDateNow().toString());
             member.setMemberCode(UUID.randomUUID().toString().replace("-", ""));
             familyMapper.updateFamilyNum(familyForm);
+            if (member.getMemberRelation() == "" ||member.getMemberRelation() == null ){
+                member.setMemberRelation("户主");
+            }
             result = memberMapper.insertMember(member);
         }
 

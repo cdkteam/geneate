@@ -71,7 +71,7 @@
 
                     <el-form-item label="是否户主" prop="isFather">
                         <el-radio-group v-model="form.isFather">
-                            <el-radio label="1">是</el-radio>
+                            <el-radio label="1" >是</el-radio>
                             <el-radio label="0">否</el-radio>
                         </el-radio-group>
                     </el-form-item>
@@ -145,8 +145,8 @@
                             memberIDNumber: '',
                             fatherIDNumber: '',
                             memberNation: '',
-                            memberRelation: '',
-                            isFather: '0'
+                            memberRelation: '户主',
+                            isFather: '1'
                         },
                         rules:{
                             memberName:[
