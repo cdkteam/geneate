@@ -441,16 +441,20 @@ $(function () {
                 var _this = this;
                 if(_this.addMemberForm.repwd != _this.addMemberForm.memberPass) {
                     this.$message.error('两次输入的密码不相同');
+                    return
+                }
+                if(_this.addMemberForm.memberName =="" || _this.addMemberForm.memberName == null) {
+                    this.$message.error("请输入姓名");
+                    return
                 }
                 this.$refs[formname].validate(function (valid) {
                   if(valid) {
-                      if (_this.addMemberForm.memberHead == '' || _this.addMemberForm.memberHead == null){
                           if (_this.addMemberForm.memberSex == 1) {
                               _this.addMemberForm.memberHead = "/static/imgs/man.png"
                           }else{
                               _this.addMemberForm.memberHead = "/static/imgs/women.png"
                           }
-                      }
+
                       $.ajax({
                           type:"POST",
                           url:"/member/me_i",
@@ -760,12 +764,10 @@ $(function () {
                 }, 2000);
                 // 重置用户信息表单branchMember
                 // this.$refs['userInfoForm'].resetFields();
-                if (l.userInfoForm.memberHead == '' || l.userInfoForm.memberHead == null){
-                    if (l.userInfoForm.memberSex == 1) {
-                        l.userInfoForm.memberHead = "/static/imgs/man.png";
-                    }else{
-                        l.userInfoForm.memberHead = "/static/imgs/women.png"
-                    }
+                if (_this.addMemberForm.memberSex == 1) {
+                    _this.addMemberForm.memberHead = "/static/imgs/man.png"
+                }else{
+                    _this.addMemberForm.memberHead = "/static/imgs/women.png"
                 }
                 $.ajax({
                     type:"POST",

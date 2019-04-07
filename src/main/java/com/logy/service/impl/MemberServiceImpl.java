@@ -102,6 +102,25 @@ public class MemberServiceImpl implements MemberService {
         }
         if(memberList.size() > 0) {
             for (Member m : memberList) {
+                if (!m.getMemberRelation().contains("之妻")){
+                    MemberordersublineDto dto = new MemberordersublineDto();
+                    for (Member m2 : memberList) {
+                        if (m2.getMemberName().contains(m.getMemberName()) ){
+                            dto.setSublineName(m2.getMemberGenealogy());
+                            dto.getMembers().add(m2);
+                        }
+                        if (m2.getMemberRelation().contains(m.getMemberName().substring(0,m.getMemberName().indexOf("(")))
+                                && m2.getMemberRelation().contains("之妻")){
+                            dto.setSublineName(m2.getMemberGenealogy());
+                            dto.getMembers().add(m2);
+                        }
+                    }
+                    memberordersublineDtos.add(dto);
+                }
+
+            }
+
+            /*for (Member m : memberList) {
                 if(memberordersublineDtos.size() == 0) {
                     MemberordersublineDto dto = new MemberordersublineDto();
                     dto.setSublineName(m.getMemberGenealogy());
@@ -123,7 +142,7 @@ public class MemberServiceImpl implements MemberService {
                     //     memberordersublineDtos.add(dto);
                     // }
                 }
-            }
+            }*/
         }
         if(memberordersublineDtos.size() == 0) {
             dataResponse.setMessage("fail");
