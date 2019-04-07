@@ -389,9 +389,17 @@
                         this.$refs[formName].validate(function (valid) {
                             if (valid) {
                                 // 新增家庭成员
+                                if (sessionStorage.memberHead == '' || sessionStorage.memberHead == null){
+                                    if (sessionStorage.memberSex == 1) {
+                                        sessionStorage.memberHead = "/static/imgs/man.png";
+                                    }else{
+                                        sessionStorage.memberHead = "/static/imgs/women.png"
+                                    }
+                                }
                                 $.ajax({
                                     type:"POST",
                                     url:"/member/me_i",
+
                                     data:{
                                         isFather:sessionStorage.isFather,
                                         memberBirthday:sessionStorage.memberBirthday,
