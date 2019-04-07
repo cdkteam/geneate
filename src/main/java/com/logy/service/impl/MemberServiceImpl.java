@@ -59,6 +59,9 @@ public class MemberServiceImpl implements MemberService {
             dataResponse.setCode(404);
             dataResponse.setMessage("fail");
         } else {
+            for (int i = 0; i < memberList.size(); i++) {
+                memberList.get(i).setMemberName(memberList.get(i).getMemberName() + "(" + memberList.get(i).getMemberRelation() + ")");
+            }
             int memberCount = memberMapper.countMember(memberForm);//统计成员数量
             dataResponse.setData(memberList);//向返回对象中设置查询到的所有成员
             dataResponse.setPageCount(memberCount);//向返回对象中设置条数
@@ -75,6 +78,9 @@ public class MemberServiceImpl implements MemberService {
     public DataResponse queryMyMembers(MemberForm memberForm) {
         DataResponse<List<Member>> dataResponse = new DataResponse<>();
         List<Member> memberList = memberMapper.queryMyMembers(memberForm);
+        for (int i = 0; i < memberList.size(); i++) {
+            memberList.get(i).setMemberName(memberList.get(i).getMemberName() + "(" + memberList.get(i).getMemberRelation() + ")");
+        }
         dataResponse.setData(memberList);
         return dataResponse;
     }
@@ -91,6 +97,9 @@ public class MemberServiceImpl implements MemberService {
         sublineForm.setSubFamilyID(memberForm.getMemberFamilyID());
         List<MemberordersublineDto> memberordersublineDtos = new ArrayList<>();
         List<Member> memberList = memberMapper.queryMyMembers(memberForm);
+        for (int i = 0; i < memberList.size(); i++) {
+            memberList.get(i).setMemberName(memberList.get(i).getMemberName() + "(" + memberList.get(i).getMemberRelation() + ")");
+        }
         if(memberList.size() > 0) {
             for (Member m : memberList) {
                 if(memberordersublineDtos.size() == 0) {
@@ -134,6 +143,7 @@ public class MemberServiceImpl implements MemberService {
         DataResponse<Member> dataResponse = new DataResponse<>();
         Member member = memberMapper.queryMemberByPhoneAndPass(memberForm);
         if(member != null) {
+            member.setMemberName(member.getMemberName() + "(" + member.getMemberRelation() + ")");
             dataResponse.setData(member);
             dailyActivityService.insertDailyActivity();
         } else {
@@ -162,7 +172,7 @@ public class MemberServiceImpl implements MemberService {
             member.setFatherID(m2.getMemberID());
             member.setMemberRelation(m2.getMemberName() + member.getMemberRelation());
         }
-        member.setMemberRelation(m2.getMemberName() + member.getMemberRelation());
+        //member.setMemberRelation(m2.getMemberName() + member.getMemberRelation());
         if(member.getMemberID() != null) {
             result = memberMapper.updateMember(member);
         } else {
