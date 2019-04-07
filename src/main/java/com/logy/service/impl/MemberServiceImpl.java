@@ -152,16 +152,18 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public DataResponse insertMember(Member member) {
         DataResponse<Member> dataResponse = new DataResponse<>();
+        Member m2 = new Member();
         int result = 0;
         if(member.getMemberID() != null) {
             result = memberMapper.updateMember(member);
         } else {
             FamilyForm familyForm = new FamilyForm();
-            // 查询父ID
-            MemberForm mf = new MemberForm();
-            mf.setMemberIDNumber(member.getFatherIDNumber());
-            Member m2 = memberMapper.queryAllMember(mf).get(0);
-            //*************/
+            if(member.getFatherIDNumber() != null) {
+                // 查询父ID
+                MemberForm mf = new MemberForm();
+                mf.setMemberIDNumber(member.getFatherIDNumber());
+                m2 = memberMapper.queryAllMember(mf).get(0);
+            }
             familyForm.setFamilyID(Integer.valueOf(member.getMemberFamilyID()));
             member.setMemberCreateDate(DateUtils.getLocalDateNow().toString());
             member.setMemberCode(UUID.randomUUID().toString().replace("-", ""));
