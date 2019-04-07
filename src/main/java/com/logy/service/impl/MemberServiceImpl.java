@@ -154,20 +154,21 @@ public class MemberServiceImpl implements MemberService {
         DataResponse<Member> dataResponse = new DataResponse<>();
         Member m2 = new Member();
         int result = 0;
+        if(member.getFatherIDNumber() != null) {
+            // 查询父ID
+            MemberForm mf = new MemberForm();
+            mf.setMemberIDNumber(member.getFatherIDNumber());
+            m2 = memberMapper.queryAllMember(mf).get(0);
+            member.setFatherID(m2.getMemberID());
+            member.setMemberRelation(m2.getMemberName() + member.getMemberRelation());
+        }
         if(member.getMemberID() != null) {
             result = memberMapper.updateMember(member);
         } else {
             FamilyForm familyForm = new FamilyForm();
-            if(member.getFatherIDNumber() != null) {
-                // 查询父ID
-                MemberForm mf = new MemberForm();
-                mf.setMemberIDNumber(member.getFatherIDNumber());
-                m2 = memberMapper.queryAllMember(mf).get(0);
-            }
             familyForm.setFamilyID(Integer.valueOf(member.getMemberFamilyID()));
             member.setMemberCreateDate(DateUtils.getLocalDateNow().toString());
             member.setMemberCode(UUID.randomUUID().toString().replace("-", ""));
-            member.setFatherID(m2.getMemberID());
             familyMapper.updateFamilyNum(familyForm);
             result = memberMapper.insertMember(member);
         }

@@ -104,16 +104,19 @@ $(function () {
                 memberDetailPosition:'top',
                 // 个人资料表单
                 userInfoForm: {
+                    isFather:'0',
                     memberID:'',
                     memberName: '',
                     memberNation: '',
                     memberIDNumber: '',
+                    fatherIDNumber: '',
                     memberPhone: '',
                     memberBirthday: '',
                     memberAddress: '',
                     memberGenealogy: '',
                     memberHead: '',
-                    memberSex: '男'
+                    memberSex: '男',
+                    memberRelation: ''
                 },
                 // 添加成员表单
                 addMemberForm: {
@@ -755,14 +758,17 @@ $(function () {
                     url:"/member/me_i",
                     data:{
                         memberID:l.userInfoForm.memberID,
+                        isFather:l.userInfoForm.isFather,
                         memberName:l.userInfoForm.memberName,
                         memberNation:l.userInfoForm.memberNation,
                         memberIDNumber:l.userInfoForm.memberIDNumber,
+                        fatherIDNumber:l.userInfoForm.fatherIDNumber,
                         memberPhone:l.userInfoForm.memberPhone,
                         memberBirthday:l.userInfoForm.memberBirthday,
                         memberAddress:l.userInfoForm.memberAddress,
                         memberHead:l.userInfoForm.memberHead,
                         memberSex:l.userInfoForm.memberSex,
+                        memberRelation:l.userInfoForm.memberRelation,
                         memberGenealogy:l.userInfoForm.memberGenealogy
                     },
                     success:function (r) {

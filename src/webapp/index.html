@@ -211,7 +211,7 @@
                 <!--个人资料-->
                 <div id="personal_info">
                     <el-form style="margin-top:10px;" v-loading="loading" :label-position="labelPosition" :model="userInfoForm" :rules="rules" ref="userInfoForm" label-width="100px" class="demo-ruleForm">
-                        <el-form-item label="图片">
+                        <el-form-item label="头像">
                             <el-upload
                                     class="avatar-uploader"
                                     action="/upload/carsoule_upload"
@@ -276,6 +276,32 @@
                                 <el-radio label="0">女</el-radio>
                             </el-radio-group>
                         </el-form-item>
+
+                        <el-form-item label="是否户主" prop="isFather">
+                            <el-radio-group v-model="userInfoForm.isFather">
+                                <el-radio label="1">是</el-radio>
+                                <el-radio label="0">否</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item v-if="userInfoForm.isFather == 0" label="户主身份证号" prop="fatherIDNumber">
+                            <el-input type="text" v-model="userInfoForm.fatherIDNumber"></el-input>
+                        </el-form-item>
+
+                        <el-form-item v-if="userInfoForm.isFather == 0" label="与户主的关系" prop="memberRelation">
+                            <el-select v-model="userInfoForm.memberRelation"
+                                       :clearable="true"
+                                       placeholder="请选择">
+                                <el-option
+                                        v-for="item in relations"
+                                        :key="item.value"
+                                        :label="item.value"
+                                        :value="item.name">
+                                    <span style="float: left">{{ item.name }}</span>
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+
                         <el-form-item>
                             <el-button type="primary" @click="saveUserInfo('userInfoForm')" style="float: right;">保存</el-button>
                         </el-form-item>
@@ -663,12 +689,11 @@
                                     </el-radio-group>
                                 </el-form-item>
 
-                                <el-form-item v-if="addMemberForm.isFather == 0" label="户主身份证号" prop="memberIDNumber">
+                                <el-form-item v-if="addMemberForm.isFather == 0" label="户主身份证号" prop="fatherIDNumber">
                                     <el-input type="text" v-model="addMemberForm.fatherIDNumber"></el-input>
                                 </el-form-item>
 
                                 <el-form-item v-if="addMemberForm.isFather == 0" label="与户主的关系" prop="memberRelation">
-                                    <!--<el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请输入关系名称"></el-input>-->
                                     <el-select v-model="addMemberForm.memberRelation"
                                                :clearable="true"
                                                placeholder="请选择">
@@ -681,6 +706,7 @@
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
+
                                 <el-form-item label="身份证号" prop="memberIDNumber">
                                     <el-input type="text" v-model="addMemberForm.memberIDNumber"></el-input>
                                 </el-form-item>
