@@ -441,10 +441,9 @@ $(function () {
                 }
                 this.$refs[formname].validate(function (valid) {
                   if(valid) {
-
                       if (_this.addMemberForm.memberHead == '' || _this.addMemberForm.memberHead == null){
                           if (_this.addMemberForm.memberSex == 1) {
-                              _this.addMemberForm.memberHead = "/static/imgs/man.png";
+                              _this.addMemberForm.memberHead = "/static/imgs/man.png"
                           }else{
                               _this.addMemberForm.memberHead = "/static/imgs/women.png"
                           }
@@ -682,14 +681,14 @@ $(function () {
                         // case 1:
                         //     _this.dialogRelationVisible = true;
                         //     break;
-                        // 字辈歌信息
+                        // 字辈谱信息
                         case 1:
                             _this.dialogZbMessageVisible = true;
                             $.ajax({
                                 type:"POST",
                                 url:"/member/me_my_order_sub",
                                 data:{
-                                    memberID:sessionStorage.memberFamilyID || localStorage.memberFamilyID
+                                    sublineID:sessionStorage.sublineID || localStorage.sublineID
                                 },
                                 success:function (r) {
                                     console.log(r);
