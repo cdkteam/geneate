@@ -18,6 +18,10 @@ $(function () {
                     {value:'之女', name:'之女'},
                     {value:'之子', name:'之子'}
                 ],
+                memberIcon:'/static/imgs/member_icon.png',
+                relationIcon:'/static/imgs/relation_icon.png',
+                statisticsIcon:'/static/imgs/statistics_icon.png',
+                mineIcon:'/static/imgs/mine_icon.png',
                 searchType:'',
                 familyIntroContent:'',
                 familyName:'',
@@ -102,6 +106,7 @@ $(function () {
                 labelPosition:'left',
                 memberPosition:'right',
                 memberDetailPosition:'left',
+
                 // 个人资料表单
                 userInfoForm: {
                     isFather:'0',
