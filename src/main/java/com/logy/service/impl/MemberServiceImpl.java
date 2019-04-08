@@ -183,7 +183,9 @@ public class MemberServiceImpl implements MemberService {
         DataResponse<Member> dataResponse = new DataResponse<>();
         Member m2 = new Member();
         int result = 0;
-
+        if (member.getMemberName().contains("(")){
+            member.setMemberName(member.getMemberName().substring(0,member.getMemberName().indexOf("(")));
+        }
         if(member.getFatherIDNumber().length() == 18) {
             // 查询父ID
             MemberForm mf = new MemberForm();

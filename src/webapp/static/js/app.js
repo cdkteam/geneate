@@ -101,7 +101,7 @@ $(function () {
                 // 个人资料form表单验证
                 labelPosition:'left',
                 memberPosition:'right',
-                memberDetailPosition:'top',
+                memberDetailPosition:'left',
                 // 个人资料表单
                 userInfoForm: {
                     isFather:'0',
