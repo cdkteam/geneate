@@ -449,11 +449,15 @@ $(function () {
                 }
                 this.$refs[formname].validate(function (valid) {
                   if(valid) {
+                      if (_this.addMemberForm.memberHead == "/static/imgs/man.png"
+                          || _this.addMemberForm.memberHead == "/static/imgs/women.png"
+                          || _this.addMemberForm.memberHead =="") {
                           if (_this.addMemberForm.memberSex == 1) {
                               _this.addMemberForm.memberHead = "/static/imgs/man.png"
-                          }else{
+                          } else {
                               _this.addMemberForm.memberHead = "/static/imgs/women.png"
                           }
+                      }
 
                       $.ajax({
                           type:"POST",
@@ -481,6 +485,8 @@ $(function () {
                                       type:'success',
                                       message:'添加成功'
                                   });
+                                  _this.dialogAddMemeberVisible = false;
+                                  done();
                               }
                           },
                           error:function () {
@@ -764,10 +770,14 @@ $(function () {
                 }, 2000);
                 // 重置用户信息表单branchMember
                 // this.$refs['userInfoForm'].resetFields();
-                if (_this.addMemberForm.memberSex == 1) {
-                    _this.addMemberForm.memberHead = "/static/imgs/man.png"
-                }else{
-                    _this.addMemberForm.memberHead = "/static/imgs/women.png"
+                if (l.addMemberForm.memberHead == "/static/imgs/man.png"
+                    || l.addMemberForm.memberHead == "/static/imgs/women.png"
+                    || l.addMemberForm.memberHead =="") {
+                    if (l.addMemberForm.memberSex == 1) {
+                        l.addMemberForm.memberHead = "/static/imgs/man.png"
+                    } else {
+                        l.addMemberForm.memberHead = "/static/imgs/women.png"
+                    }
                 }
                 $.ajax({
                     type:"POST",
@@ -844,6 +854,7 @@ $(function () {
 
                             // 更新我的页面中的头像
                             l.memberHead = l.userInfoForm.memberHead;
+
                         }
                     },
                     error:function () {

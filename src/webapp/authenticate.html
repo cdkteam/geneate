@@ -70,9 +70,9 @@
                     </el-form-item>
 
                     <el-form-item label="是否户主" prop="isFather">
-                        <el-radio-group v-model="form.isFather">
+                        <el-radio-group v-model="form.isFather == 1">
                             <el-radio label="1" >是</el-radio>
-                            <el-radio label="0">否</el-radio>
+                            <el-radio label="0" >否</el-radio>
                         </el-radio-group>
                     </el-form-item>
 
@@ -80,7 +80,11 @@
                         <el-input type="text" v-model="form.fatherIDNumber"></el-input>
                     </el-form-item>
 
-                    <el-form-item v-if="form.isFather == 0" label="与户主的关系" prop="memberRelation">
+                    <el-form-item v-if="addMemberForm.isFather == 0" label="与户主的关系" prop="memberRelation">
+                        <el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请填写：之妻、长次子女"></el-input>
+                    </el-form-item>
+
+                    <!--<el-form-item v-if="form.isFather == 0" label="与户主的关系" prop="memberRelation">
                         <el-select v-model="form.memberRelation"
                                    :clearable="true"
                                    placeholder="请选择">
@@ -92,7 +96,7 @@
                                 <span style="float: left">{{ item.name }}</span>
                             </el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item>-->
 
                     <el-form-item label="身份证号" prop="memberIDNumber">
                         <el-input type="text" v-model="form.memberIDNumber"></el-input>

@@ -183,11 +183,14 @@ public class MemberServiceImpl implements MemberService {
         DataResponse<Member> dataResponse = new DataResponse<>();
         Member m2 = new Member();
         int result = 0;
-        if(member.getFatherIDNumber() != null) {
+
+        if(member.getFatherIDNumber().length() == 18) {
             // 查询父ID
             MemberForm mf = new MemberForm();
             mf.setMemberIDNumber(member.getFatherIDNumber());
-            m2 = memberMapper.queryAllMember(mf).get(0);
+            List<Member> memberList = memberMapper.queryAllMember(mf);
+
+            m2 = memberList.get(0);
             member.setFatherID(m2.getMemberID());
             member.setMemberRelation(m2.getMemberName() + member.getMemberRelation());
         }
@@ -204,6 +207,7 @@ public class MemberServiceImpl implements MemberService {
                 member.setMemberRelation("户主");
             }
             result = memberMapper.insertMember(member);
+
         }
 
         if(result <= 0) {
