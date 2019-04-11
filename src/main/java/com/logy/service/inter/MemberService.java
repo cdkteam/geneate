@@ -14,4 +14,6 @@ public interface MemberService {
     DataResponse insertMember(Member member);
     DataResponse delMemberBatch(String mes);
     DataResponse ChangeMemberPwd(MemberForm memberForm);
+
+    DataResponse queryMember(MemberForm memberForm);
 }

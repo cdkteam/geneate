@@ -81,7 +81,7 @@ public class NewsServiceImpl implements NewsService {
             //如果用户对象不等于空
             if(user != null) {
                 //将消息的家族ID设置为用户的家族ID
-                news.setNewsFamilyID(user.getAdminID().longValue());
+                news.setCreateUser(user.getAdminID().longValue()+"");
             }
             //消息的时间设置为当前系统的时间
             news.setNewsTime(DateUtils.getLocalDateNow().toString());

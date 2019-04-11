@@ -26,6 +26,12 @@
         and memberPhone = #{memberPhone}
         and memberPass = MD5(#{memberPass})
     </select>
+    <select id="queryMember" parameterType="com.logy.form.MemberForm" resultType="com.logy.mode.Member">
+        select
+        *
+        from membertab
+        where  memberPhone = #{memberPhone}
+    </select>
 
     <select id="queryAllMember" parameterType="com.logy.form.MemberForm" resultType="com.logy.mode.Member">
         select

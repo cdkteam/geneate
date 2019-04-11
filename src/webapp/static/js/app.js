@@ -64,6 +64,7 @@ $(function () {
             };
 
             return {
+                userInfoRequestlDialog:false,
                 treeData: {},
                 landscape: [],
                 data: {
@@ -123,6 +124,18 @@ $(function () {
                 sublines_index:[],
                 nations:[],
                 sublines:[],
+                /*sublines_genealogy:{
+                    subAddress:"",
+                    subGelogy:"",
+                    subName:"",
+                    subCode:"",
+                    subCreateDate:"",
+                    subFamily:"",
+                    subFamilyID:"",
+                    subID:"",
+                    subIntro:""
+                },*/
+                sublines_genealogy:[],
                 geneas:[],
                 activeNames: ['1'],
                 members: [],
@@ -191,7 +204,21 @@ $(function () {
                 labelPosition:'left',
                 memberPosition:'right',
                 memberDetailPosition:'left',
-
+                userInfoRequest:{
+                    isFather:'',
+                    memberID:'',
+                    memberName: '',
+                    memberNation: '',
+                    memberIDNumber: '',
+                    fatherIDNumber: '',
+                    memberPhone: '',
+                    memberBirthday: '',
+                    memberAddress: '',
+                    memberGenealogy: '',
+                    memberHead: '',
+                    memberSex: '',
+                    memberRelation: ''
+                },
                 // 个人资料表单
                 userInfoForm: {
                     isFather:'0',
@@ -270,7 +297,7 @@ $(function () {
                 mylinks:[
                     "家庭成员",
                      //"关系图谱",
-                    "字辈谱信息",
+                    "关系图谱",
                     "个人资料",
                     "修改密码",
                     "问题反馈"
@@ -534,6 +561,46 @@ $(function () {
                 }
                 return isJPG && isLt2M;
             },
+
+            select_person:function(memberPhone){
+                this.userInfoRequestlDialog = true;
+                var _this = this;
+                $.ajax({
+                    type:"POST",
+                    url:"/member/me_query",
+                    data: {
+                        memberPhone:memberPhone
+                    },
+                    success:function (res) {
+                        if(res.code === 200) {
+                            if ( res.data.isFather === 1) {
+                                _this.userInfoRequest.isFather = "是";
+                            }else{
+                                _this.userInfoRequest.isFather = "否";
+                            }
+                            _this.userInfoRequest.memberID = res.data.memberID;
+                            _this.userInfoRequest.memberName = res.data.memberName;
+                            _this.userInfoRequest.memberNation = res.data.memberNation;
+                            _this.userInfoRequest.memberIDNumber = res.data.memberIDNumber;
+                            _this.userInfoRequest.fatherIDNumber = res.data.fatherIDNumber+'';
+                            _this.userInfoRequest.memberPhone = res.data.memberPhone;
+                            _this.userInfoRequest.memberBirthday = res.data.memberBirthday;
+                            _this.userInfoRequest.memberAddress = res.data.memberAddress;
+                            _this.userInfoRequest.memberGenealogy = res.data.memberGenealogy;
+                            _this.userInfoRequest.memberHead = res.data.memberHead;
+                            if ( res.data.memberSex === 1) {
+                                _this.userInfoRequest.memberSex = "男";
+                            }else{
+                                _this.userInfoRequest.memberSex = "女";
+                            }
+                            _this.userInfoRequest.memberRelation = res.data.memberRelation;
+                        }
+                    },
+                    error:function () {
+                        _this.$message.error('添加失败');
+                    }
+                });
+            },
             // 添加成员
             addMemberFunc:function(formname) {
                 var _this = this;
@@ -678,7 +745,8 @@ $(function () {
             },
             // 打开字辈歌信息页面
             zbMemeber:function(sublineID) {
-                this.dialogZbVisible = true;
+                this.getRelationShipImage(sublineID);
+                /*this.dialogZbVisible = true;
                 var _this = this;
                 $.ajax({
                     type:"POST",
@@ -701,7 +769,7 @@ $(function () {
                     error:function () {
                         console.error('字辈分布数据获取失败');
                     }
-                });
+                });*/
             },
             relationMember:function(sublineID) {
                 this.dialogRelationVisible = true;
@@ -758,6 +826,43 @@ $(function () {
             },
             handleChange:function(val) {
                 // console.log(val);
+            },
+            getRelationShipImage:function(sublineID){
+                var _this = this;
+                _this.dialogZbMessageVisible = true;
+                $.ajax({
+                    type:"POST",
+                    url:"/subline/sub_list",
+                    data:{
+                        sublineID:sublineID
+
+                    },
+                    success:function (r) {
+                        console.log(r);
+                        _this.sublines_genealogy = r.data;
+
+                    },
+                    error:function () {
+                        console.log('支系数据加载失败');
+                    }
+                });
+                $.ajax({
+                    type:"POST",
+                    url:"/member/me_my_order_sub",
+                    data:{
+                        sublineID:sublineID
+                    },
+                    success:function (r) {
+                        console.log(r);
+                        if(r.code == 200) {
+                            _this.sublines = r.data;
+                        }
+                        layer.closeAll();
+                    },
+                    error:function () {
+                        layer.msg('网络错误');
+                    }
+                })
             },
             // 获取家族成员
             getPeopleByFamilyID:function (subID, index, v) {
@@ -818,26 +923,10 @@ $(function () {
                             _this.dialogRelationVisible = true;
 
                             break;*/
-                        // 字辈谱信息
+                        // 关系图谱
                         case 1:
-                            _this.dialogZbMessageVisible = true;
-                            $.ajax({
-                                type:"POST",
-                                url:"/member/me_my_order_sub",
-                                data:{
-                                    sublineID:sessionStorage.sublineID || localStorage.sublineID
-                                },
-                                success:function (r) {
-                                    console.log(r);
-                                    if(r.code == 200) {
-                                        _this.sublines = r.data;
-                                    }
-                                    layer.closeAll();
-                                },
-                                error:function () {
-                                    layer.msg('网络错误');
-                                }
-                            })
+                            var sublineID = sessionStorage.sublineID || localStorage.sublineID;
+                            _this.getRelationShipImage(sublineID);
                             break;
                         // 个人资料
                         case 2:
@@ -885,6 +974,7 @@ $(function () {
                     }
                 });
             },
+
             // 保存个人资料
             saveUserInfo:function (form) {
                 var l = this;

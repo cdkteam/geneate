@@ -253,6 +253,8 @@ public class MemberServiceImpl implements MemberService {
         if(member.getFatherIDNumber().length() == 18) {
             // 查询父ID
             MemberForm mf = new MemberForm();
+            mf.setMemberFamilyID(Integer.valueOf(member.getMemberFamilyID()));
+            mf.setSublineID(member.getSublineID());
             mf.setMemberIDNumber(member.getFatherIDNumber());
             List<Member> memberList = memberMapper.queryAllMember(mf);
 
@@ -321,6 +323,21 @@ public class MemberServiceImpl implements MemberService {
         } else {
             dataResponse.setCode(404);
             dataResponse.setMessage("旧密码错误");
+        }
+        return dataResponse;
+    }
+
+    @Override
+    public DataResponse queryMember(MemberForm memberForm) {
+        DataResponse<Member> dataResponse = new DataResponse<>();
+        List<Member> members = memberMapper.queryMember(memberForm);
+        if (members.size() > 0){
+            Member member = members.get(0);
+            member.setMemberName(member.getMemberName() + "(" + member.getMemberRelation() + ")");
+            dataResponse.setData(member);
+        } else {
+            dataResponse.setCode(404);
+            dataResponse.setMessage("fail");
         }
         return dataResponse;
     }

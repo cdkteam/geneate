@@ -28,7 +28,7 @@ public class NewsController {
      * @return
      */
     @RequestMapping("news_list")
-    public DataResponse queryAllFeedback(NewsForm newsForm) {
+    public DataResponse queryAllNews(NewsForm newsForm) {
         return newsService.queryAllNews(newsForm);
     }
 
@@ -39,7 +39,7 @@ public class NewsController {
      * @return
      */
     @RequestMapping("news_i")
-    public DataResponse insertFeedback(News news, HttpServletRequest request) {
+    public DataResponse insertNews(News news, HttpServletRequest request) {
         return newsService.insertNews(news, request);
     }
 
@@ -49,7 +49,7 @@ public class NewsController {
      * @return
      */
     @RequestMapping("news_d_list")
-    public DataResponse delFeedbackBatch(String news) {
+    public DataResponse delNewsBatch(String news) {
         return newsService.delNewsBatch(news);
     }
 

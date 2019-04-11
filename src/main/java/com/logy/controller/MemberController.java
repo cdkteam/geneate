@@ -35,6 +35,11 @@ public class MemberController {
         return memberService.queryMemberByPhoneAndPass(memberForm);
     }
 
+    @RequestMapping("me_query")
+    public DataResponse queryMember(MemberForm memberForm) {
+        return memberService.queryMember(memberForm);
+    }
+
     /**
      * 查询所有的成员
      * @param memberForm

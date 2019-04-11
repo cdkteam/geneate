@@ -239,7 +239,7 @@ p {
 }
 
 /*个人资料*/
-#personal_info, #member_info, #feedback_info, #changepass_info {
+#personal_info, #person_info, #member_info, #feedback_info, #changepass_info {
     display:none;
 }
 

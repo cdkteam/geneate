@@ -159,7 +159,7 @@
                                     <el-button type="primary"
                                                style="width:85px;height:30px;white-space: normal;font-size:.6rem;padding:5px;"
                                                @click="zbMemeber(o.subID)">
-                                        字辈谱信息
+                                        关系图谱
                                     </el-button>
                                     <!--<el-button type="success" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="ageMemeber">年龄分布</el-button>-->
                                     <!--<el-button type="warning" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="wmMemeber">男女比例</el-button>-->
@@ -345,8 +345,8 @@
                         <el-form-item v-if="userInfoForm.isFather == 0" label="户主身份证号" prop="fatherIDNumber">
                             <el-input type="text" v-model="userInfoForm.fatherIDNumber"></el-input>
                         </el-form-item>
-                        <el-form-item v-if="addMemberForm.isFather == 0" label="与户主的关系" prop="memberRelation">
-                            <el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请填写：之妻、长次子女"></el-input>
+                        <el-form-item v-if="userInfoForm.isFather == 0" label="与户主的关系" prop="memberRelation">
+                            <el-input type="text" v-model="userInfoForm.memberRelation" placeholder="请填写：之妻、长次子女"></el-input>
                         </el-form-item>
 
                         <!--<el-form-item v-if="userInfoForm.isFather == 0" label="与户主的关系" prop="memberRelation">
@@ -477,7 +477,7 @@
                 </div>
             </el-dialog>
 
-            <el-dialog title="字辈谱信息" :visible.sync="dialogZbVisible" width="90%" :fullscreen="true">
+            <el-dialog title="关系图谱" :visible.sync="dialogZbVisible" width="90%" :fullscreen="true">
                 <div>
                     <template>
                         <el-table
@@ -622,19 +622,37 @@
                 </div>
             </el-dialog>
 
-            <el-dialog title="字辈谱信息" :visible.sync="dialogZbMessageVisible" width="90%" :fullscreen="true">
+            <el-dialog title="关系图谱" :visible.sync="dialogZbMessageVisible" width="90%" :fullscreen="true">
                 <div>
                     <el-row>
                         <el-col :span="24">
-                            <el-form :label-position="memberDetailPosition" label-width="20px">
+                            <el-form :label-position="memberDetailPosition" label-width="0px">
                                 <el-form-item label="">
+                                    <el-card class="box-card">
+                                        <el-row v-for="genealogy in sublines_genealogy">
+                                            <el-col :span="24">
+                                                支系名称：{{genealogy.subName}}
+                                            </el-col>
+                                        </el-row>
+                                        <el-row v-for="genealogy in sublines_genealogy">
+                                            <el-col :span="24">
+                                                支系地址：{{genealogy.subAddress}}
+                                            </el-col>
+                                        </el-row>
+                                        <el-row v-for="genealogy in sublines_genealogy">
+                                            <el-col :span="24">
+                                                字辈谱：{{genealogy.subGelogy}}
+                                            </el-col>
+                                        </el-row>
+                                    </el-card>
+
                                     <el-row v-for="s in sublines">
                                         <el-col :span="0">
                                             {{s.sublineName}}
                                         </el-col>
-                                        <el-col :span="12" v-for="m in s.members">
-                                            <img :src="m.memberHead" alt="" style="display: block;width:80px;height:80px;">
-                                            <p style="line-height: 30px;">
+                                        <el-col :span="12" v-for="m in s.members" >
+                                            <img :src="m.memberHead" alt="" style="display: block;width:80px;height:80px;alignment: center"  @click="select_person(m.memberPhone)">
+                                            <p style="line-height: 30px;text-align: center"  @click="select_person(m.memberPhone)">
                                                 {{m.memberName}}
                                             </p>
                                         </el-col>
@@ -795,6 +813,65 @@
                 <el-button @click="dialogSignOutVisible = false">取 消</el-button>
                 <el-button type="primary" @click="generaterSignOut">确 定</el-button>
               </span>
+            </el-dialog>
+
+            <!--个人信息查看-->
+            <el-dialog title="个人信息" :visible.sync="userInfoRequestlDialog" width="90%" :fullscreen="true">
+                <el-form style="margin-top:10px;" v-loading="loading"
+                         :label-position="labelPosition" :model="userInfoRequest"
+                          ref="userInfoRequest" label-width="100px" class="demo-ruleForm">
+                    <el-form-item label="头像">
+                        <el-upload
+                                class="avatar-uploader"
+                                action="/upload/carsoule_upload"
+                                :data="headImg"
+                                name="carsouleImageFile"
+                                :show-file-list="false"
+                                :on-success="handleAvatarSuccessPersonData"
+                                :before-upload="beforeAvatarUploadPersonData">
+                            <img v-if="userInfoRequest.memberHead" :src="userInfoRequest.memberHead" class="avatar":disabled="true">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过200KB</div>
+                        </el-upload>
+                    </el-form-item>
+                    <el-form-item label="姓名" prop="memberName">
+                        <el-input v-model="userInfoRequest.memberName":disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="民族" prop="memberNation">
+                        <el-input v-model="userInfoRequest.memberNation":disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份证号" prop="memberIDNumber">
+                        <el-input v-model="userInfoRequest.memberIDNumber":disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="手机号码" prop="memberPhone">
+                        <el-input v-model="userInfoRequest.memberPhone":disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="出生年月" prop="memberBirthday">
+                        <el-input v-model="userInfoRequest.memberBirthday":disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="家庭住址" prop="memberAddress">
+                        <el-input v-model="userInfoRequest.memberAddress":disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="字辈" prop="memberGenealogy">
+                        <el-input v-model="userInfoRequest.memberGenealogy":disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别" prop="memberSex">
+                        <el-input v-model="userInfoRequest.memberSex":disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="是否户主" prop="isFather">
+                        <el-input v-model="userInfoRequest.isFather":disabled="true"></el-input>
+                    </el-form-item>
+                  <!--  <el-form-item v-if="userInfoRequest.isFather == '否'" label="户主身份证号" prop="fatherIDNumber">
+                        <el-input type="text" v-model="userInfoRequest.fatherIDNumber":disabled="true"></el-input>
+                    </el-form-item>-->
+                    <el-form-item v-if="userInfoRequest.isFather == '否'" label="与户主的关系" prop="memberRelation">
+                        <el-input type="text" v-model="userInfoRequest.memberRelation" :disabled="true"></el-input>
+                    </el-form-item>
+
+                    <el-form-item>
+                        <el-button type="primary" @click="userInfoRequestlDialog = false" style="float: right;" :disabled="false">返回</el-button>
+                    </el-form-item>
+                </el-form>
             </el-dialog>
         </div>
 
