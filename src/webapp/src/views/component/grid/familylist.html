@@ -159,6 +159,8 @@
                     table.reload('LAY-user-back-manage', {
                       url:"/family/fa_list"
                     });
+                  }else if (res.code === 300) {
+                    layer.msg('已有该家族，添加失败');
                   }
                 },
                 error:function () {
@@ -240,6 +242,8 @@
                     table.reload('LAY-user-back-manage', {
                       url:"/family/fa_list"
                     });
+                  }else if (res.code === 300) {
+                    layer.msg('已有该家族，添加失败');
                   }
                 },
                 error:function () {

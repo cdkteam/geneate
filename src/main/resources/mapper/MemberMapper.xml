@@ -76,10 +76,11 @@
         <if test="memberNation != null and memberNation != ''">
             and m.memberNation = #{memberNation}
         </if>
-        order by m.memberID desc
+        order by m.memberSex desc,m.memberBirthday
         <if test="page != null and limit != null">
         limit #{page}, #{limit}
         </if>
+
     </select>
 
     <select id="countMember" parameterType="com.logy.form.MemberForm" resultType="java.lang.Integer">
@@ -244,6 +245,7 @@
         left join sublinetab sub on me.sublineID = sub.sublineID
         where 1 = 1
         and me.sublineID = #{sublineID}
+        order by fatherID,memberSex desc,memberBirthday
     </select>
 
 </mapper>

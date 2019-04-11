@@ -66,6 +66,16 @@ public class MemberController {
     }
 
     /**
+     * 查询关系图谱
+     * @param memberForm
+     * @return
+     */
+    @RequestMapping("query_member_relation")
+    public DataResponse queryMemberRelation(MemberForm memberForm) {
+        return memberService.queryMemberRelation(memberForm);
+    }
+
+    /**
      * 向数据库中插入家庭成员
      * @param member
      * @return

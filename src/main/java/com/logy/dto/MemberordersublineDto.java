@@ -15,9 +15,10 @@ import java.util.List;
  * @return
  */
 
-public class MemberordersublineDto {
+public class MemberordersublineDto implements Comparable<MemberordersublineDto>{
     private String sublineName;
     private List<Member> members = new ArrayList<>();
+    private int index;
 
     public String getSublineName() {
         return sublineName;
@@ -33,5 +34,18 @@ public class MemberordersublineDto {
 
     public void setMembers(List<Member> members) {
         this.members = members;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    @Override
+    public int compareTo(MemberordersublineDto o) {
+        return this.index - o.index;
     }
 }

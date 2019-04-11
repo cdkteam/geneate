@@ -7,6 +7,7 @@
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="/static/css/all.css">
+    <link rel="stylesheet" href="/static/css/treechart.css">
     <link rel="shortcut icon" href="/static/imgs/icon/_favicon.ico">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -86,22 +87,22 @@
 
                                 <el-row>
                                     <el-col :span="6">
-                                        <div style="text-align: center;margin-top:10px;" >
+                                        <div style="text-align: center;margin-top:10px;" @click="icon_change(1)">
                                             成员列表
                                         </div>
                                     </el-col>
                                     <el-col :span="6">
-                                        <div style="text-align: center;margin-top:10px;" >
+                                        <div style="text-align: center;margin-top:10px;" @click="icon_change(2)">
                                             统计图
                                         </div>
                                     </el-col>
                                     <el-col :span="6">
-                                        <div style="text-align: center;margin-top:10px;" >
+                                        <div style="text-align: center;margin-top:10px;" @click="myLinksDetail(1, $event)">
                                             关系图谱
                                         </div>
                                     </el-col>
                                     <el-col :span="6">
-                                        <div style="text-align: center;margin-top:10px;" >
+                                        <div style="text-align: center;margin-top:10px;" @click="icon_change(3)">
                                             个人中心
                                         </div>
                                     </el-col>
@@ -162,6 +163,11 @@
                                     </el-button>
                                     <!--<el-button type="success" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="ageMemeber">年龄分布</el-button>-->
                                     <!--<el-button type="warning" style="width:45px;height:50px;white-space: normal;font-size:.6rem;padding:5px;" @click="wmMemeber">男女比例</el-button>-->
+                                    <!--<el-button type="warning"
+                                               style="width:85px;height:30px;white-space: normal;font-size:.6rem;padding:5px;"
+                                               @click="relationMember(o.subID)" v-show="false">
+                                        关系图谱
+                                    </el-button>-->
                                 </el-row>
                             </div>
                         </el-card>
@@ -446,8 +452,11 @@
 
             <el-dialog title="支系成员" :visible.sync="dialogFormVisible" width="90%" :fullscreen="true">
                 <div>
+
                     <el-row>
                         <el-col :span="24">
+
+                            <el-button type="primary" icon="el-icon-plus" plain @click="addMemeber">添加成员</el-button>
                             <el-collapse v-model="activeNames" @change="handleChange" v-for="item in members">
                                 <el-collapse-item :title="item.memberName">
                                     <div>地址：{{item.memberAddress}}</div>
@@ -608,50 +617,8 @@
             </el-dialog>
 
             <el-dialog title="关系图谱" :visible.sync="dialogRelationVisible" width="90%" :fullscreen="true">
-                <div>
-                    <el-row>
-                        <el-col :span="24">
-                            <el-form :label-position="memberDetailPosition" label-width="20px">
-                                <el-form-item label="">
-                                    <el-row>
-                                        <el-col :span="4">
-                                            增
-                                        </el-col>
-                                        <el-col :span="10">
-                                            <img src="/static/imgs/ml1.jpg" alt="" style="display: block;width:80px;height:80px;">
-                                            <p style="line-height: 30px;">
-                                                张飞
-                                            </p>
-                                        </el-col>
-                                        <el-col :span="10">
-                                            <img src="/static/imgs/ml1.jpg" alt="" style="display: block;width:80px;height:80px;">
-                                            <p style="line-height: 30px;">
-                                                关羽关羽关羽关羽关羽关羽关羽关羽
-                                            </p>
-                                        </el-col>
-                                    </el-row>
-
-                                    <el-row>
-                                        <el-col :span="4">
-                                            增
-                                        </el-col>
-                                        <el-col :span="10">
-                                            <img src="/static/imgs/ml1.jpg" alt="" style="display: block;width:80px;height:80px;">
-                                            <p style="line-height: 30px;">
-                                                张飞
-                                            </p>
-                                        </el-col>
-                                        <el-col :span="10">
-                                            <img src="/static/imgs/ml1.jpg" alt="" style="display: block;width:80px;height:80px;">
-                                            <p style="line-height: 30px;">
-                                                关羽关羽关羽关羽关羽关羽关羽关羽
-                                            </p>
-                                        </el-col>
-                                    </el-row>
-                                </el-form-item>
-                            </el-form>
-                        </el-col>
-                    </el-row>
+                <div >
+                    <tree_chart :json="data" :class="{landscape: landscape.length}" @click-node="clickNode" v-model="activeNames"/>
                 </div>
             </el-dialog>
 
@@ -662,10 +629,10 @@
                             <el-form :label-position="memberDetailPosition" label-width="20px">
                                 <el-form-item label="">
                                     <el-row v-for="s in sublines">
-                                        <el-col :span="4">
+                                        <el-col :span="0">
                                             {{s.sublineName}}
                                         </el-col>
-                                        <el-col :span="10" v-for="m in s.members">
+                                        <el-col :span="12" v-for="m in s.members">
                                             <img :src="m.memberHead" alt="" style="display: block;width:80px;height:80px;">
                                             <p style="line-height: 30px;">
                                                 {{m.memberName}}

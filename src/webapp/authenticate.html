@@ -22,7 +22,7 @@
             </el-header>
 
             <el-main id="xz_main">
-                <el-form ref="form" :model="form" status-icon :rules="rules" :label-position="labelPosition" label-width="80px">
+                <el-form ref="form" :model="form" status-icon :rules="rules" :label-position="labelPosition" label-width="120px">
                     <el-form-item label="头像">
                         <el-upload
                                 class="avatar-uploader"
@@ -70,18 +70,18 @@
                     </el-form-item>
 
                     <el-form-item label="是否户主" prop="isFather">
-                        <el-radio-group v-model="form.isFather == 1">
+                        <el-radio-group v-model="form.isFather">
                             <el-radio label="1" >是</el-radio>
                             <el-radio label="0" >否</el-radio>
                         </el-radio-group>
                     </el-form-item>
 
-                    <el-form-item v-if="form.isFather == 0" label="户主身份证号" prop="memberIDNumber">
+                    <el-form-item v-if="form.isFather == 0" label="户主身份证" prop="fatherIDNumber">
                         <el-input type="text" v-model="form.fatherIDNumber"></el-input>
                     </el-form-item>
 
-                    <el-form-item v-if="addMemberForm.isFather == 0" label="与户主的关系" prop="memberRelation">
-                        <el-input type="text" v-model="addMemberForm.memberRelation" placeholder="请填写：之妻、长次子女"></el-input>
+                    <el-form-item v-if="form.isFather == 0" label="与户主关系" prop="memberRelation">
+                        <el-input type="text" v-model="form.memberRelation" placeholder="请填写：之妻、长次子女"></el-input>
                     </el-form-item>
 
                     <!--<el-form-item v-if="form.isFather == 0" label="与户主的关系" prop="memberRelation">
@@ -140,7 +140,7 @@
                         imageUrl:"",
                         visible:false,
                         value3:true,
-                        labelPosition: 'top',
+                        labelPosition: 'left',
                         form: {
                             memberName: '',
                             memberSex: '1',
@@ -149,21 +149,27 @@
                             memberIDNumber: '',
                             fatherIDNumber: '',
                             memberNation: '',
-                            memberRelation: '户主',
-                            isFather: '1'
+                            memberRelation: '',
+                            isFather: '0'
                         },
                         rules:{
+                            memberBirthday:[
+                                {required:true, message:"请选择出生年月", trigger: "blur"}
+                            ],
                             memberName:[
                                 {required:true, message:"请输入真实姓名", trigger: "blur"}
                             ],
                             memberIDNumber:[
                                 {required:true, message:"请输入身份证号码", trigger: "blur"}
                             ],
+                            fatherIDNumber:[
+                                {required:true, message:"请输入身份证号码", trigger: "blur"}
+                            ],
                             memberNation:[
                                 {required:true, message:"请选择民族", trigger: "blur"}
                             ],
                             memberRelation:[
-                                {required:true, message:"请选择关系", trigger: "blur"}
+                                {required:true, message:"请输入关系", trigger: "blur"}
                             ]
                         }
                     }

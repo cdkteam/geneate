@@ -9,6 +9,7 @@ public interface MemberService {
     DataResponse queryAllMember(MemberForm memberForm);
     DataResponse queryMyMembers(MemberForm memberForm);
     DataResponse queryMembersOrderBySubline(MemberForm memberForm);
+    DataResponse queryMemberRelation(MemberForm memberForm);
     DataResponse queryMemberByPhoneAndPass(MemberForm memberForm);
     DataResponse insertMember(Member member);
     DataResponse delMemberBatch(String mes);

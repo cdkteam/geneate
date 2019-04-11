@@ -10,6 +10,7 @@ import com.logy.mapper.MemberMapper;
 import com.logy.form.MemberForm;
 import com.logy.mapper.SublineMapper;
 import com.logy.mode.Member;
+import com.logy.mode.MemberRelation;
 import com.logy.mode.Subline;
 import com.logy.service.inter.DailyActivityService;
 import com.logy.service.inter.MemberService;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -94,30 +96,46 @@ public class MemberServiceImpl implements MemberService {
     public DataResponse queryMembersOrderBySubline(MemberForm memberForm) {
         DataResponse<List<MemberordersublineDto>> dataResponse = new DataResponse<>();
         SublineForm sublineForm = new SublineForm();
-        sublineForm.setSubFamilyID(memberForm.getMemberFamilyID());
+        sublineForm.setSublineID(memberForm.getSublineID());
         List<MemberordersublineDto> memberordersublineDtos = new ArrayList<>();
         List<Member> memberList = memberMapper.queryMyMembers(memberForm);
         for (int i = 0; i < memberList.size(); i++) {
-            memberList.get(i).setMemberName(memberList.get(i).getMemberName() + "(" + memberList.get(i).getMemberRelation() + ")");
+            if (!memberList.get(i).getMemberRelation().contains("之妻")) {
+                memberList.get(i).setMemberName(memberList.get(i).getMemberName() + "[" + memberList.get(i).getMemberGenealogy() + "]" + "(" + memberList.get(i).getMemberRelation() + ")");
+
+            }else{
+                memberList.get(i).setMemberName(memberList.get(i).getMemberName() +
+                        "(" + memberList.get(i).getMemberRelation() + ")");
+            }
         }
+        List<Subline> sublineList  = sublineMapper.queryAllSubline(sublineForm);
+        /*
+        if (sublineList.size() > 0){
+            MemberordersublineDto dto = new MemberordersublineDto();
+            dto.setIndex(-1);
+            dto.setSublineName(sublineList.get(0).getSubGelogy());
+            memberordersublineDtos.add(dto);
+        }*/
         if(memberList.size() > 0) {
             for (Member m : memberList) {
                 if (!m.getMemberRelation().contains("之妻")){
                     MemberordersublineDto dto = new MemberordersublineDto();
                     for (Member m2 : memberList) {
                         if (m2.getMemberName().contains(m.getMemberName()) ){
-                            dto.setSublineName(m2.getMemberGenealogy());
+                            if (sublineList.size()>0){
+                                dto.setIndex(sublineList.get(0).getSubGelogy().indexOf(m2.getMemberGenealogy()));
+                            }
+                            dto.setSublineName("");
                             dto.getMembers().add(m2);
                         }
-                        if (m2.getMemberRelation().contains(m.getMemberName().substring(0,m.getMemberName().indexOf("(")))
+                        if (m2.getMemberRelation().contains(m.getMemberName().substring(0,m.getMemberName().indexOf("[")))
                                 && m2.getMemberRelation().contains("之妻")){
-                            dto.setSublineName(m2.getMemberGenealogy());
+                            dto.setSublineName("");
                             dto.getMembers().add(m2);
                         }
                     }
                     memberordersublineDtos.add(dto);
                 }
-
             }
 
             /*for (Member m : memberList) {
@@ -148,7 +166,53 @@ public class MemberServiceImpl implements MemberService {
             dataResponse.setMessage("fail");
             dataResponse.setCode(404);
         }
+        Collections.sort(memberordersublineDtos);
         dataResponse.setData(memberordersublineDtos);
+        return dataResponse;
+    }
+
+    @Override
+    public DataResponse queryMemberRelation(MemberForm memberForm) {
+        DataResponse<MemberRelation> dataResponse = new DataResponse<>();
+        SublineForm sublineForm = new SublineForm();
+        sublineForm.setSublineID(memberForm.getSublineID());
+        MemberRelation memberRelations = new MemberRelation();
+        List<Member> memberList = memberMapper.queryMyMembers(memberForm);
+        if (memberList.size() > 0){
+            for (Member m : memberList) {
+                MemberRelation memberRelation = new MemberRelation();
+                List<MemberRelation> childrenList = new ArrayList<>();
+                if (!m.getMemberRelation().contains("之妻")){
+                    for (Member m2 : memberList) {
+
+                        if (m.getMemberName().equals(m2.getMemberName())){
+                            memberRelation.setName(m2.getMemberName());
+                            memberRelation.setImage_url(m2.getMemberHead());
+                        }
+                        if (m2.getFatherID() == m.getFatherID() && m2.getMemberRelation().contains("之妻")){
+                            MemberRelation mate = new MemberRelation();
+                            mate.setName(m2.getMemberName());
+                            mate.setImage_url(m2.getMemberHead());
+                            memberRelation.setMate(mate);
+                        }
+                        if (m.getMemberID() == m2.getFatherID()){
+                            MemberRelation children = new MemberRelation();
+                            children.setName(m2.getMemberName());
+                            children.setImage_url(m2.getMemberHead());
+                            childrenList.add(children);
+                        }
+                    }
+                }
+                memberRelations = memberRelation;
+            }
+
+        }
+
+        if(memberList.size() == 0) {
+            dataResponse.setMessage("fail");
+            dataResponse.setCode(404);
+        }
+        dataResponse.setData(memberRelations);
         return dataResponse;
     }
 

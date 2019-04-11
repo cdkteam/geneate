@@ -282,6 +282,8 @@
                                             });
                                             // 重新获取家族数据
                                             _this.getFamilyData();
+                                        }else if (res.code === 300) {
+                                            layer.msg('已有该家族，添加失败');
                                         }
                                     },
                                     error:function () {

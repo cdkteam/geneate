@@ -12,6 +12,9 @@
         <if test="familyID != null">
         and f.familyID = #{familyID}
         </if>
+        <if test="familyName != null">
+            and f.familyName = #{familyName}
+        </if>
         order by f.familyID desc
         <if test="page != null and limit != null">
         limit #{page}, #{limit}

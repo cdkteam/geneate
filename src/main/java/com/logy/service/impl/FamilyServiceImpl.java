@@ -52,22 +52,34 @@ public class FamilyServiceImpl implements FamilyService {
     public DataResponse insertFamily(Family family, HttpServletRequest request) {
         DataResponse<Family> dataResponse = new DataResponse<>();
         int result = 0;
-        if(family.getFamilyID() != null) {
-            family.setFamilyCreateDate(DateUtils.getLocalDateNow().toString());//将日期设置给家族对象
-            result = familyMapper.updateFamily(family);
-        } else {
-            result = familyMapper.insertFamily(family);//向数据库中插入家族
-        }
-        if(result <= 0) {
-            dataResponse.setMessage("fail");
-            dataResponse.setCode(500);
-        }
-        // 设置添加家族的消息
-        request.getSession().setAttribute("family_message", "欢迎" + family.getFamilyName() + "家族加入系统");
-        // 设为未读状态
-        request.getSession().setAttribute("family_read", 0);
-        dataResponse.setData(family);
-        return dataResponse;
+        FamilyForm familyForm = new FamilyForm();
+        familyForm.setFamilyName(family.getFamilyName());
+
+            if (family.getFamilyID() != null) {
+                family.setFamilyCreateDate(DateUtils.getLocalDateNow().toString());//将日期设置给家族对象
+                result = familyMapper.updateFamily(family);
+            } else {
+                List<Family> familyList = familyMapper.queryAllFamily(familyForm);
+                if (familyList.size() > 0){
+                    dataResponse.setMessage("fail");
+                    dataResponse.setCode(300);
+                    dataResponse.setData(family);
+                    return dataResponse;
+                }else {
+                    result = familyMapper.insertFamily(family);//向数据库中插入家族
+                }
+            }
+            if (result <= 0) {
+                dataResponse.setMessage("fail");
+                dataResponse.setCode(500);
+            }
+            // 设置添加家族的消息
+            request.getSession().setAttribute("family_message", "欢迎" + family.getFamilyName() + "家族加入家谱系统");
+            // 设为未读状态
+            request.getSession().setAttribute("family_read", 0);
+            dataResponse.setData(family);
+            return dataResponse;
+
     }
 
     /**

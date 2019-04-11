@@ -1,4 +1,54 @@
 $(function () {
+    Vue.component('tree_chart', {
+        props: ["json"],
+        watch: {
+            json: {
+                handler: function(Props){
+                    let extendKey = function(jsonData){
+                        jsonData.extend = (jsonData.extend===void 0 ? true: !!jsonData.extend);
+                        if(Array.isArray(jsonData.children)){
+                            jsonData.children.forEach(c => {
+                                extendKey(c)
+                            })
+                        }
+                        return jsonData;
+                    }
+                    if(Props){
+                        this.treeData = extendKey(Props);
+                    }
+                },
+                immediate: true
+            }
+        },
+        template:'<table v-if="treeData.name">\n' +
+            '      <tr>\n' +
+            '        <td :colspan="treeData.children ? treeData.children.length * 2 : 1" :class="{parentLevel: treeData.children, extend: treeData.children && treeData.extend}">\n' +
+            '          <div :class="{node: true, hasMate: treeData.mate}">\n' +
+            '            <div class="person" @click="$emit(\'click-node\', treeData)">\n' +
+            '              <div class="avat">\n' +
+            '                <img :src="treeData.image_url" />\n' +
+            '              </div>\n' +
+            '              <div class="name">{{treeData.name}}</div>\n' +
+            '            </div>\n' +
+            '            <div class="person" v-if="treeData.mate" @click="$emit(\'click-node\', treeData.mate)">\n' +
+            '              <div class="avat">\n' +
+            '                <img :src="treeData.mate.image_url" />\n' +
+            '              </div>\n' +
+            '              <div class="name">{{treeData.mate.name}}</div>\n' +
+            '            </div>\n' +
+            '          </div>\n' +
+            '          <div class="extend_handle" v-if="treeData.children" @click="toggleExtend(treeData)"></div>\n' +
+            '        </td>\n' +
+            '      </tr>\n' +
+            '      <tr v-if="treeData.children && treeData.extend">\n' +
+            '        <td v-for="(children, index) in treeData.children" :key="index" colspan="2" class="childLevel">\n' +
+            '          <tree_chart :json="children" @click-node="$emit(\'click-node\', $event)"/>\n' +
+            '        </td>\n' +
+            '      </tr>\n' +
+            '    </table>',
+
+    })
+
     var app_vue = new Vue({
         el:"#app",
         data:function () {
@@ -12,7 +62,42 @@ $(function () {
                     callback();
                 }
             };
+
             return {
+                treeData: {},
+                landscape: [],
+                data: {
+                    name: 'root',
+                    image_url: "https://static.refined-x.com/avat.jpg",
+                    children: [
+                        {
+                            name: 'children1',
+                            image_url: "https://static.refined-x.com/avat1.jpg"
+                        },
+                        {
+                            name: 'children2',
+                            image_url: "https://static.refined-x.com/avat2.jpg",
+                            mate: {
+                                name: 'mate',
+                                image_url: "https://static.refined-x.com/avat3.jpg"
+                            },
+                            children: [
+                                {
+                                    name: 'grandchild',
+                                    image_url: "https://static.refined-x.com/avat.jpg"
+                                },
+                                {
+                                    name: 'grandchild2',
+                                    image_url: "https://static.refined-x.com/avat1.jpg"
+                                },
+                                {
+                                    name: 'grandchild3',
+                                    image_url: "https://static.refined-x.com/avat2.jpg"
+                                }
+                            ]
+                        }
+                    ]
+                },
                 relations:[
                     {value:'之妻', name:'之妻'},
                     {value:'之女', name:'之女'},
@@ -184,7 +269,7 @@ $(function () {
                 /******************/
                 mylinks:[
                     "家庭成员",
-                    // "关系图谱",
+                     //"关系图谱",
                     "字辈谱信息",
                     "个人资料",
                     "修改密码",
@@ -315,6 +400,14 @@ $(function () {
             this.getPeopleByFamilyID(sessionStorage.sublineID || localStorage.sublineID, null);
         },
         methods: {
+            toggleExtend: function(treeData){
+                treeData.extend = !treeData.extend;
+                this.$forceUpdate();
+            },
+            clickNode: function(node){
+                // eslint-disable-next-line
+                console.log(node)
+            },
             // 姓氏介绍
             familyIntro:function () {
                 var _this = this;
@@ -584,14 +677,14 @@ $(function () {
                 this.getPeopleByFamilyID(subID, null);
             },
             // 打开字辈歌信息页面
-            zbMemeber:function(subFamilyID) {
+            zbMemeber:function(sublineID) {
                 this.dialogZbVisible = true;
                 var _this = this;
                 $.ajax({
                     type:"POST",
                     url:"/count/c_index_data",
                     data:{
-                        sublineID:subFamilyID,
+                        sublineID:sublineID,
                         type:4
                     },
                     success:function (r) {
@@ -607,6 +700,31 @@ $(function () {
                     },
                     error:function () {
                         console.error('字辈分布数据获取失败');
+                    }
+                });
+            },
+            relationMember:function(sublineID) {
+                this.dialogRelationVisible = true;
+                var _this = this;
+                $.ajax({
+                    type:"POST",
+                    url:"/member/query_member_relation",
+                    data:{
+                        sublineID:sublineID
+                    },
+
+                    success:function (r) {
+                        console.log(r);
+                        _this.data = {}
+                        if (r.code === 200){
+                            _this.data.name = r.data.name;
+                            _this.data.image_url = r.data.image_url;
+                            _this.data.mate = r.data.mate;
+                            _this.data.children = r.data.children;
+                        }
+                    },
+                    error:function () {
+                        console.error('关系图谱数据获取失败');
                     }
                 });
             },
@@ -696,9 +814,10 @@ $(function () {
                             _this.getPeopleByFamilyID(sessionStorage.sublineID || localStorage.sublineID);
                             break;
                         // 关系图谱
-                        // case 1:
-                        //     _this.dialogRelationVisible = true;
-                        //     break;
+                        /*case 1:
+                            _this.dialogRelationVisible = true;
+
+                            break;*/
                         // 字辈谱信息
                         case 1:
                             _this.dialogZbMessageVisible = true;
